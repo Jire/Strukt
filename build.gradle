@@ -15,21 +15,122 @@
  *
  */
 
-group 'org.jire.strukt'
-version '1.0.0'
-
 buildscript {
+	ext.your_name = 'Thomas Nappo'
+	ext.your_email = 'thomasgnappo@gmail.com'
+	ext.your_github_name = 'jire'
+
+	ext.project_name = 'Strukt'
+	ext.project_description = 'Value types on the JVM, today!'
+	ext.project_group = 'org.jire.strukt'
+	ext.project_artifact = 'strukt'
+	ext.project_version = '1.0.0'
+	ext.project_license = 'The Apache Software License, Version 2.0'
+	ext.project_license_tag = 'Apache-2.0'
+	ext.project_license_url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+
 	ext.kotlin_version = '1.0.5'
 
 	repositories {
 		mavenCentral()
+		jcenter()
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 	}
 }
 
+plugins {
+	id "com.jfrog.bintray" version "1.7.1"
+}
+
 apply plugin: 'kotlin'
+
+group project_artifact
+version project_version
+
+allprojects {
+	repositories {
+		jcenter()
+	}
+	apply plugin: 'maven'
+	apply plugin: 'maven-publish'
+	apply plugin: 'java'
+	apply plugin: 'kotlin'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			from components.java
+			groupId project_group
+			artifactId project_artifact
+			version project_version
+			artifact sourcesJar
+			artifact javadocJar
+			pom.withXml {
+				asNode().children().last() + {
+					resolveStrategy = Closure.DELEGATE_FIRST
+					name project_name
+					description project_description
+					url "https://github.com/$your_github_name/$project_name"
+					scm {
+						url "https://github.com/$your_github_name/$project_name"
+						connection "scm:git:git://github.com/$your_github_name/${project_name}.git"
+						developerConnection "scm:git:ssh:git@github.com:$your_github_name/${project_name}.git"
+					}
+					licenses {
+						license {
+							name project_license
+							url project_license_url
+							distribution 'repo'
+						}
+					}
+					developers {
+						developer {
+							id your_github_name
+							name your_name
+							email your_email
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+bintray {
+	user = System.getenv('BINTRAY_USER')
+	key = System.getenv('BINTRAY_API_KEY')
+	publications = ['maven']
+	pkg {
+		repo = 'maven'
+		name = project_name
+		licenses = [project_license_tag]
+		publicDownloadNumbers = true
+		websiteUrl = "https://github.com/$your_github_name/$project_name"
+		issueTrackerUrl = "https://github.com/$your_github_name/$project_name/issues"
+		vcsUrl = "https://github.com/$your_github_name/${project_name}.git"
+		githubRepo = "$your_github_name/$project_name"
+		version {
+			name = project_version
+			vcsTag = project_version
+			gpg {
+				sign = true
+			}
+		}
+	}
+}
 
 repositories {
 	mavenCentral()

@@ -35,7 +35,7 @@ class DoubleMember(override val strukt: Strukt, val default: Double, override va
 		strukt.heap.writeDouble(pointer(), value)
 	}
 	
-	init {
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
 		strukt.heap.writeDouble(pointer(), default)
 		strukt.heapPointer += size

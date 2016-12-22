@@ -35,7 +35,7 @@ class ByteMember(override val strukt: Strukt, val default: Byte, override val si
 		strukt.heap.writeByte(pointer(), value)
 	}
 	
-	init {
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
 		strukt.heap.writeByte(pointer(), default)
 		strukt.heapPointer += size

@@ -35,7 +35,7 @@ class BooleanMember(override val strukt: Strukt, val default: Boolean, override 
 		strukt.heap.writeBoolean(pointer(), value)
 	}
 	
-	init {
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
 		strukt.heap.writeBoolean(pointer(), default)
 		strukt.heapPointer += size

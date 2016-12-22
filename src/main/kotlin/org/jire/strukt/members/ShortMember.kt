@@ -35,7 +35,7 @@ class ShortMember(override val strukt: Strukt, val default: Short, override val 
 		strukt.heap.writeShort(pointer(), value)
 	}
 	
-	init {
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
 		strukt.heap.writeShort(pointer(), default)
 		strukt.heapPointer += size

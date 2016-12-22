@@ -24,7 +24,7 @@ buildscript {
 	ext.project_description = 'Value types on the JVM, today!'
 	ext.project_group = 'org.jire.strukt'
 	ext.project_artifact = 'strukt'
-	ext.project_version = '1.0.0'
+	ext.project_version = '1.0.1'
 	ext.project_license = 'The Apache Software License, Version 2.0'
 	ext.project_license_tag = 'Apache-2.0'
 	ext.project_license_url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -140,4 +140,8 @@ dependencies {
 	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
 	compile group: 'net.openhft', name: 'chronicle-bytes', version: '1.7.25'
+
+	compile group: 'junit', name: 'junit', version: '4.12'
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.0.5'
+	compile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: '1.0.5'
 }

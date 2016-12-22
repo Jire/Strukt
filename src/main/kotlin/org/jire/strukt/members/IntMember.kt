@@ -29,15 +29,35 @@ import kotlin.reflect.KProperty
  */
 class IntMember(override val strukt: Strukt, val default: Int, override val size: Long) : StruktMember() {
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = strukt.heap.readInt(pointer())
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = read()
 	
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
-		strukt.heap.writeInt(pointer(), value)
+		write(value)
 	}
 	
-	init {
+	private fun read() = with(strukt.heap) {
+		when (size) {
+			1L -> readByte(pointer()).toInt()
+			2L -> readShort(pointer()).toInt()
+			3L -> readUnsignedInt24(pointer())
+			else -> readInt(pointer())
+		}
+	}
+	
+	private fun write(value: Int) {
+		with(strukt.heap) {
+			when (size) {
+				1L -> writeByte(pointer(), value.toByte())
+				2L -> writeShort(pointer(), value.toShort())
+				3L -> writeInt24(pointer(), value)
+				else -> writeInt(pointer(), value)
+			}
+		}
+	}
+	
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
-		strukt.heap.writeInt(pointer(), default)
+		write(default)
 		strukt.heapPointer += size
 	}
 	

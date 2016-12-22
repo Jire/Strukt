@@ -35,7 +35,7 @@ class LongMember(override val strukt: Strukt, val default: Long, override val si
 		strukt.heap.writeLong(pointer(), value)
 	}
 	
-	init {
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
 		strukt.heap.writeLong(pointer(), default)
 		strukt.heapPointer += size

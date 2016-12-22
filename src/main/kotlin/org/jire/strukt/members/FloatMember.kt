@@ -35,7 +35,7 @@ class FloatMember(override val strukt: Strukt, val default: Float, override val 
 		strukt.heap.writeFloat(pointer(), value)
 	}
 	
-	init {
+	override fun writeDefaultReference() {
 		offset = strukt.heapPointer
 		strukt.heap.writeFloat(pointer(), default)
 		strukt.heapPointer += size

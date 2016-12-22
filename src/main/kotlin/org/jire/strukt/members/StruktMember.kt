@@ -23,7 +23,7 @@ import org.jire.strukt.Strukt
 /**
  * The offset value of an uninitialized [StruktMember].
  */
-private const val UNINITIALIZED_OFFSET_VALUE = -1L
+internal const val UNINITIALIZED_OFFSET_VALUE = -1L
 
 /**
  * A member of a [Strukt], which serves as a delegate for the respective member.
@@ -53,5 +53,19 @@ abstract class StruktMember {
 	 * Calculates the heap pointer of this member, using the [strukt]'s active reference pointer.
 	 */
 	open fun pointer() = ((strukt.referencePointer - INITIAL_REFERENCE_POINTER) * strukt.size) + offset
+	
+	/**
+	 * Writes the default values to the _default value reference_.
+	 */
+	abstract fun writeDefaultReference()
+	
+	/**
+	 * Resets the attributes of this member back to their uninitialized state.
+	 *
+	 * This includes setting [offset] back to [UNINITIALIZED_OFFSET_VALUE].
+	 */
+	open fun reset() {
+		offset = UNINITIALIZED_OFFSET_VALUE
+	}
 	
 }

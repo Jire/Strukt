@@ -109,7 +109,7 @@ operator fun <T : Strukt> T.get(referencePointer: Long) = apply {
  * @param initializer The "constructor" block for the new reference.
  * If you do not set a member it will be set as the default value.
  */
-operator inline fun <reified T : Strukt> T.invoke(initializer: T.() -> Unit): Long {
+operator fun <T : Strukt> T.invoke(initializer: T.() -> Unit): Long {
 	// If the size has been uninitialized, set it now
 	if (size == UNINITIALIZED_STRUKT_SIZE)
 		size = heapPointer - INITIAL_HEAP_POINTER

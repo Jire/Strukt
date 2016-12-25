@@ -18,8 +18,8 @@ For example, a Strukt for representing a coordinate might look like:
 
 ```kotlin
 object Coord : Strukt() {
-	val x by int()
-	val y by int()
+	var x by int()
+	var y by int()
 }
 ```
 
@@ -28,15 +28,15 @@ There are member delegates built in for all primitives besides _char_.
 You can also specify a default value for your member, like so:
 
 ```kotlin
-val x by int(3) // 3 is the default value
-val y by int(defaultValue = 5) // 5 is the default value, shown with named arguments
+var x by int(3) // 3 is the default value
+var y by int(defaultValue = 5) // 5 is the default value, shown with named arguments
 ```
 
 You can also specify the size, in bytes, of the member to save space.
 
 ```kotlin
-val x by int(3, 2) // 2 bytes size, allowing values 0 to 65535
-val y by int(defaultValue = 3, size = 2) // showing with named arguments
+var x by int(3, 2) // 2 bytes size, allowing values 0 to 65535
+var y by int(defaultValue = 3, size = 2) // showing with named arguments
 ```
 
 ## Allocating a reference
@@ -47,13 +47,13 @@ Instead, you use the _invoke_ operator to set values.
 For the above _Coord_ example, this might look like:
 
 ```kotlin
-val threeFive = Coord { x = 3; y = 5 }
+val example = Coord { x = 3; y = 5 }
 ```
 
 If you wanted to make use of default arguments, you can omit the sets.
 
 ```kotlin
-val threeFive = Coord {}
+val example = Coord {}
 ```
 
 Allocating a reference automatically sets the _reference pointer_. (More on this in the following section.)
@@ -70,20 +70,22 @@ Switching to a reference pointer is done through the _get_ operator on the _Stru
 This might look like this:
 
 ```kotlin
-Coord[threeFive]
+Coord[example]
 ```
 
-You can then deal with the type directly, which is _Coord_ in our example, like so:
+In full effect, the _Coord_ example might be used like this:
 
 ```kotlin
-Coord.y = 20
-println("x: ${Coord[threeFive].x}, y: ${Coord[threeFive].y}") // prints "x: 3, y: 20"
+Coord[example].y = 20
+println("x: ${Coord[example].x}, y: ${Coord[example].y}") // prints "x: 3, y: 20"
 ```
 
-Since the switch (_get_) operator switches the _reference pointer_, you can access
-_Coord_ in our example directly by its object type. This might look like:
+Since the switch (_get_) operator switches the _reference pointer_, you can write
+a shorthand version by referring to the type (_Coord_ in our example) directly.
+
+This might look like:
 
 ```kotlin
-val threeFiveX = Coord.x
-println("x: $threeFiveX")
+Coord[example].x = 123 // `Coord[example]` sets the reference pointer...
+println("x: ${Coord.x}, y: ${Coord.y}") // so `Coord.x` and `Coord.y` can be referred to directly
 ```

@@ -29,14 +29,17 @@ buildscript {
     ext.project_license_tag = 'Apache-2.0'
     ext.project_license_url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
 
-    ext.kotlin_version = '1.0.5'
+    ext.kotlin_version = '1.1-M04'
 
     repositories {
         mavenCentral()
         jcenter()
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.10'
     }
 }
 
@@ -45,6 +48,7 @@ plugins {
 }
 
 apply plugin: 'kotlin'
+apply plugin: "info.solidsoft.pitest"
 
 group project_artifact
 version project_version
@@ -132,16 +136,20 @@ bintray {
     }
 }
 
+pitest {
+    outputFormats = ['HTML', 'XML']
+    jvmArgs = ['-Xmx1024m']
+}
+
 repositories {
     mavenCentral()
+    maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
     compile group: 'net.openhft', name: 'chronicle-bytes', version: '1.7.25'
 
-    compile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.0.5'
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: '1.0.5'
+    testCompile group: 'io.kotlintest', name: 'kotlintest', version: '1.3.5'
 }

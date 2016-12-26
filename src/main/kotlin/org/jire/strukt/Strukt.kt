@@ -75,12 +75,22 @@ abstract class Strukt {
 	/**
 	 * The pointer to the next available reference pointer.
 	 */
-	var nextReferencePointer = INITIAL_REFERENCE_POINTER
+	var nextReferencePointer = INITIAL_REFERENCE_POINTER + 1
 	
 	/**
 	 * The total size, in bytes, of the structure.
 	 */
 	var size = UNINITIALIZED_STRUKT_SIZE
+	
+	val members: MutableList<StruktMember> = ArrayList()
+	
+	open fun reset() {
+		heap.clear()
+		heapPointer = INITIAL_HEAP_POINTER
+		referencePointer = INITIAL_REFERENCE_POINTER
+		nextReferencePointer = INITIAL_REFERENCE_POINTER + 1
+		members.forEach(StruktMember::reset)
+	}
 	
 }
 
@@ -115,7 +125,7 @@ operator fun <T : Strukt> T.invoke(initializer: T.() -> Unit): Long {
 		size = heapPointer - INITIAL_HEAP_POINTER
 	
 	// Grab the next reference
-	val reference = ++nextReferencePointer
+	val reference = nextReferencePointer++
 	
 	// Set our active reference pointer to the new reference
 	referencePointer = reference

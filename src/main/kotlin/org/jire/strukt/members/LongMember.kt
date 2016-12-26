@@ -35,10 +35,12 @@ class LongMember(override val strukt: Strukt, val default: Long, override val si
 		strukt.heap.writeLong(pointer(), value)
 	}
 	
-	override fun writeDefaultReference() {
+	override fun setup() {
 		offset = strukt.heapPointer
 		strukt.heap.writeLong(pointer(), default)
 		strukt.heapPointer += size
+		
+		strukt.members.add(this)
 	}
 	
 }
@@ -50,4 +52,4 @@ class LongMember(override val strukt: Strukt, val default: Long, override val si
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.long(defaultValue: Long = 0, size: Long = 8)
-		= LongMember(this, defaultValue, size).apply { writeDefaultReference() }
+		= LongMember(this, defaultValue, size).apply { setup() }

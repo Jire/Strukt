@@ -12,12 +12,14 @@ class EnumMember<T : Enum<T>>(override val strukt: Strukt, override val size: Lo
 		strukt.heap.writeInt(pointer(), value.ordinal)
 	}
 	
-	override fun writeDefaultReference() {
+	override fun setup() {
 		offset = strukt.heapPointer
 		strukt.heap.writeInt(pointer(), default.ordinal)
 		strukt.heapPointer += size
+		
+		strukt.members.add(this)
 	}
 	
 }
 
-fun <T : Enum<T>> Strukt.enum(defaultValue: T) = EnumMember(this, 4, defaultValue).apply { writeDefaultReference() }
+fun <T : Enum<T>> Strukt.enum(defaultValue: T) = EnumMember(this, 4, defaultValue).apply { setup() }

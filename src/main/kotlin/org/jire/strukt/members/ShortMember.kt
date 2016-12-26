@@ -35,10 +35,12 @@ class ShortMember(override val strukt: Strukt, val default: Short, override val 
 		strukt.heap.writeShort(pointer(), value)
 	}
 	
-	override fun writeDefaultReference() {
+	override fun setup() {
 		offset = strukt.heapPointer
 		strukt.heap.writeShort(pointer(), default)
 		strukt.heapPointer += size
+		
+		strukt.members.add(this)
 	}
 	
 }
@@ -50,4 +52,4 @@ class ShortMember(override val strukt: Strukt, val default: Short, override val 
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.short(defaultValue: Short = 0, size: Long = 2)
-		= ShortMember(this, defaultValue, size).apply { writeDefaultReference() }
+		= ShortMember(this, defaultValue, size).apply { setup() }

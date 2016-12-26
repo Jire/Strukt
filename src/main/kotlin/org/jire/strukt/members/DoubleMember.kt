@@ -35,10 +35,12 @@ class DoubleMember(override val strukt: Strukt, val default: Double, override va
 		strukt.heap.writeDouble(pointer(), value)
 	}
 	
-	override fun writeDefaultReference() {
+	override fun setup() {
 		offset = strukt.heapPointer
 		strukt.heap.writeDouble(pointer(), default)
 		strukt.heapPointer += size
+		
+		strukt.members.add(this)
 	}
 	
 }
@@ -50,4 +52,4 @@ class DoubleMember(override val strukt: Strukt, val default: Double, override va
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.double(defaultValue: Double = 0.0, size: Long = 8)
-		= DoubleMember(this, defaultValue, size).apply { writeDefaultReference() }
+		= DoubleMember(this, defaultValue, size).apply { setup() }

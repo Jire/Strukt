@@ -35,10 +35,12 @@ class BooleanMember(override val strukt: Strukt, val default: Boolean, override 
 		strukt.heap.writeBoolean(pointer(), value)
 	}
 	
-	override fun writeDefaultReference() {
+	override fun setup() {
 		offset = strukt.heapPointer
 		strukt.heap.writeBoolean(pointer(), default)
 		strukt.heapPointer += size
+		
+		strukt.members.add(this)
 	}
 	
 }
@@ -50,4 +52,4 @@ class BooleanMember(override val strukt: Strukt, val default: Boolean, override 
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.boolean(defaultValue: Boolean = false, size: Long = 1)
-		= BooleanMember(this, defaultValue, size).apply { writeDefaultReference() }
+		= BooleanMember(this, defaultValue, size).apply { setup() }

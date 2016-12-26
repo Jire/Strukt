@@ -55,10 +55,12 @@ class IntMember(override val strukt: Strukt, val default: Int, override val size
 		}
 	}
 	
-	override fun writeDefaultReference() {
+	override fun setup() {
 		offset = strukt.heapPointer
 		write(default)
 		strukt.heapPointer += size
+		
+		strukt.members.add(this)
 	}
 	
 }
@@ -70,4 +72,4 @@ class IntMember(override val strukt: Strukt, val default: Int, override val size
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.int(defaultValue: Int = 0, size: Long = 4)
-		= IntMember(this, defaultValue, size).apply { writeDefaultReference() }
+		= IntMember(this, defaultValue, size).apply { setup() }

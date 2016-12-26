@@ -55,9 +55,10 @@ abstract class StruktMember {
 	open fun pointer() = ((strukt.referencePointer - INITIAL_REFERENCE_POINTER) * strukt.size) + offset
 	
 	/**
-	 * Writes the default values to the _default value reference_.
+	 * Initializes the member and parent [Strukt] so that the initial reference
+	 * contains a reference with the default values.
 	 */
-	abstract fun writeDefaultReference()
+	abstract fun setup()
 	
 	/**
 	 * Resets the attributes of this member back to their uninitialized state.

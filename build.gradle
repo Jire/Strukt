@@ -149,7 +149,6 @@ repositories {
 
 dependencies {
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
-    compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
     compile group: 'net.openhft', name: 'chronicle-bytes', version: '1.7.25'
 
     testCompile group: 'io.kotlintest', name: 'kotlintest', version: '1.3.5'

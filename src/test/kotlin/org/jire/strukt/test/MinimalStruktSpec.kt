@@ -52,15 +52,17 @@ class MinimalStruktSpec : FreeSpec() {
 			}
 		}
 		
-		"Sets should properly work" {
-			MinimalStrukt {}
-			with(MinimalStrukt) {
-				++byte shouldBe 2.toByte()
-				++short shouldBe 3.toShort()
-				++int shouldBe 4
-				++long shouldBe 5L
-				++float shouldBe 6F
-				++double shouldBe 7.0
+		"Members" {
+			"should be able to be set" {
+				MinimalStrukt {}
+				with(MinimalStrukt) {
+					++byte shouldBe 2.toByte()
+					++short shouldBe 3.toShort()
+					++int shouldBe 4
+					++long shouldBe 5L
+					++float shouldBe 6F
+					++double shouldBe 7.0
+				}
 			}
 		}
 	}

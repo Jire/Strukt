@@ -6,6 +6,24 @@ Value types on the JVM, today!
 [![Build Status](https://travis-ci.org/Jire/Strukt.svg?branch=master)](https://travis-ci.org/Jire/Strukt)
 [![license](https://img.shields.io/github/license/Jire/Strukt.svg)](https://github.com/Jire/Strukt/blob/master/LICENSE.txt)
 
+### Gradle
+
+```groovy
+compile group: 'org.jire.strukt', name: 'strukt', version: '1.0.0'
+```
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>org.jire.strukt</groupId>
+    <artifactId>strukt</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+---
+
 ## Declaring a Strukt
 
 The declaration syntax is very similar to regular classes, except:

@@ -9,7 +9,7 @@ class EnumMember<T : Enum<T>>(override val strukt: Strukt, override val size: Lo
 			= default.declaringClass.enumConstants[strukt.heap.readInt(pointer())]
 	
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-		strukt.heap.writeInt(pointer(), default.ordinal)
+		strukt.heap.writeInt(pointer(), value.ordinal)
 	}
 	
 	override fun writeDefaultReference() {
@@ -20,4 +20,4 @@ class EnumMember<T : Enum<T>>(override val strukt: Strukt, override val size: Lo
 	
 }
 
-fun <T : Enum<T>> Strukt.enum(defaultValue: T) = EnumMember(this, 4, defaultValue)
+fun <T : Enum<T>> Strukt.enum(defaultValue: T) = EnumMember(this, 4, defaultValue).apply { writeDefaultReference() }

@@ -49,4 +49,5 @@ class LongMember(override val strukt: Strukt, val default: Long, override val si
  * @param defaultValue The default value for the new member.
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.long(defaultValue: Long = 0, size: Long = 8) = LongMember(this, defaultValue, size)
+fun Strukt.long(defaultValue: Long = 0, size: Long = 8)
+		= LongMember(this, defaultValue, size).apply { writeDefaultReference() }

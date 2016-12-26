@@ -49,4 +49,5 @@ class ByteMember(override val strukt: Strukt, val default: Byte, override val si
  * @param defaultValue The default value for the new member.
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.byte(defaultValue: Byte = 0, size: Long = 1) = ByteMember(this, defaultValue, size)
+fun Strukt.byte(defaultValue: Byte = 0, size: Long = 1)
+		= ByteMember(this, defaultValue, size).apply { writeDefaultReference() }

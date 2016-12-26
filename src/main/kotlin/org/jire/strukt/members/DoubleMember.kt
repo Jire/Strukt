@@ -49,4 +49,5 @@ class DoubleMember(override val strukt: Strukt, val default: Double, override va
  * @param defaultValue The default value for the new member.
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.double(defaultValue: Double = 0.0, size: Long = 8) = DoubleMember(this, defaultValue, size)
+fun Strukt.double(defaultValue: Double = 0.0, size: Long = 8)
+		= DoubleMember(this, defaultValue, size).apply { writeDefaultReference() }

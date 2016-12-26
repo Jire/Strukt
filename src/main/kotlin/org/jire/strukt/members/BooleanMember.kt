@@ -49,4 +49,5 @@ class BooleanMember(override val strukt: Strukt, val default: Boolean, override 
  * @param defaultValue The default value for the new member.
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.boolean(defaultValue: Boolean = false, size: Long = 1) = BooleanMember(this, defaultValue, size)
+fun Strukt.boolean(defaultValue: Boolean = false, size: Long = 1)
+		= BooleanMember(this, defaultValue, size).apply { writeDefaultReference() }

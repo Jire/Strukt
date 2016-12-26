@@ -49,4 +49,5 @@ class FloatMember(override val strukt: Strukt, val default: Float, override val 
  * @param defaultValue The default value for the new member.
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.float(defaultValue: Float = 0F, size: Long = 4) = FloatMember(this, defaultValue, size)
+fun Strukt.float(defaultValue: Float = 0F, size: Long = 4)
+		= FloatMember(this, defaultValue, size).apply { writeDefaultReference() }

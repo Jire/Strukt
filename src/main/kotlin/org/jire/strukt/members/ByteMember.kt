@@ -52,4 +52,4 @@ class ByteMember(override val strukt: Strukt, val default: Byte, override val si
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.byte(defaultValue: Byte = 0, size: Long = 1)
-		= ByteMember(this, defaultValue, size).apply { setup() }
+		= ByteMember(this, defaultValue, size).apply(StruktMember::setup)

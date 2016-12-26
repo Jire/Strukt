@@ -52,4 +52,4 @@ class BooleanMember(override val strukt: Strukt, val default: Boolean, override 
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.boolean(defaultValue: Boolean = false, size: Long = 1)
-		= BooleanMember(this, defaultValue, size).apply { setup() }
+		= BooleanMember(this, defaultValue, size).apply(StruktMember::setup)

@@ -82,14 +82,17 @@ abstract class Strukt {
 	 */
 	var size = UNINITIALIZED_STRUKT_SIZE
 	
-	val members: MutableList<StruktMember> = ArrayList()
+	open val members: MutableSet<StruktMember> = HashSet()
 	
 	open fun reset() {
 		heap.clear()
 		heapPointer = INITIAL_HEAP_POINTER
+		
 		referencePointer = INITIAL_REFERENCE_POINTER
 		nextReferencePointer = INITIAL_REFERENCE_POINTER + 1
-		members.forEach(StruktMember::reset)
+		
+		members.forEach(StruktMember::reset) // reset first...
+		members.forEach(StruktMember::setup) // then setup
 	}
 	
 }

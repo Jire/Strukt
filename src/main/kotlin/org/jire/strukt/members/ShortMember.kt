@@ -52,4 +52,4 @@ class ShortMember(override val strukt: Strukt, val default: Short, override val 
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.short(defaultValue: Short = 0, size: Long = 2)
-		= ShortMember(this, defaultValue, size).apply { setup() }
+		= ShortMember(this, defaultValue, size).apply(StruktMember::setup)

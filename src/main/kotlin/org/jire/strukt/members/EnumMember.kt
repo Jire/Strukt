@@ -22,4 +22,5 @@ class EnumMember<T : Enum<T>>(override val strukt: Strukt, override val size: Lo
 	
 }
 
-fun <T : Enum<T>> Strukt.enum(defaultValue: T) = EnumMember(this, 4, defaultValue).apply { setup() }
+fun <T : Enum<T>> Strukt.enum(defaultValue: T)
+		= EnumMember(this, 4, defaultValue).apply(StruktMember::setup)

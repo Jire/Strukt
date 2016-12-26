@@ -52,4 +52,4 @@ class FloatMember(override val strukt: Strukt, val default: Float, override val 
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.float(defaultValue: Float = 0F, size: Long = 4)
-		= FloatMember(this, defaultValue, size).apply { setup() }
+		= FloatMember(this, defaultValue, size).apply(StruktMember::setup)

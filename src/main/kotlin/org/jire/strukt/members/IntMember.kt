@@ -72,4 +72,4 @@ class IntMember(override val strukt: Strukt, val default: Int, override val size
  * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
 fun Strukt.int(defaultValue: Int = 0, size: Long = 4)
-		= IntMember(this, defaultValue, size).apply { setup() }
+		= IntMember(this, defaultValue, size).apply(StruktMember::setup)

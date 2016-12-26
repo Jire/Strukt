@@ -4,7 +4,6 @@ import io.kotlintest.specs.FreeSpec
 import org.jire.strukt.INITIAL_HEAP_POINTER
 import org.jire.strukt.INITIAL_REFERENCE_POINTER
 import org.jire.strukt.invoke
-import org.jire.strukt.members.UNINITIALIZED_OFFSET_VALUE
 
 class MinimalStruktSpec : FreeSpec() {
 	
@@ -19,13 +18,27 @@ class MinimalStruktSpec : FreeSpec() {
 				example shouldBe expectedReference
 			}
 			"should properly reset" {
-				MinimalStrukt.reset()
-				
-				MinimalStrukt.heap.isEmpty shouldBe true
-				MinimalStrukt.heapPointer shouldBe INITIAL_HEAP_POINTER
-				MinimalStrukt.referencePointer shouldBe INITIAL_REFERENCE_POINTER
-				MinimalStrukt.nextReferencePointer shouldBe INITIAL_HEAP_POINTER + 1
-				MinimalStrukt.members.forEach { it.offset shouldBe UNINITIALIZED_OFFSET_VALUE }
+				with(MinimalStrukt) {
+					reset()
+					
+					heap.isEmpty shouldBe true
+					heapPointer shouldBe members.map { it.size }.sum() + 1
+					referencePointer shouldBe INITIAL_REFERENCE_POINTER
+					nextReferencePointer shouldBe INITIAL_HEAP_POINTER + 1
+				}
+			}
+			"should have proper default values" {
+				MinimalStrukt {} shouldBe INITIAL_REFERENCE_POINTER + 1
+				with(MinimalStrukt) {
+					byte shouldBe 1.toByte()
+					short shouldBe 2.toShort()
+					int shouldBe 3
+					long shouldBe 4L
+					float shouldBe 5F
+					double shouldBe (6.0 plusOrMinus 0.0000001)
+					
+					reset()
+				}
 			}
 		}
 	}

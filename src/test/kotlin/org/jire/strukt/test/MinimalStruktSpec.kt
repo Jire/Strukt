@@ -52,7 +52,7 @@ class MinimalStruktSpec : FreeSpec() {
 			}
 		}
 		
-		"Members" {
+		"Members" - {
 			"should be able to be set" {
 				MinimalStrukt {}
 				with(MinimalStrukt) {
@@ -61,7 +61,7 @@ class MinimalStruktSpec : FreeSpec() {
 					++int shouldBe 4
 					++long shouldBe 5L
 					++float shouldBe 6F
-					++double shouldBe 7.0
+					++double shouldBe (7.0 plusOrMinus 0.0000001)
 				}
 			}
 		}

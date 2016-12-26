@@ -35,6 +35,7 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.1' }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -137,8 +138,8 @@ bintray {
 }
 
 pitest {
+    targetClasses = ["$project_group.*"]
     outputFormats = ['HTML', 'XML']
-    jvmArgs = ['-Xmx1024m']
 }
 
 repositories {

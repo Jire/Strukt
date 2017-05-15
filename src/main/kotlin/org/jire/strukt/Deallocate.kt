@@ -31,7 +31,7 @@ fun deallocate(pointer: Long) = UNSAFE.freeMemory(pointer)
  */
 fun deallocate(vararg pointers: Long) {
 	for (pointer in pointers)
-		UNSAFE.freeMemory(pointer)
+		deallocate(pointer)
 }
 
 /**

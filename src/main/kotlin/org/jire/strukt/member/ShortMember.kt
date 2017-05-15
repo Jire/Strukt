@@ -15,38 +15,39 @@
  *
  */
 
-package org.jire.strukt.members
+package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
+import org.jire.strukt.UNSAFE
 import kotlin.reflect.KProperty
 
 /**
  * A [StruktMember] which delegates [Short]s.
  *
  * @param strukt The parent [Strukt] of this member, to which this member belongs to.
- * @param default The default value of this member.
- * @param size The size, in bytes, of the member's data within the [strukt]'s heap.
+ * @param defaultValue The default value of this member.
  */
-class ShortMember(override val strukt: Strukt, val default: Short, override val size: Long) : StruktMember() {
+class ShortMember(strukt: Strukt, val defaultValue: Short) : StruktMember(strukt, 2) {
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = strukt.heap.readShort(pointer())
-	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Short) {
-		strukt.heap.writeShort(pointer(), value)
+	init {
+		offset = strukt.internalPointer
+		strukt.internalPointer += size
+		strukt.members.add(this)
 	}
 	
-	override fun writeDefaultReference() {
-		offset = strukt.heapPointer
-		strukt.heap.writeShort(pointer(), default)
-		strukt.heapPointer += size
-	}
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getShort(pointer())
+	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Short) = write(value)
+	
+	override fun writeDefault() = write(defaultValue)
+	
+	private inline fun write(value: Short) = UNSAFE.putShort(pointer(), value)
 	
 }
 
 /**
- * Creates a [ShortMember] with the default value and size.
+ * Creates a [ShortMember].
  *
  * @param defaultValue The default value for the new member.
- * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.short(defaultValue: Short = 0, size: Long = 2) = ShortMember(this, defaultValue, size)
+fun Strukt.short(defaultValue: Short = 0) = ShortMember(this, defaultValue)

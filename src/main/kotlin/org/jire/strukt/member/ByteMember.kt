@@ -15,38 +15,39 @@
  *
  */
 
-package org.jire.strukt.members
+package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
+import org.jire.strukt.UNSAFE
 import kotlin.reflect.KProperty
 
 /**
  * A [StruktMember] which delegates [Byte]s.
  *
  * @param strukt The parent [Strukt] of this member, to which this member belongs to.
- * @param default The default value of this member.
- * @param size The size, in bytes, of the member's data within the [strukt]'s heap.
+ * @param defaultValue The default value of this member.
  */
-class ByteMember(override val strukt: Strukt, val default: Byte, override val size: Long) : StruktMember() {
+class ByteMember(strukt: Strukt, val defaultValue: Byte) : StruktMember(strukt, 1) {
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = strukt.heap.readByte(pointer())
-	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Byte) {
-		strukt.heap.writeByte(pointer(), value)
+	init {
+		offset = strukt.internalPointer
+		strukt.internalPointer += size
+		strukt.members.add(this)
 	}
 	
-	override fun writeDefaultReference() {
-		offset = strukt.heapPointer
-		strukt.heap.writeByte(pointer(), default)
-		strukt.heapPointer += size
-	}
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getByte(pointer())
+	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Byte) = write(value)
+	
+	override fun writeDefault() = write(defaultValue)
+	
+	private inline fun write(value: Byte) = UNSAFE.putByte(pointer(), value)
 	
 }
 
 /**
- * Creates a [ByteMember] with the default value and size.
+ * Creates a [ByteMember].
  *
  * @param defaultValue The default value for the new member.
- * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.byte(defaultValue: Byte = 0, size: Long = 1) = ByteMember(this, defaultValue, size)
+fun Strukt.byte(defaultValue: Byte = 0) = ByteMember(this, defaultValue)

@@ -15,38 +15,39 @@
  *
  */
 
-package org.jire.strukt.members
+package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
+import org.jire.strukt.UNSAFE
 import kotlin.reflect.KProperty
 
 /**
  * A [StruktMember] which delegates [Boolean]s.
  *
  * @param strukt The parent [Strukt] of this member, to which this member belongs to.
- * @param default The default value of this member.
- * @param size The size, in bytes, of the member's data within the [strukt]'s heap.
+ * @param defaultValue The default value of this member.
  */
-class BooleanMember(override val strukt: Strukt, val default: Boolean, override val size: Long) : StruktMember() {
+class BooleanMember(strukt: Strukt, val defaultValue: Boolean) : StruktMember(strukt, 1) {
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = strukt.heap.readBoolean(pointer())
-	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) {
-		strukt.heap.writeBoolean(pointer(), value)
+	init {
+		offset = strukt.internalPointer
+		strukt.internalPointer += size
+		strukt.members.add(this)
 	}
 	
-	override fun writeDefaultReference() {
-		offset = strukt.heapPointer
-		strukt.heap.writeBoolean(pointer(), default)
-		strukt.heapPointer += size
-	}
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getByte(pointer()) > 0
+	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) = write(value)
+	
+	override fun writeDefault() = write(defaultValue)
+	
+	private inline fun write(value: Boolean) = UNSAFE.putByte(pointer(), if (value) 1 else 0)
 	
 }
 
 /**
- * Creates a [BooleanMember] with the default value and size.
+ * Creates a [BooleanMember].
  *
  * @param defaultValue The default value for the new member.
- * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.boolean(defaultValue: Boolean = false, size: Long = 1) = BooleanMember(this, defaultValue, size)
+fun Strukt.boolean(defaultValue: Boolean = false) = BooleanMember(this, defaultValue)

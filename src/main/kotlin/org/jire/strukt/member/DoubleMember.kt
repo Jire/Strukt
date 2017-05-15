@@ -15,38 +15,39 @@
  *
  */
 
-package org.jire.strukt.members
+package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
+import org.jire.strukt.UNSAFE
 import kotlin.reflect.KProperty
 
 /**
  * A [StruktMember] which delegates [Double]s.
  *
  * @param strukt The parent [Strukt] of this member, to which this member belongs to.
- * @param default The default value of this member.
- * @param size The size, in bytes, of the member's data within the [strukt]'s heap.
+ * @param defaultValue The default value of this member.
  */
-class DoubleMember(override val strukt: Strukt, val default: Double, override val size: Long) : StruktMember() {
+class DoubleMember(strukt: Strukt, val defaultValue: Double) : StruktMember(strukt, 8) {
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = strukt.heap.readDouble(pointer())
-	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Double) {
-		strukt.heap.writeDouble(pointer(), value)
+	init {
+		offset = strukt.internalPointer
+		strukt.internalPointer += size
+		strukt.members.add(this)
 	}
 	
-	override fun writeDefaultReference() {
-		offset = strukt.heapPointer
-		strukt.heap.writeDouble(pointer(), default)
-		strukt.heapPointer += size
-	}
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getDouble(pointer())
+	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Double) = write(value)
+	
+	override fun writeDefault() = write(defaultValue)
+	
+	private inline fun write(value: Double) = UNSAFE.putDouble(pointer(), value)
 	
 }
 
 /**
- * Creates a [DoubleMember] with the default value and size.
+ * Creates a [DoubleMember].
  *
  * @param defaultValue The default value for the new member.
- * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.double(defaultValue: Double = 0.0, size: Long = 8) = DoubleMember(this, defaultValue, size)
+fun Strukt.double(defaultValue: Double = 0.0) = DoubleMember(this, defaultValue)

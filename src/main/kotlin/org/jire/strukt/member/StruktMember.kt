@@ -15,57 +15,41 @@
  *
  */
 
-package org.jire.strukt.members
+package org.jire.strukt.member
 
-import org.jire.strukt.INITIAL_REFERENCE_POINTER
 import org.jire.strukt.Strukt
 
 /**
  * The offset value of an uninitialized [StruktMember].
  */
-internal const val UNINITIALIZED_OFFSET_VALUE = -1L
+private const val INITIAL_OFFSET_VALUE = 0L
 
 /**
  * A member of a [Strukt], which serves as a delegate for the respective member.
  *
  * Unless you know what you're doing, you shouldn't share instances with multiple members.
+ *
+ * @param strukt The parent [Strukt] of this member, to which this member belongs to.
+ * @param size The size, in bytes, of the member's data within the [strukt].
  */
-abstract class StruktMember {
-	
-	/**
-	 * The parent [Strukt] of this member, to which this member belongs to.
-	 */
-	abstract val strukt: Strukt
-	
-	/**
-	 * The size, in bytes, of the member's data within the [strukt]'s heap.
-	 */
-	abstract val size: Long
+abstract class StruktMember(val strukt: Strukt, val size: Long) {
 	
 	/**
 	 * The offset, in bytes, of the member.
 	 *
-	 * This is typically used to read
+	 * This used in calculation of the member's [pointer].
 	 */
-	open var offset = UNINITIALIZED_OFFSET_VALUE
+	var offset = INITIAL_OFFSET_VALUE
+		protected set
 	
 	/**
-	 * Calculates the heap pointer of this member, using the [strukt]'s active reference pointer.
+	 * Calculates the pointer of this member, using the [strukt]'s active reference pointer.
 	 */
-	open fun pointer() = ((strukt.referencePointer - INITIAL_REFERENCE_POINTER) * strukt.size) + offset
+	fun pointer() = strukt.pointer + offset
 	
 	/**
-	 * Writes the default values to the _default value reference_.
+	 * Writes the default value to the [strukt]'s active reference pointer.
 	 */
-	abstract fun writeDefaultReference()
-	
-	/**
-	 * Resets the attributes of this member back to their uninitialized state.
-	 *
-	 * This includes setting [offset] back to [UNINITIALIZED_OFFSET_VALUE].
-	 */
-	open fun reset() {
-		offset = UNINITIALIZED_OFFSET_VALUE
-	}
+	abstract fun writeDefault()
 	
 }

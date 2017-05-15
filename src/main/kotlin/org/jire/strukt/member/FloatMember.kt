@@ -15,38 +15,39 @@
  *
  */
 
-package org.jire.strukt.members
+package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
+import org.jire.strukt.UNSAFE
 import kotlin.reflect.KProperty
 
 /**
  * A [StruktMember] which delegates [Float]s.
  *
  * @param strukt The parent [Strukt] of this member, to which this member belongs to.
- * @param default The default value of this member.
- * @param size The size, in bytes, of the member's data within the [strukt]'s heap.
+ * @param defaultValue The default value of this member.
  */
-class FloatMember(override val strukt: Strukt, val default: Float, override val size: Long) : StruktMember() {
+class FloatMember(strukt: Strukt, val defaultValue: Float) : StruktMember(strukt, 4) {
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = strukt.heap.readFloat(pointer())
-	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) {
-		strukt.heap.writeFloat(pointer(), value)
+	init {
+		offset = strukt.internalPointer
+		strukt.internalPointer += size
+		strukt.members.add(this)
 	}
 	
-	override fun writeDefaultReference() {
-		offset = strukt.heapPointer
-		strukt.heap.writeFloat(pointer(), default)
-		strukt.heapPointer += size
-	}
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getFloat(pointer())
+	
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) = write(value)
+	
+	override fun writeDefault() = write(defaultValue)
+	
+	private inline fun write(value: Float) = UNSAFE.putFloat(pointer(), value)
 	
 }
 
 /**
- * Creates a [FloatMember] with the default value and size.
+ * Creates a [FloatMember].
  *
  * @param defaultValue The default value for the new member.
- * @param size The size, in bytes, of the member's data within the [Strukt]'s heap.
  */
-fun Strukt.float(defaultValue: Float = 0F, size: Long = 4) = FloatMember(this, defaultValue, size)
+fun Strukt.float(defaultValue: Float = 0F) = FloatMember(this, defaultValue)

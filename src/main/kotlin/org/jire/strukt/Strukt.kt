@@ -17,30 +17,27 @@
 
 package org.jire.strukt
 
-import net.openhft.chronicle.bytes.Bytes
-import org.jire.strukt.members.StruktMember
+import org.jire.strukt.member.StruktMember
 
 /**
- * The initial heap size.
+ * The initial size of a strukt. This is by default 0.
  */
-private const val INITIAL_HEAP_SIZE = 1L
+private const val INITIAL_SIZE = 0L
 
 /**
- * The initial pointer value for the data heap.
+ * The initial pointer of a strukt. This is by default [NIL].
  */
-const val INITIAL_HEAP_POINTER = 1L
+private const val INITIAL_POINTER = NIL
 
 /**
- * The initial pointer value of the active reference.
- *
- * This value is also the reference pointer to the default value reference.
+ * The initial internal pointer of a strukt. This is by default 0.
  */
-const val INITIAL_REFERENCE_POINTER = 1L
+private const val INITIAL_INTERNAL_POINTER = 0L
 
 /**
- * The size of an uninitialized Strukt.
+ * The initial pointer to the default strukt instance. This is by default [NIL].
  */
-const val UNINITIALIZED_STRUKT_SIZE = -1L
+private const val INITIAL_DEFAULT_POINTER = NIL
 
 /**
  * A _Strukt_, or more recognizably a _structure_, is a data type
@@ -49,7 +46,7 @@ const val UNINITIALIZED_STRUKT_SIZE = -1L
  * An example _Strukt_ definition might look like this:
  *
  * ```kotlin
- * object Coordinate : Strukt() {
+ * object Point : Strukt() {
  *     val x by int()
  *     val y by int()
  * }
@@ -58,78 +55,31 @@ const val UNINITIALIZED_STRUKT_SIZE = -1L
 abstract class Strukt {
 	
 	/**
-	 * The raw data heap that stores the member's data.
-	 */
-	val heap: Bytes<Void> = Bytes.allocateElasticDirect(INITIAL_HEAP_SIZE)
-	
-	/**
-	 * The pointer to the [heap].
-	 */
-	var heapPointer = INITIAL_HEAP_POINTER
-	
-	/**
 	 * The pointer to the active reference.
 	 */
-	var referencePointer = INITIAL_REFERENCE_POINTER
+	var pointer = INITIAL_POINTER
 	
 	/**
-	 * The pointer to the next available reference pointer.
+	 * The internal pointer of the strukt.
+	 *
+	 * WARNING: This value does not get updated past the first allocation.
 	 */
-	var nextReferencePointer = INITIAL_REFERENCE_POINTER
+	var internalPointer = INITIAL_INTERNAL_POINTER
+	
+	/**
+	 * The pointer to the default reference, which houses
+	 * the default values of this strukt's members.
+	 */
+	var defaultPointer = INITIAL_DEFAULT_POINTER
 	
 	/**
 	 * The total size, in bytes, of the structure.
 	 */
-	var size = UNINITIALIZED_STRUKT_SIZE
+	var size = INITIAL_SIZE
 	
-}
-
-/**
- * Adjusts the view of the [Strukt] to match the specified [referencePointer].
- *
- * @param referencePointer The new reference pointer, received from [Strukt] allocation.
- */
-operator fun <T : Strukt> T.get(referencePointer: Long) = apply {
-	this.referencePointer = referencePointer
-}
-
-/**
- * Allocates a new [Strukt] reference using the given initializer,
- * and gives you back its reference pointer.
- *
- * This function automatically adjusts the active
- * reference pointer to match the new reference.
- *
- * A typical allocation might look like this:
- *
- * ```kotlin
- * val threeFive = Coordinate { x = 3; y = 5 }
- * ```
- *
- * @param initializer The "constructor" block for the new reference.
- * If you do not set a member it will be set as the default value.
- */
-operator fun <T : Strukt> T.invoke(initializer: T.() -> Unit): Long {
-	// If the size has been uninitialized, set it now
-	if (size == UNINITIALIZED_STRUKT_SIZE)
-		size = heapPointer - INITIAL_HEAP_POINTER
+	/**
+	 * A set of [StruktMember]s that belong to this strukt.
+	 */
+	val members: MutableSet<StruktMember> = HashSet()
 	
-	// Grab the next reference
-	val reference = ++nextReferencePointer
-	
-	// Set our active reference pointer to the new reference
-	referencePointer = reference
-	
-	// Fill the new reference in with the default values
-	val copyReference = reference - INITIAL_REFERENCE_POINTER
-	for (copyIndex in INITIAL_HEAP_POINTER..size) {
-		val copyIndexTarget = (copyReference * size) + copyIndex
-		heap.writeByte(copyIndexTarget, heap.readByte(copyIndex))
-	}
-	
-	// Run the user's initializer block
-	initializer()
-	
-	// Return our reference pointer
-	return reference
 }

@@ -1,5 +1,5 @@
 # Strukt
-Value types on the JVM, today!
+C-style structs on the JVM!
 
 **ZERO** garbage, **ZERO** reflection, **ZERO** maps. **EASY** to use, and with **INCREDIBLE** performance.
 

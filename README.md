@@ -9,7 +9,7 @@ Value types on the JVM, today!
 ### Gradle
 
 ```groovy
-compile group: 'org.jire.strukt', name: 'strukt', version: '1.0.0'
+compile group: 'org.jire.strukt', name: 'strukt', version: '1.1.0'
 ```
 
 ### Maven

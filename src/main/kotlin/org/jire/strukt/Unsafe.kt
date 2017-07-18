@@ -15,6 +15,8 @@
  *
  */
 
+@file:JvmName("Unsafe")
+
 package org.jire.strukt
 
 import sun.misc.Unsafe

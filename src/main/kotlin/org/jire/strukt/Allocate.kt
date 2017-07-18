@@ -15,7 +15,43 @@
  *
  */
 
+@file:JvmName("Allocate")
+
 package org.jire.strukt
+
+/**
+ * Allocates a new [Strukt] reference gives you back its reference pointer.
+ *
+ * This function automatically adjusts the active
+ * reference pointer to match the new reference.
+ *
+ * A typical allocation might look like this:
+ *
+ * ```kotlin
+ * val point = Point()
+ * ```
+ *
+ * @param initializer The "constructor" block for the new reference.
+ * If you do not set a member it will be set as its respective default value.
+ */
+@JvmName("allocate")
+operator fun <T : Strukt> T.invoke(): Long {
+	size = internalPointer // the heap pointer will be the size since it is increased by members
+	
+	pointer = UNSAFE.allocateMemory(size) // create our new memory block
+	
+	if (defaultPointer == Strukt.Companion.NIL) {
+		defaultPointer = pointer
+		for (member in members)
+			member.writeDefault()
+		
+		pointer = UNSAFE.allocateMemory(size) // grab a new pointer for the actual instance
+	}
+	
+	UNSAFE.copyMemory(defaultPointer, pointer, size) // copy the default instance
+	
+	return pointer
+}
 
 /**
  * Allocates a new [Strukt] reference using the given initializer,
@@ -31,23 +67,10 @@ package org.jire.strukt
  * ```
  *
  * @param initializer The "constructor" block for the new reference.
- * If you do not set a member it will be set as the default value.
+ * If you do not set a member it will be set as its respective default value.
  */
 operator inline fun <T : Strukt, R> T.invoke(initializer: T.() -> R): Long {
-	size = internalPointer // the heap pointer will be the size since it is increased by members
-	
-	pointer = UNSAFE.allocateMemory(size) // create our new memory block
-	
-	if (defaultPointer == NIL) {
-		defaultPointer = pointer
-		for (member in members)
-			member.writeDefault()
-		
-		pointer = UNSAFE.allocateMemory(size) // grab a new pointer for the actual instance
-	}
-	
-	UNSAFE.copyMemory(defaultPointer, pointer, size) // copy the default instance
+	val pointer = invoke()
 	initializer() // then apply our initializer
-	
 	return pointer
 }

@@ -35,19 +35,23 @@ class BooleanMember(strukt: Strukt, val defaultValue: Boolean) : StruktMember(st
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getByte(pointer()) > 0
+	/**
+	 * Gets the value of this [BooleanMember].
+	 */
+	fun get() = UNSAFE.getByte(pointer()) > 0
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) = write(value)
+	/**
+	 * Sets the value of this [BooleanMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Boolean) = UNSAFE.putByte(pointer(), if (value) 1 else 0)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) = set(value)
 	
-	private inline fun write(value: Boolean) = UNSAFE.putByte(pointer(), if (value) 1 else 0)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = java.lang.Boolean.toString(get())
 	
 }
-
-/**
- * Creates a [BooleanMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.boolean(defaultValue: Boolean = false) = BooleanMember(this, defaultValue)

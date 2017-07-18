@@ -6,10 +6,12 @@ C-style structs on the JVM!
 [![Build Status](https://travis-ci.org/Jire/Strukt.svg?branch=master)](https://travis-ci.org/Jire/Strukt)
 [![license](https://img.shields.io/github/license/Jire/Strukt.svg)](https://github.com/Jire/Strukt/blob/master/LICENSE.txt)
 
+**New!** Now fully supported across all JVM languages!
+
 ### Gradle
 
 ```groovy
-compile group: 'org.jire.strukt', name: 'strukt', version: '1.1.0'
+compile group: 'org.jire.strukt', name: 'strukt', version: '1.2.0'
 ```
 
 ### Maven
@@ -18,7 +20,7 @@ compile group: 'org.jire.strukt', name: 'strukt', version: '1.1.0'
 <dependency>
     <groupId>org.jire.strukt</groupId>
     <artifactId>strukt</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 

@@ -20,26 +20,6 @@ package org.jire.strukt
 import org.jire.strukt.member.StruktMember
 
 /**
- * The initial size of a strukt. This is by default 0.
- */
-private const val INITIAL_SIZE = 0L
-
-/**
- * The initial pointer of a strukt. This is by default [NIL].
- */
-private const val INITIAL_POINTER = NIL
-
-/**
- * The initial internal pointer of a strukt. This is by default 0.
- */
-private const val INITIAL_INTERNAL_POINTER = 0L
-
-/**
- * The initial pointer to the default strukt instance. This is by default [NIL].
- */
-private const val INITIAL_DEFAULT_POINTER = NIL
-
-/**
  * A _Strukt_, or more recognizably a _structure_, is a data type
  * that represents a group of members (see: [StruktMember]).
  *
@@ -53,6 +33,35 @@ private const val INITIAL_DEFAULT_POINTER = NIL
  * ```
  */
 abstract class Strukt {
+	
+	companion object {
+		
+		/**
+		 * A pointer that references nothing.
+		 */
+		const val NIL = -1L
+		
+		/**
+		 * The initial size of a strukt. This is by default 0.
+		 */
+		private const val INITIAL_SIZE = 0L
+		
+		/**
+		 * The initial pointer of a strukt. This is by default [NIL].
+		 */
+		private const val INITIAL_POINTER = NIL
+		
+		/**
+		 * The initial internal pointer of a strukt. This is by default 0.
+		 */
+		private const val INITIAL_INTERNAL_POINTER = 0L
+		
+		/**
+		 * The initial pointer to the default strukt instance. This is by default [NIL].
+		 */
+		private const val INITIAL_DEFAULT_POINTER = NIL
+		
+	}
 	
 	/**
 	 * The pointer to the active reference.
@@ -81,5 +90,14 @@ abstract class Strukt {
 	 * A set of [StruktMember]s that belong to this strukt.
 	 */
 	val members: MutableSet<StruktMember> = HashSet()
+	
+	/**
+	 * Adjusts the view of this [Strukt] to match the specified [pointer].
+	 *
+	 * @param pointer The new reference pointer, which you can get from a [Strukt] allocation.
+	 */
+	operator fun get(pointer: Long) = apply {
+		this.pointer = pointer
+	}
 	
 }

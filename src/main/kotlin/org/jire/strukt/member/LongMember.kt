@@ -35,19 +35,23 @@ class LongMember(strukt: Strukt, val defaultValue: Long) : StruktMember(strukt, 
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getLong(pointer())
+	/**
+	 * Gets the value of this [LongMember].
+	 */
+	fun get() = UNSAFE.getLong(pointer())
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) = write(value)
+	/**
+	 * Sets the value of this [LongMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Long) = UNSAFE.putLong(pointer(), value)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) = set(value)
 	
-	private inline fun write(value: Long) = UNSAFE.putLong(pointer(), value)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = java.lang.Long.toString(get())
 	
 }
-
-/**
- * Creates a [LongMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.long(defaultValue: Long = 0) = LongMember(this, defaultValue)

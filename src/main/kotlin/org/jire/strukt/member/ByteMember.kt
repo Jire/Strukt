@@ -35,19 +35,23 @@ class ByteMember(strukt: Strukt, val defaultValue: Byte) : StruktMember(strukt, 
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getByte(pointer())
+	/**
+	 * Gets the value of this [ByteMember].
+	 */
+	fun get() = UNSAFE.getByte(pointer())
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Byte) = write(value)
+	/**
+	 * Sets the value of this [ByteMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Byte) = UNSAFE.putByte(pointer(), value)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Byte) = set(value)
 	
-	private inline fun write(value: Byte) = UNSAFE.putByte(pointer(), value)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = java.lang.Byte.toString(get())
 	
 }
-
-/**
- * Creates a [ByteMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.byte(defaultValue: Byte = 0) = ByteMember(this, defaultValue)

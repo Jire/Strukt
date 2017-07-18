@@ -35,19 +35,23 @@ class DoubleMember(strukt: Strukt, val defaultValue: Double) : StruktMember(stru
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getDouble(pointer())
+	/**
+	 * Gets the value of this [DoubleMember].
+	 */
+	fun get() = UNSAFE.getDouble(pointer())
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Double) = write(value)
+	/**
+	 * Sets the value of this [DoubleMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Double) = UNSAFE.putDouble(pointer(), value)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Double) = set(value)
 	
-	private inline fun write(value: Double) = UNSAFE.putDouble(pointer(), value)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = java.lang.Double.toString(get())
 	
 }
-
-/**
- * Creates a [DoubleMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.double(defaultValue: Double = 0.0) = DoubleMember(this, defaultValue)

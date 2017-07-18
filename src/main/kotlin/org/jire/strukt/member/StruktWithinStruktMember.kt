@@ -17,9 +17,7 @@
 
 package org.jire.strukt.member
 
-import org.jire.strukt.NIL
 import org.jire.strukt.Strukt
-import org.jire.strukt.get
 import org.jire.strukt.invoke
 import kotlin.reflect.KProperty
 
@@ -33,7 +31,7 @@ class StruktWithinStruktMember<T : Strukt>(strukt: Strukt, val value: T,
                                            val initializer: T.() -> Unit)
 	: StruktMember(strukt, value.size) {
 	
-	private var valuePointer = NIL
+	private var valuePointer = Strukt.NIL
 	
 	init {
 		offset = strukt.internalPointer
@@ -41,20 +39,12 @@ class StruktWithinStruktMember<T : Strukt>(strukt: Strukt, val value: T,
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = value[valuePointer]
+	fun get() = value[valuePointer]
+	
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	
 	override fun writeDefault() {
 		valuePointer = value(initializer)
 	}
 	
 }
-
-/**
- * Creates a [StruktWithinStruktMember].
- *
- * @param T The type of [Strukt] within.
- * @param strukt The [Strukt] within this [Strukt].
- * @param initializer The "constructor" block for the [strukt].
- */
-fun <T : Strukt> Strukt.strukt(strukt: T, initializer: T.() -> Unit = {})
-		= StruktWithinStruktMember(this, strukt, initializer)

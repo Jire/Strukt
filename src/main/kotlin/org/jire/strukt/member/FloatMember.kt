@@ -35,19 +35,23 @@ class FloatMember(strukt: Strukt, val defaultValue: Float) : StruktMember(strukt
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getFloat(pointer())
+	/**
+	 * Gets the value of this [FloatMember].
+	 */
+	fun get() = UNSAFE.getFloat(pointer())
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) = write(value)
+	/**
+	 * Sets the value of this [FloatMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Float) = UNSAFE.putFloat(pointer(), value)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) = set(value)
 	
-	private inline fun write(value: Float) = UNSAFE.putFloat(pointer(), value)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = java.lang.Float.toString(get())
 	
 }
-
-/**
- * Creates a [FloatMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.float(defaultValue: Float = 0F) = FloatMember(this, defaultValue)

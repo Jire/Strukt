@@ -21,15 +21,15 @@ buildscript {
 	ext.your_github_name = 'jire'
 	
 	ext.project_name = 'Strukt'
-	ext.project_description = 'Value types on the JVM, today!'
+	ext.project_description = 'C-style structs on the JVM!'
 	ext.project_group = 'org.jire.strukt'
 	ext.project_artifact = 'strukt'
-	ext.project_version = '1.1.1'
+	ext.project_version = '1.2.0'
 	ext.project_license = 'The Apache Software License, Version 2.0'
 	ext.project_license_tag = 'Apache-2.0'
 	ext.project_license_url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
 	
-	ext.kotlin_version = '1.1.2-2'
+	ext.kotlin_version = '1.1.3-2'
 	
 	repositories {
 		mavenCentral()
@@ -41,7 +41,7 @@ buildscript {
 }
 
 plugins {
-	id "com.jfrog.bintray" version "1.7.1"
+	id "com.jfrog.bintray" version "1.7.3"
 }
 
 apply plugin: 'kotlin'

@@ -35,19 +35,23 @@ class IntMember(strukt: Strukt, val defaultValue: Int) : StruktMember(strukt, 4)
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getInt(pointer())
+	/**
+	 * Gets the value of this [IntMember].
+	 */
+	fun get() = UNSAFE.getInt(pointer())
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) = write(value)
+	/**
+	 * Sets the value of this [IntMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Int) = UNSAFE.putInt(pointer(), value)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) = set(value)
 	
-	private inline fun write(value: Int) = UNSAFE.putInt(pointer(), value)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = Integer.toString(get())
 	
 }
-
-/**
- * Creates an [IntMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.int(defaultValue: Int = 0) = IntMember(this, defaultValue)

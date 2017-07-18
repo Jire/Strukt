@@ -35,19 +35,23 @@ class ShortMember(strukt: Strukt, val defaultValue: Short) : StruktMember(strukt
 		strukt.members.add(this)
 	}
 	
-	operator fun getValue(thisRef: Any?, property: KProperty<*>) = UNSAFE.getShort(pointer())
+	/**
+	 * Gets the value of this [ShortMember].
+	 */
+	fun get() = UNSAFE.getShort(pointer())
 	
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Short) = write(value)
+	/**
+	 * Sets the value of this [ShortMember] to the specified value.
+	 *
+	 * @param value The new value.
+	 */
+	fun set(value: Short) = UNSAFE.putShort(pointer(), value)
 	
-	override fun writeDefault() = write(defaultValue)
+	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Short) = set(value)
 	
-	private inline fun write(value: Short) = UNSAFE.putShort(pointer(), value)
+	override fun writeDefault() = set(defaultValue)
+	
+	override fun toString(): String = java.lang.Short.toString(get())
 	
 }
-
-/**
- * Creates a [ShortMember].
- *
- * @param defaultValue The default value for the new member.
- */
-fun Strukt.short(defaultValue: Short = 0) = ShortMember(this, defaultValue)

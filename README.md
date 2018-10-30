@@ -6,6 +6,8 @@ C-style structs on the JVM!
 [![Build Status](https://travis-ci.org/Jire/Strukt.svg?branch=master)](https://travis-ci.org/Jire/Strukt)
 [![license](https://img.shields.io/github/license/Jire/Strukt.svg)](https://github.com/Jire/Strukt/blob/master/LICENSE.txt)
 
+**WARNING:** This library is more of a proof-of-concept, and is extremely experimental and untested. DO NOT USE IN PRODUCTION!
+
 **New!** Now fully supported across all JVM languages!
 
 ### Gradle

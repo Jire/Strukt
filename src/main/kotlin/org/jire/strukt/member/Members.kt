@@ -85,5 +85,4 @@ fun Strukt.boolean(defaultValue: Boolean = false) = BooleanMember(this, defaultV
  * @param initializer The "constructor" block for the [strukt].
  */
 @JvmName("struktMember")
-fun <T : Strukt> Strukt.strukt(strukt: T, initializer: T.() -> Unit = {})
-		= StruktWithinStruktMember(this, strukt, initializer)
+fun <T : Strukt> Strukt.strukt(strukt: T, initializer: T.() -> Unit = {}) = StruktWithinStruktMember(this, strukt, initializer)

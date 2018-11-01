@@ -26,7 +26,7 @@ import sun.misc.Unsafe
  *
  * WARNING: Strukt uses this internally, only use this if you know what you're doing.
  */
-val UNSAFE by lazy(LazyThreadSafetyMode.NONE) {
+val unsafe by lazy(LazyThreadSafetyMode.NONE) {
 	val field = Unsafe::class.java.getDeclaredField("theUnsafe")
 	field.isAccessible = true
 	field.get(null) as Unsafe

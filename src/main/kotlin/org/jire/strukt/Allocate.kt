@@ -38,17 +38,17 @@ package org.jire.strukt
 operator fun <T : Strukt> T.invoke(): Long {
 	size = internalPointer // the heap pointer will be the size since it is increased by members
 	
-	pointer = UNSAFE.allocateMemory(size) // create our new memory block
+	pointer = unsafe.allocateMemory(size) // create our new memory block
 	
 	if (defaultPointer == Strukt.Companion.NIL) {
 		defaultPointer = pointer
 		for (member in members)
 			member.writeDefault()
 		
-		pointer = UNSAFE.allocateMemory(size) // grab a new pointer for the actual instance
+		pointer = unsafe.allocateMemory(size) // grab a new pointer for the actual instance
 	}
 	
-	UNSAFE.copyMemory(defaultPointer, pointer, size) // copy the default instance
+	unsafe.copyMemory(defaultPointer, pointer, size) // copy the default instance
 	
 	return pointer
 }
@@ -69,7 +69,7 @@ operator fun <T : Strukt> T.invoke(): Long {
  * @param initializer The "constructor" block for the new reference.
  * If you do not set a member it will be set as its respective default value.
  */
-operator inline fun <T : Strukt, R> T.invoke(initializer: T.() -> R): Long {
+inline operator fun <T : Strukt, R> T.invoke(initializer: T.() -> R): Long {
 	val pointer = invoke()
 	initializer() // then apply our initializer
 	return pointer

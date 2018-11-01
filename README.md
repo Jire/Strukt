@@ -40,8 +40,8 @@ For example, a Strukt for representing a coordinate might look like:
 
 ```kotlin
 object Point : Strukt() {
-	var x by int()
-	var y by int()
+	var x by 0
+	var y by 0
 }
 ```
 
@@ -50,8 +50,8 @@ There are member delegates built in for all primitives besides _char_.
 You can also specify a default value for your member, like so:
 
 ```kotlin
-var x by int(3) // 3 is the default value
-var y by int(defaultValue = 5) // 5 is the default value, shown with named arguments
+var x by 3 // 3 is the default value
+var y by 5 // 5 is the default value, shown with named arguments
 ```
 
 ## Allocating a reference

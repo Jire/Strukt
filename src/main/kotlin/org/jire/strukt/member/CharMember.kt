@@ -22,12 +22,12 @@ import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
- * A [StruktMember] which delegates [Int]s.
+ * A [StruktMember] which delegates [Char]s.
  *
  * @param strukt The parent [Strukt] of this member, to which this member belongs to.
  * @param defaultValue The default value of this member.
  */
-class IntMember(strukt: Strukt, val defaultValue: Int) : StruktMember(strukt, 4) {
+class CharMember(strukt: Strukt, val defaultValue: Char) : StruktMember(strukt, 2) {
 	
 	init {
 		offset = strukt.internalPointer
@@ -36,22 +36,22 @@ class IntMember(strukt: Strukt, val defaultValue: Int) : StruktMember(strukt, 4)
 	}
 	
 	/**
-	 * Gets the value of this [IntMember].
+	 * Gets the value of this [CharMember].
 	 */
-	fun get() = unsafe.getInt(pointer())
+	fun get() = unsafe.getChar(pointer())
 	
 	/**
-	 * Sets the value of this [IntMember] to the specified value.
+	 * Sets the value of this [CharMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Int) = unsafe.putInt(pointer(), value)
+	fun set(value: Char) = unsafe.putChar(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
-	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) = set(value)
+	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Char) = set(value)
 	
 	override fun writeDefault() = set(defaultValue)
 	
-	override fun toString(): String = Integer.toString(get())
+	override fun toString(): String = java.lang.Character.toString(get())
 	
 }

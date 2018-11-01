@@ -18,7 +18,7 @@
 package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
-import org.jire.strukt.UNSAFE
+import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class ShortMember(strukt: Strukt, val defaultValue: Short) : StruktMember(strukt
 	/**
 	 * Gets the value of this [ShortMember].
 	 */
-	fun get() = UNSAFE.getShort(pointer())
+	fun get() = unsafe.getShort(pointer())
 	
 	/**
 	 * Sets the value of this [ShortMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Short) = UNSAFE.putShort(pointer(), value)
+	fun set(value: Short) = unsafe.putShort(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Short) = set(value)

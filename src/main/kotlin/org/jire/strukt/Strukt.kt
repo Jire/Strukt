@@ -17,18 +17,19 @@
 
 package org.jire.strukt
 
-import org.jire.strukt.member.StruktMember
+import org.jire.strukt.member.*
+import kotlin.reflect.KProperty
 
 /**
- * A _Strukt_, or more recognizably a _structure_, is a data type
+ * A _Strukt_, or more recognizably a _Strukt_, is a data type
  * that represents a group of members (see: [StruktMember]).
  *
  * An example _Strukt_ definition might look like this:
  *
  * ```kotlin
  * object Point : Strukt() {
- *     val x by int()
- *     val y by int()
+ *     val x by 0
+ *     val y by 0
  * }
  * ```
  */
@@ -82,7 +83,7 @@ abstract class Strukt {
 	var defaultPointer = INITIAL_DEFAULT_POINTER
 	
 	/**
-	 * The total size, in bytes, of the structure.
+	 * The total size, in bytes, of the Strukt.
 	 */
 	var size = INITIAL_SIZE
 	
@@ -99,5 +100,23 @@ abstract class Strukt {
 	operator fun get(pointer: Long) = apply {
 		this.pointer = pointer
 	}
+	
+	inline fun <R> use(pointer: Long, block: Strukt.() -> R?) {
+		val previousPointer = this.pointer
+		this.pointer = pointer
+		block.invoke(this)
+		this.pointer = previousPointer
+	}
+	
+	operator fun Byte.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = ByteMember(this@Strukt, this)
+	operator fun Short.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = ShortMember(this@Strukt, this)
+	operator fun Int.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = IntMember(this@Strukt, this)
+	operator fun Long.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = LongMember(this@Strukt, this)
+	operator fun Float.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = FloatMember(this@Strukt, this)
+	operator fun Double.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = DoubleMember(this@Strukt, this)
+	
+	operator fun Char.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = CharMember(this@Strukt, this)
+	
+	operator fun Boolean.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = BooleanMember(this@Strukt, this)
 	
 }

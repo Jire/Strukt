@@ -18,7 +18,7 @@
 package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
-import org.jire.strukt.UNSAFE
+import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class FloatMember(strukt: Strukt, val defaultValue: Float) : StruktMember(strukt
 	/**
 	 * Gets the value of this [FloatMember].
 	 */
-	fun get() = UNSAFE.getFloat(pointer())
+	fun get() = unsafe.getFloat(pointer())
 	
 	/**
 	 * Sets the value of this [FloatMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Float) = UNSAFE.putFloat(pointer(), value)
+	fun set(value: Float) = unsafe.putFloat(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Float) = set(value)

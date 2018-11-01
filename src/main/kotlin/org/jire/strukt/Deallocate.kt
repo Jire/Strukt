@@ -24,7 +24,7 @@ package org.jire.strukt
  *
  * @param pointer The JVM address to deallocate.
  */
-fun deallocate(pointer: Long) = UNSAFE.freeMemory(pointer)
+fun deallocate(pointer: Long) = unsafe.freeMemory(pointer)
 
 /**
  * Deallocates any specified pointers, which frees memory.
@@ -36,8 +36,9 @@ fun deallocate(pointer: Long) = UNSAFE.freeMemory(pointer)
  */
 @JvmName("deallocateArray")
 fun deallocate(vararg pointers: Long) {
-	for (pointer in pointers)
+	for (pointer in pointers) {
 		deallocate(pointer)
+	}
 }
 
 /**

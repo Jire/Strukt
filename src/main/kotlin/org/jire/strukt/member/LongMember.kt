@@ -18,7 +18,7 @@
 package org.jire.strukt.member
 
 import org.jire.strukt.Strukt
-import org.jire.strukt.UNSAFE
+import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class LongMember(strukt: Strukt, val defaultValue: Long) : StruktMember(strukt, 
 	/**
 	 * Gets the value of this [LongMember].
 	 */
-	fun get() = UNSAFE.getLong(pointer())
+	fun get() = unsafe.getLong(pointer())
 	
 	/**
 	 * Sets the value of this [LongMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Long) = UNSAFE.putLong(pointer(), value)
+	fun set(value: Long) = unsafe.putLong(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) = set(value)

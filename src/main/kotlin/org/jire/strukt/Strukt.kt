@@ -93,6 +93,11 @@ abstract class Strukt {
 	val members: MutableSet<StruktMember> = HashSet()
 	
 	/**
+	 * 
+	 */
+	val lock = Any()
+	
+	/**
 	 * Adjusts the view of this [Strukt] to match the specified [pointer].
 	 *
 	 * @param pointer The new reference pointer, which you can get from a [Strukt] allocation.
@@ -102,10 +107,12 @@ abstract class Strukt {
 	}
 	
 	inline fun <R> use(pointer: Long, block: Strukt.() -> R?) {
-		val previousPointer = this.pointer
-		this.pointer = pointer
-		block.invoke(this)
-		this.pointer = previousPointer
+		synchronized(lock) {
+			val previousPointer = this.pointer
+			this.pointer = pointer
+			block.invoke(this)
+			this.pointer = previousPointer
+		}
 	}
 	
 	operator fun Byte.provideDelegate(thisRef: Strukt, prop: KProperty<*>) = ByteMember(this@Strukt, this)

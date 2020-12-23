@@ -17,8 +17,8 @@
 
 package org.jire.strukt.member
 
+import net.openhft.chronicle.core.OS
 import org.jire.strukt.Strukt
-import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class IntMember(strukt: Strukt, val defaultValue: Int) : StruktMember(strukt, 4)
 	/**
 	 * Gets the value of this [IntMember].
 	 */
-	fun get() = unsafe.getInt(pointer())
+	fun get() = OS.memory().readInt(pointer())
 	
 	/**
 	 * Sets the value of this [IntMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Int) = unsafe.putInt(pointer(), value)
+	fun set(value: Int) = OS.memory().writeInt(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) = set(value)

@@ -19,6 +19,8 @@
 
 package org.jire.strukt
 
+import net.openhft.chronicle.core.OS
+
 /**
  * Allocates a new [Strukt] reference gives you back its reference pointer.
  *
@@ -38,17 +40,21 @@ package org.jire.strukt
 operator fun <T : Strukt> T.invoke(): Long {
 	size = internalPointer // the heap pointer will be the size since it is increased by members
 	
-	pointer = unsafe.allocateMemory(size) // create our new memory block
+	val mem = OS.memory()
 	
-	if (defaultPointer == Strukt.Companion.NIL) {
+	val blockSize = size + Long.SIZE_BYTES
+	pointer = mem.allocate(blockSize) // create our new memory block
+	mem.writeLong(pointer, size)
+	
+	if (defaultPointer == Strukt.NIL) {
 		defaultPointer = pointer
 		for (member in members)
 			member.writeDefault()
 		
-		pointer = unsafe.allocateMemory(size) // grab a new pointer for the actual instance
+		pointer = mem.allocate(blockSize) // grab a new pointer for the actual instance
 	}
 	
-	unsafe.copyMemory(defaultPointer, pointer, size) // copy the default instance
+	mem.copyMemory(defaultPointer, pointer, blockSize) // copy the default instance
 	
 	return pointer
 }

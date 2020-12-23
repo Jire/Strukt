@@ -17,8 +17,8 @@
 
 package org.jire.strukt.member
 
+import net.openhft.chronicle.core.OS
 import org.jire.strukt.Strukt
-import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class CharMember(strukt: Strukt, val defaultValue: Char) : StruktMember(strukt, 
 	/**
 	 * Gets the value of this [CharMember].
 	 */
-	fun get() = unsafe.getChar(pointer())
+	fun get() = OS.memory().readShort(pointer()).toChar()
 	
 	/**
 	 * Sets the value of this [CharMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Char) = unsafe.putChar(pointer(), value)
+	fun set(value: Char) = OS.memory().writeShort(pointer(), value.toShort())
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Char) = set(value)

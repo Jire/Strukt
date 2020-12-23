@@ -17,8 +17,8 @@
 
 package org.jire.strukt.member
 
+import net.openhft.chronicle.core.OS
 import org.jire.strukt.Strukt
-import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class BooleanMember(strukt: Strukt, val defaultValue: Boolean) : StruktMember(st
 	/**
 	 * Gets the value of this [BooleanMember].
 	 */
-	fun get() = unsafe.getByte(pointer()) > 0
+	fun get() = OS.memory().readByte(pointer()) > 0
 	
 	/**
 	 * Sets the value of this [BooleanMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Boolean) = unsafe.putByte(pointer(), if (value) 1 else 0)
+	fun set(value: Boolean) = OS.memory().writeByte(pointer(), if (value) 1 else 0)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean) = set(value)

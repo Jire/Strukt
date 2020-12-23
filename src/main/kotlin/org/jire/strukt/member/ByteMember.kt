@@ -17,8 +17,8 @@
 
 package org.jire.strukt.member
 
+import net.openhft.chronicle.core.OS
 import org.jire.strukt.Strukt
-import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class ByteMember(strukt: Strukt, val defaultValue: Byte) : StruktMember(strukt, 
 	/**
 	 * Gets the value of this [ByteMember].
 	 */
-	fun get() = unsafe.getByte(pointer())
+	fun get() = OS.memory().readByte(pointer())
 	
 	/**
 	 * Sets the value of this [ByteMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Byte) = unsafe.putByte(pointer(), value)
+	fun set(value: Byte) = OS.memory().writeByte(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Byte) = set(value)

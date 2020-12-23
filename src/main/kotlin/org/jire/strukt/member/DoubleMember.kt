@@ -17,8 +17,8 @@
 
 package org.jire.strukt.member
 
+import net.openhft.chronicle.core.OS
 import org.jire.strukt.Strukt
-import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class DoubleMember(strukt: Strukt, val defaultValue: Double) : StruktMember(stru
 	/**
 	 * Gets the value of this [DoubleMember].
 	 */
-	fun get() = unsafe.getDouble(pointer())
+	fun get() = OS.memory().readDouble(pointer())
 	
 	/**
 	 * Sets the value of this [DoubleMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Double) = unsafe.putDouble(pointer(), value)
+	fun set(value: Double) = OS.memory().writeDouble(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Double) = set(value)

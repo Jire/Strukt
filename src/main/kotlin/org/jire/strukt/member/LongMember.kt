@@ -17,8 +17,8 @@
 
 package org.jire.strukt.member
 
+import net.openhft.chronicle.core.OS
 import org.jire.strukt.Strukt
-import org.jire.strukt.unsafe
 import kotlin.reflect.KProperty
 
 /**
@@ -38,14 +38,14 @@ class LongMember(strukt: Strukt, val defaultValue: Long) : StruktMember(strukt, 
 	/**
 	 * Gets the value of this [LongMember].
 	 */
-	fun get() = unsafe.getLong(pointer())
+	fun get() = OS.memory().readLong(pointer())
 	
 	/**
 	 * Sets the value of this [LongMember] to the specified value.
 	 *
 	 * @param value The new value.
 	 */
-	fun set(value: Long) = unsafe.putLong(pointer(), value)
+	fun set(value: Long) = OS.memory().writeLong(pointer(), value)
 	
 	operator fun getValue(thisRef: Any?, property: KProperty<*>) = get()
 	operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Long) = set(value)

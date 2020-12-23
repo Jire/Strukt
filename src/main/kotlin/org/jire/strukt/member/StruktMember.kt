@@ -45,7 +45,7 @@ abstract class StruktMember(val strukt: Strukt, val size: Long) {
 	/**
 	 * Calculates the pointer of this member, using the [strukt]'s active reference pointer.
 	 */
-	fun pointer() = strukt.pointer + offset
+	fun pointer() = strukt.pointer + offset + Long.SIZE_BYTES
 	
 	/**
 	 * Writes the default value to the [strukt]'s active reference pointer.

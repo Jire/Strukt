@@ -19,12 +19,17 @@
 
 package org.jire.strukt
 
+import net.openhft.chronicle.core.OS
+
 /**
  * Deallocates any specified pointer, which frees memory.
  *
  * @param pointer The JVM address to deallocate.
  */
-fun deallocate(pointer: Long) = unsafe.freeMemory(pointer)
+fun deallocate(pointer: Long) = OS.memory().run {
+	val size = readLong(pointer)
+	freeMemory(pointer, size)
+}
 
 /**
  * Deallocates any specified pointers, which frees memory.

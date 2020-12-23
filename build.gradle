@@ -24,7 +24,7 @@ buildscript {
 	ext.project_description = 'C-style structs on the JVM!'
 	ext.project_group = 'org.jire.strukt'
 	ext.project_artifact = 'strukt'
-	ext.project_version = '1.3.0'
+	ext.project_version = '2.0.0'
 	ext.project_license = 'The Apache Software License, Version 2.0'
 	ext.project_license_tag = 'Apache-2.0'
 	ext.project_license_url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -137,6 +137,12 @@ repositories {
 }
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-	compile group: 'net.openhft', name: 'chronicle-core', version: '2.20.125'
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	implementation group: 'net.openhft', name: 'chronicle-core', version: '2.20.125'
+	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.4'
+}
+compileKotlin {
+	kotlinOptions {
+		freeCompilerArgs = ["-Xinline-classes"]
+	}
 }

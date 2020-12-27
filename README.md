@@ -78,7 +78,7 @@ Accessing fields is exactly like normal objects!
 
 ```kotlin
 example.y = 123
-println("x: ${example.x}, y: ${example.y}") // 123, 0
+println("x: ${example.x}, y: ${example.y}") // 0, 123
 ```
 
 ## Freeing a `Strukt`

@@ -15,5 +15,3 @@ class DoubleField<T : Strukt>(
 	operator fun invoke(address: Long, value: Double) = OS.memory().writeDouble(pointer(address), value)
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Double = 0.0) = DoubleField(this, default)

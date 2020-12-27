@@ -1,9 +1,11 @@
+@file:JvmName("StruktFieldKt")
+
 package org.jire.strukt
 
 import net.openhft.chronicle.core.OS
 import kotlin.reflect.KClass
 
-class LongField<T : Strukt>(
+class StruktLongField<T : Strukt>(
 	type: KClass<T>,
 	val default: Long
 ) : StruktField<T>(8, type) {

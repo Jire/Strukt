@@ -15,5 +15,3 @@ class BooleanField<T : Strukt>(
 	operator fun invoke(address: Long, value: Boolean) = OS.memory().writeByte(pointer(address), if (value) 1 else 0)
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Boolean = false) = BooleanField(this, default)

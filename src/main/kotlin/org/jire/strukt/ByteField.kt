@@ -15,5 +15,3 @@ class ByteField<T : Strukt>(
 	operator fun invoke(address: Long, value: Byte) = OS.memory().writeByte(pointer(address), value)
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Byte = 0) = ByteField(this, default)

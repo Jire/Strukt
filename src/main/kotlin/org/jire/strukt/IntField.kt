@@ -15,5 +15,3 @@ class IntField<T : Strukt>(
 	operator fun invoke(address: Long, value: Int) = OS.memory().writeInt(pointer(address), value)
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Int = 0) = IntField(this, default)

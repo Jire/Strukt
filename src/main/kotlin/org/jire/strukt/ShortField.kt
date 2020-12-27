@@ -15,5 +15,3 @@ class ShortField<T : Strukt>(
 	operator fun invoke(address: Long, value: Short) = OS.memory().writeShort(pointer(address), value)
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Short = 0) = ShortField(this, default)

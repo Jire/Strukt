@@ -15,5 +15,3 @@ class CharField<T : Strukt>(
 	operator fun invoke(address: Long, value: Char) = OS.memory().writeShort(pointer(address), value.toShort())
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Char = 0.toChar()) = CharField(this, default)

@@ -15,5 +15,3 @@ class FloatField<T : Strukt>(
 	operator fun invoke(address: Long, value: Float) = OS.memory().writeFloat(pointer(address), value)
 	
 }
-
-operator fun <T : Strukt> KClass<T>.invoke(default: Float = 0F) = FloatField(this, default)

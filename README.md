@@ -86,11 +86,24 @@ example.free()
 
 ## Performance
 
-Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10.
+**Benchmark sources:** https://github.com/Jire/Strukt/tree/master/src/jmh/kotlin/org/jire/strukt/benchmarks
 
-* **alloc/s:** ~15 million
-* **free/s:** ~25 million
-* **read/s:** ~4.4 billion
-* **write/s:** ~4.4 billion
+Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10:
 
-`Struct`s are completely off-heap, there are absolutely <ins>no heap allocations</ins> beyond the class configurations!
+```Benchmark                        Mode  Cnt          Score   Error  Units
+StruktBenchmark.allocateHeap    thrpt       250234066.353          ops/s
+StruktBenchmark.allocateStrukt  thrpt        15468838.690          ops/s
+StruktBenchmark.readHeap        thrpt       579936956.960          ops/s
+StruktBenchmark.readStrukt      thrpt       296739514.957          ops/s
+StruktBenchmark.writeHeap       thrpt       470629481.952          ops/s
+StruktBenchmark.writeStrukt     thrpt       278779619.634          ops/s
+```
+
+Results
+
+* ~16x (1600%) slower allocation
+* ~1.96x (196%) slower read
+* ~1.69x (169%) slower write
+
+So there is insignificant overhead for read/write, but significant overhead for allocation (but remember, we aren't
+allocating on-heap and there are absolutely <ins>no heap allocations</ins>!)

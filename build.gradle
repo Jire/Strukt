@@ -32,8 +32,10 @@ buildscript {
 	ext.kotlin_version = '1.4.21'
 	
 	repositories {
-		mavenCentral()
 		jcenter()
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
 	}
 	dependencies {
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -42,8 +44,10 @@ buildscript {
 
 plugins {
 	id "com.jfrog.bintray" version "1.8.5"
+	id "me.champeau.gradle.jmh" version "0.5.2"
 }
 
+apply plugin: 'java'
 apply plugin: 'kotlin'
 
 group project_artifact
@@ -137,10 +141,18 @@ repositories {
 }
 
 dependencies {
-	implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlin_version
+	
 	implementation group: 'net.openhft', name: 'chronicle-core', version: '2.20.125'
+	implementation group: 'net.openhft', name: 'compiler', version: '2.4.1'
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.4.4'
 }
+
+jmh {
+	duplicateClassesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs = ["-Xinline-classes"]

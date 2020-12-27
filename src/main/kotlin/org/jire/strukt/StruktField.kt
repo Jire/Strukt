@@ -1,46 +1,36 @@
 package org.jire.strukt
 
-import it.unimi.dsi.fastutil.longs.Long2BooleanMap
-import it.unimi.dsi.fastutil.longs.Long2BooleanOpenHashMap
-import net.openhft.chronicle.core.OS
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet
+import it.unimi.dsi.fastutil.longs.LongSet
 import kotlin.reflect.KClass
 
 abstract class StruktField<T : Strukt>(
-	val size: Int,
+	val size: Long,
 	val type: KClass<T>
 ) {
 	
 	val index: Int
-	val offset: Int
+	val offset: Long
 	
-	val addressMap: Long2BooleanMap = Long2BooleanOpenHashMap()
+	val initializedAddresses: LongSet = LongOpenHashSet()
 	
 	abstract fun writeDefault(address: Long)
 	
-	fun pointer(address: Long, skipMapped: Boolean = false): Long {
+	fun pointer(address: Long): Long {
 		val pointer = address + offset
-		if (!skipMapped && !addressMap.get(address)) {
-			val pointerAddress = OS.memory().allocate(size.toLong())
-			writeDefault(pointerAddress)
-			
-			OS.memory().writeLong(pointer, pointerAddress)
-			
-			addressMap.put(address, true)
+		val initialized = initializedAddresses.contains(address)
+		if (!initialized) {
+			writeDefault(pointer)
+			initializedAddresses.add(address)
 		}
-		return OS.memory().readLong(pointer)
-	}
-	
-	fun free(address: Long) {
-		val fieldPointer = pointer(address, true)
-		OS.memory().freeMemory(fieldPointer, size.toLong())
-		addressMap.remove(address)
+		return pointer
 	}
 	
 	init {
 		val config = StruktConfig.map[type] ?: StruktConfig(type).apply { StruktConfig.map[type] = this }
 		
 		index = config.nextIndex
-		offset = index * 8
+		offset = config.size
 		
 		config.size += size
 		config.nextIndex++

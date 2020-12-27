@@ -88,9 +88,9 @@ example.free()
 
 Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10.
 
-* **alloc/s:** ~2 million
-* **free/s:** ~2 million
-* **read/s:** ~4 billion
-* **write/s:** ~4 billion
+* **alloc/s:** ~15 million
+* **free/s:** ~25 million
+* **read/s:** ~4.4 billion
+* **write/s:** ~4.4 billion
 
 `Struct`s are completely off-heap, there are absolutely <ins>no heap allocations</ins> beyond the class configurations!

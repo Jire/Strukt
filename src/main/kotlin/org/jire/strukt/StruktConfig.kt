@@ -9,31 +9,32 @@ import kotlin.reflect.KClass
 
 class StruktConfig(val type: KClass<*>) {
 	
-	@Volatile
-	var defaultAddress: Long = -1L
-	
-	var size = 0
+	var size = 0L
 	var nextIndex = 0
 	var addressesSize = 0L
 	
 	val fields: ObjectList<StruktField<*>> = ObjectArrayList()
+	var defaultAddress = -1L
 	lateinit var fieldsArray: Array<StruktField<*>>
 	
-	fun ready() {
+	fun init() {
 		if (defaultAddress == -1L) {
 			fieldsArray = fields.toTypedArray()
 			defaultAddress = alloc(true)
 		}
 	}
 	
-	fun alloc(writeDefault: Boolean = false): Long {
-		val address = OS.memory().allocate(addressesSize)
-		for (field in fieldsArray) {
-			field.pointer(address)
-			if (writeDefault) {
-				field.writeDefault(address)
+	fun alloc(default: Boolean = false): Long {
+		var address = OS.memory().allocate(size)
+		if (default) {
+			defaultAddress = address
+			for (field in fieldsArray) {
+				field.pointer(address)
 			}
+			
+			address = OS.memory().allocate(size)
 		}
+		OS.memory().copyMemory(defaultAddress, address, size)
 		return address
 	}
 	

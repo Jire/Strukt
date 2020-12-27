@@ -1,12 +1,15 @@
 # Strukt
+
 C-style structs on the JVM!
 
-**ZERO** garbage, **ZERO** reflection, **ZERO** maps. **EASY** to use, and with **INCREDIBLE** performance.
+**ZERO** garbage, **ZERO** reflection, **ZERO** code generation.  
+**EASY** to use, and with **INCREDIBLE** [performance](#performance).
 
 [![Build Status](https://travis-ci.com/Jire/Strukt.svg?branch=master)](https://travis-ci.com/Jire/Strukt)
 [![license](https://img.shields.io/github/license/Jire/Strukt.svg)](https://github.com/Jire/Strukt/blob/master/LICENSE.txt)
 
-**WARNING:** This library is more of a proof-of-concept, and is extremely experimental and untested. DO NOT USE IN PRODUCTION!
+**WARNING:** This library is more of a proof-of-concept, and is extremely experimental and untested. DO NOT USE IN
+PRODUCTION!
 
 **New!** Now fully supported across all JVM languages!
 
@@ -19,10 +22,11 @@ compile group: 'org.jire.strukt', name: 'strukt', version: '2.0.0'
 ### Maven
 
 ```xml
+
 <dependency>
-    <groupId>org.jire.strukt</groupId>
-    <artifactId>strukt</artifactId>
-    <version>2.0.0</version>
+	<groupId>org.jire.strukt</groupId>
+	<artifactId>strukt</artifactId>
+	<version>2.0.0</version>
 </dependency>
 ```
 
@@ -30,77 +34,68 @@ compile group: 'org.jire.strukt', name: 'strukt', version: '2.0.0'
 
 ## Declaring a Strukt
 
-The declaration syntax is very similar to regular classes, except:
-
-* You should declare as an `object`, rather than `class`
-* Members should be delegated by a subclass of `StruktMember`
-* You must extend `Strukt`
-
-For example, a Strukt for representing a coordinate might look like:
+First, you need to declare your fields using your `Strukt`'s `::class`'s invoke operator. The value you pass in
+determines the field's type.
 
 ```kotlin
-object Point : Strukt() {
-	var x by 0
-	var y by 0
+val pointX = Point::class(0)
+val pointY = Point::class(0)
+```
+
+The value you pass in will be the default on allocation, in this case it's `0` for both.
+
+Now we need to define our inline `Strukt` class.
+
+```kotlin
+inline class Point(override val address: Long = new<Point>()) : Strukt() {
+	var x
+		get() = pointX(address)
+		set(value) = pointX(address, value)
+	var y
+		get() = pointY(address)
+		set(value) = pointY(address, value)
 }
 ```
 
-There are member delegates built in for all primitives besides _char_.
+Because of the way inlining works, you'll notice that we need to provide virtual fields using our previously defined
+fields.
 
-You can also specify a default value for your member, like so:
+You should also notice the use of `new` as a default value for allocating our address.
 
-```kotlin
-var x by 3 // 3 is the default value
-var y by 5 // 5 is the default value, shown with named arguments
-```
+## Allocating a `Strukt`
 
-## Allocating a reference
-
-The syntax for allocation is a bit different than regular object construction.
-Instead, you use the _invoke_ operator to set values.
+The syntax for allocation is the same as a regular object!
 
 For the above _Point_ example, this might look like:
 
 ```kotlin
-val example = Point { x = 3; y = 5 }
+val example = Point()
 ```
 
-If you wanted to make use of default arguments, you can omit the sets.
+## Accessing fields
+
+Accessing fields is exactly like normal objects!
 
 ```kotlin
-val example = Point {}
+example.y = 123
+println("x: ${example.x}, y: ${example.y}") // 123, 0
 ```
 
-Allocating a reference automatically sets the _reference pointer_. (More on this in the following section.)
+## Freeing a `Strukt`
 
-## Accessing members
-
-Accessing members is the farthest deviation from regular object syntax.
-
-It is important to understand under the hood, _Strukt_ uses something called a _reference pointer_
-to keep track of what reference is currently being worked on.
-
-Switching to a reference pointer is done through the _get_ operator on the _Strukt_'s type.
-
-This might look like this:
+To free any `Strukt`, it's as simple as using `free()`:
 
 ```kotlin
-Point[example]
+example.free()
 ```
 
-In full effect, the _Point_ example might be used like this:
+## Performance
 
-```kotlin
-Point[example].y = 20
-println("x: ${Point[example].x}, y: ${Point[example].y}") // prints "x: 3, y: 20"
-```
+Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10.
 
-Since the switch (_get_) operator switches the _reference pointer_, you can write
-a shorthand version by referring to the type (_Point_ in our example) directly.
+* **alloc/s:** ~2 million
+* **free/s:** ~2 million
+* **read/s:** ~4 billion
+* **write/s:** ~4 billion
 
-This might look like:
-
-```kotlin
-Point[example].x = 123 // `Point[example]` sets the reference pointer...
-println("x: ${Point.x}, y: ${Point.y}") // so `Point.x` and `Point.y` can be referred to directly
-```
+`Struct`s are completely off-heap, there are absolutely <ins>no heap allocations</ins> beyond the class configurations!

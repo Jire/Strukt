@@ -1,7 +1,6 @@
 package org.jire.strukt
 
 import net.openhft.chronicle.core.OS
-import kotlin.reflect.KClass
 
 interface Strukt {
 	
@@ -21,8 +20,4 @@ inline fun <reified T : Strukt> new(): Long {
 	val config = StruktConfig.map[T::class]!!
 	config.ready()
 	return config.alloc()
-}
-
-inline operator fun <reified T : Strukt> KClass<T>.invoke(): T {
-	return TODO()
 }

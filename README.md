@@ -11,7 +11,7 @@ C-style structs on the JVM!
 ### Gradle
 
 ```groovy
-compile group: 'org.jire.strukt', name: 'strukt', version: '2.0.0'
+compile group: 'org.jire.strukt', name: 'strukt', version: '3.0.0'
 ```
 
 ### Maven
@@ -21,7 +21,7 @@ compile group: 'org.jire.strukt', name: 'strukt', version: '2.0.0'
 <dependency>
 	<groupId>org.jire.strukt</groupId>
 	<artifactId>strukt</artifactId>
-	<version>2.0.0</version>
+	<version>3.0.0</version>
 </dependency>
 ```
 
@@ -29,20 +29,27 @@ compile group: 'org.jire.strukt', name: 'strukt', version: '2.0.0'
 
 ## Declaring a Strukt
 
-First, you need to declare your fields using your `Strukt`'s `::class`'s invoke operator. The value you pass in
-determines the field's type.
+First you need to use one of the extension types on your `Strukt`'s `::class` which manages (allocates, frees, etc.)
+your `Strukt` to create a `Strukts`.
 
 ```kotlin
-val pointX = Point::class(0)
-val pointY = Point::class(0)
+val points = Point::class.pointed
 ```
 
-The value you pass in will be the default on allocation, in this case it's `0` for both.
+Then, you need to declare your fields using your `Strukts`s invoke operator.
+
+The value you pass in determines the field's type, and the default value for each allocation -- in this case it's `0`
+for both.
+
+```kotlin
+val pointX = points(0)
+val pointY = points(0)
+```
 
 Now we need to define our inline `Strukt` class.
 
 ```kotlin
-inline class Point(override val address: Long = new<Point>()) : Strukt() {
+inline class Point(override val address: Long = points()) : Strukt {
 	var x
 		get() = pointX(address)
 		set(value) = pointX(address, value)
@@ -55,7 +62,7 @@ inline class Point(override val address: Long = new<Point>()) : Strukt() {
 Because of the way inlining works, you'll notice that we need to provide virtual fields using our previously defined
 fields.
 
-You should also notice the use of `new` as a default value for allocating our address.
+You should also notice the use of `Strukts`.`invoke` as a default value for allocating our address.
 
 ## Allocating a `Strukt`
 
@@ -91,19 +98,19 @@ example.free()
 Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10:
 
 ```Benchmark                        Mode  Cnt          Score   Error  Units
-StruktBenchmark.allocateHeap    thrpt       250234066.353          ops/s
-StruktBenchmark.allocateStrukt  thrpt        15468838.690          ops/s
-StruktBenchmark.readHeap        thrpt       579936956.960          ops/s
-StruktBenchmark.readStrukt      thrpt       296739514.957          ops/s
-StruktBenchmark.writeHeap       thrpt       470629481.952          ops/s
-StruktBenchmark.writeStrukt     thrpt       278779619.634          ops/s
+StruktBenchmark.allocateHeap    thrpt       255688253.582          ops/s
+StruktBenchmark.allocateStrukt  thrpt        18503518.730          ops/s
+StruktBenchmark.readHeap        thrpt       606700018.268          ops/s
+StruktBenchmark.readStrukt      thrpt       297642739.099          ops/s
+StruktBenchmark.writeHeap       thrpt       474856413.211          ops/s
+StruktBenchmark.writeStrukt     thrpt       296077262.619          ops/s
 ```
 
 Results
 
-* ~16x (1600%) slower allocation
-* ~1.96x (196%) slower read
-* ~1.69x (169%) slower write
+* ~14x (1400%) slower allocation
+* ~2x (200%) slower read
+* ~1.6x (160%) slower write
 
 So there is insignificant overhead for read/write, but significant overhead for allocation (but remember, we aren't
 allocating on-heap and there are absolutely <ins>no heap allocations</ins>!)

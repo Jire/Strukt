@@ -1,24 +1,28 @@
 package org.jire.strukt.benchmarks
 
-import org.jire.strukt.invoke
+import org.jire.strukt.pointed
 
 object BenchmarkHelper {
 	
 	@JvmStatic
-	val pointX = StruktPoint::class(0)
+	val points = StruktPoint::class.pointed
 	
 	@JvmStatic
-	val pointY = StruktPoint::class(0)
+	val pointX = points(0)
+	
+	@JvmStatic
+	val pointY = points(0)
 	
 	@JvmStatic
 	val heapPoint = HeapPoint()
 	
+	@JvmStatic
 	val struktPoint = StruktPoint()
 	
 	@JvmStatic
 	fun allocatePoint(): Long {
 		val point = StruktPoint()
-		//point.free()
+		//point.free(points)
 		return point.address
 	}
 	
@@ -47,7 +51,7 @@ object BenchmarkHelper {
 	@JvmStatic
 	fun writePointHeap(): Int {
 		val write = 123
-		BenchmarkHelper.heapPoint.x = write
+		heapPoint.x = write
 		return write
 	}
 	

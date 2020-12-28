@@ -9,6 +9,9 @@ import kotlin.reflect.KClass
 
 inline fun <reified T : Strukt> KClass<T>.dynamic(): Strukts<T> = PointedStrukts(T::class)
 
+inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long): Strukts<T> =
+	FixedStrukts(T::class, capacity, null)
+
 inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long, persistedTo: File? = null): Strukts<T> =
 	FixedStrukts(T::class, capacity, persistedTo)
 

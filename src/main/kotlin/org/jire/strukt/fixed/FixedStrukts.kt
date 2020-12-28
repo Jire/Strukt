@@ -35,7 +35,7 @@ class FixedStrukts<T : Strukt>(
 	}
 	
 	private fun allocateBase() {
-		baseSize = size * capacity
+		baseSize = size * (capacity + 1)
 		baseAddress = if (raf == null)
 			OS.memory().allocate(baseSize)
 		else StruktOS.map(

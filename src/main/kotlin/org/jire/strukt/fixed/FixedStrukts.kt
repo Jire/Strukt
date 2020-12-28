@@ -1,6 +1,7 @@
 package org.jire.strukt.fixed
 
 import net.openhft.chronicle.core.OS
+import net.openhft.chronicle.core.StruktOS
 import org.jire.strukt.*
 import java.io.File
 import java.io.RandomAccessFile
@@ -22,7 +23,7 @@ class FixedStrukts<T : Strukt>(
 		baseSize = size * capacity
 		baseAddress = if (persistedTo == null)
 			OS.memory().allocate(baseSize)
-		else OS.map(
+		else StruktOS.map(
 			RandomAccessFile(persistedTo, "rw").channel,
 			FileChannel.MapMode.READ_WRITE, 0, baseSize
 		)

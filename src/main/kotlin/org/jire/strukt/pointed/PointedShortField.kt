@@ -8,9 +8,9 @@ import kotlin.reflect.KClass
 
 class PointedShortField<T : Strukt>(
 	type: KClass<T>,
-	allocator: Strukts<T>,
+	strukts: Strukts<T>,
 	val default: Short
-) : AbstractPointedStruktField<T>(2, type, allocator), ShortField<T> {
+) : AbstractPointedStruktField<T>(2, type, strukts), ShortField<T> {
 	
 	override fun writeDefault(address: Long) = OS.memory().writeShort(address, default)
 	

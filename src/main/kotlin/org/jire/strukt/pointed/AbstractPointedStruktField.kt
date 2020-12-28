@@ -9,8 +9,8 @@ import kotlin.reflect.KClass
 abstract class AbstractPointedStruktField<T : Strukt>(
 	size: Long,
 	type: KClass<T>,
-	allocator: Strukts<T>
-) : AbstractStruktField<T>(size, type, allocator), PointedStruktField<T> {
+	strukts: Strukts<T>
+) : AbstractStruktField<T>(size, type, strukts), PointedStruktField<T> {
 	
 	override val initializedAddresses = LongOpenHashSet()
 	

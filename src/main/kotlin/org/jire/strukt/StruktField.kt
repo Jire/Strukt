@@ -6,7 +6,7 @@ interface StruktField<T : Strukt> {
 	
 	val size: Long
 	val type: KClass<T>
-	val allocator: Strukts<T>
+	val strukts: Strukts<T>
 	val index: Long
 	val offset: Long
 	

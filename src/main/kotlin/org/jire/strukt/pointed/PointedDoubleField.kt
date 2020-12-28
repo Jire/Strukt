@@ -8,9 +8,9 @@ import kotlin.reflect.KClass
 
 class PointedDoubleField<T : Strukt>(
 	type: KClass<T>,
-	allocator: Strukts<T>,
+	strukts: Strukts<T>,
 	val default: Double
-) : AbstractPointedStruktField<T>(8, type, allocator), DoubleField<T> {
+) : AbstractPointedStruktField<T>(8, type, strukts), DoubleField<T> {
 	
 	override fun writeDefault(address: Long) = OS.memory().writeDouble(address, default)
 	

@@ -8,9 +8,9 @@ import kotlin.reflect.KClass
 
 class PointedLongField<T : Strukt>(
 	type: KClass<T>,
-	allocator: Strukts<T>,
+	strukts: Strukts<T>,
 	val default: Long
-) : AbstractPointedStruktField<T>(8, type, allocator), LongField<T> {
+) : AbstractPointedStruktField<T>(8, type, strukts), LongField<T> {
 	
 	override fun writeDefault(address: Long) = OS.memory().writeLong(address, default)
 	

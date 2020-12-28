@@ -8,9 +8,9 @@ import kotlin.reflect.KClass
 
 class PointedFloatField<T : Strukt>(
 	type: KClass<T>,
-	allocator: Strukts<T>,
+	strukts: Strukts<T>,
 	val default: Float
-) : AbstractPointedStruktField<T>(4, type, allocator), FloatField<T> {
+) : AbstractPointedStruktField<T>(4, type, strukts), FloatField<T> {
 	
 	override fun writeDefault(address: Long) = OS.memory().writeFloat(address, default)
 	

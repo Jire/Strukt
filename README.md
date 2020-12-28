@@ -85,11 +85,14 @@ println("x: ${example.x}, y: ${example.y}") // 0, 123
 
 ## Freeing a `Strukt`
 
-To free any `Strukt`, it's as simple as using `free()`:
+To free any `Strukt`, you can use:
 
 ```kotlin
-example.free()
+points.free(example.address)
 ```
+
+The reason this longer syntax is necessary is because we want to avoid "generic" type use of our inline class, to
+prevent creating boxed instances.
 
 ## Performance
 
@@ -97,20 +100,21 @@ example.free()
 
 Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10:
 
-```Benchmark                        Mode  Cnt          Score   Error  Units
-StruktBenchmark.allocateHeap    thrpt       255688253.582          ops/s
-StruktBenchmark.allocateStrukt  thrpt        18503518.730          ops/s
-StruktBenchmark.readHeap        thrpt       606700018.268          ops/s
-StruktBenchmark.readStrukt      thrpt       297642739.099          ops/s
-StruktBenchmark.writeHeap       thrpt       474856413.211          ops/s
-StruktBenchmark.writeStrukt     thrpt       296077262.619          ops/s
+```Benchmark                               Mode  Cnt          Score   Error  Units
+StruktBenchmark.allocateAndFreeStrukt  thrpt        11644117.580          ops/s
+StruktBenchmark.allocateHeap           thrpt       246406567.735          ops/s
+StruktBenchmark.allocateStrukt         thrpt        17847591.022          ops/s
+StruktBenchmark.readHeap               thrpt       595599999.601          ops/s
+StruktBenchmark.readStrukt             thrpt       294784816.513          ops/s
+StruktBenchmark.writeHeap              thrpt       466761198.451          ops/s
+StruktBenchmark.writeStrukt            thrpt       285848837.752          ops/s
 ```
 
 Results
 
 * ~14x (1400%) slower allocation
 * ~2x (200%) slower read
-* ~1.6x (160%) slower write
+* ~1.7x (170%) slower write
 
 So there is insignificant overhead for read/write, but significant overhead for allocation (but remember, we aren't
 allocating on-heap and there are absolutely <ins>no heap allocations</ins>!)

@@ -16,6 +16,13 @@ open class StruktBenchmark {
 	@Measurement(iterations = 1, time = 200, timeUnit = TimeUnit.MILLISECONDS)
 	@Benchmark
 	@BenchmarkMode(Mode.Throughput)
+	fun allocateAndFreeStrukt() = BenchmarkHelper.allocateAndFreePoint()
+	
+	@Fork(value = 1, warmups = 0)
+	@Warmup(iterations = 1)
+	@Measurement(iterations = 1, time = 200, timeUnit = TimeUnit.MILLISECONDS)
+	@Benchmark
+	@BenchmarkMode(Mode.Throughput)
 	fun allocateStrukt() = BenchmarkHelper.allocatePoint()
 	
 	@Fork(value = 1, warmups = 0)

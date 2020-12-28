@@ -22,8 +22,15 @@ object BenchmarkHelper {
 	@JvmStatic
 	fun allocatePoint(): Long {
 		val point = StruktPoint()
-		//point.free(points)
 		return point.address
+	}
+	
+	@JvmStatic
+	fun allocateAndFreePoint(): Long {
+		val point = StruktPoint()
+		val address = point.address
+		points.free(address)
+		return address
 	}
 	
 	@JvmStatic
@@ -53,13 +60,6 @@ object BenchmarkHelper {
 		val write = 123
 		heapPoint.x = write
 		return write
-	}
-	
-	@JvmStatic
-	fun main(args: Array<String>) {
-		allocatePoint()
-		writePoint()
-		readPoint()
 	}
 	
 }

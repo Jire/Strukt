@@ -19,12 +19,27 @@ class FixedStrukts<T : Strukt>(
 	
 	var offset = 0L
 	
+	val raf = if (persistedTo == null) null else RandomAccessFile(persistedTo, "rw")
+	
+	override fun free() = if (raf == null) {
+		OS.memory().freeMemory(baseAddress, baseSize)
+		true
+	} else {
+		OS.unmap(baseAddress, baseSize)
+		raf.channel.close()
+		raf.close()
+		
+		val file = persistedTo!!
+		file.deleteOnExit()
+		file.delete()
+	}
+	
 	private fun allocateBase() {
 		baseSize = size * capacity
-		baseAddress = if (persistedTo == null)
+		baseAddress = if (raf == null)
 			OS.memory().allocate(baseSize)
 		else StruktOS.map(
-			RandomAccessFile(persistedTo, "rw").channel,
+			raf.channel,
 			FileChannel.MapMode.READ_WRITE, 0, baseSize
 		)
 		for (field in fields) {

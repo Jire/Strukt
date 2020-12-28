@@ -9,6 +9,11 @@ class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts
 	
 	var defaultAddress = UNSET_DEFAULT_ADDRESS
 	
+	override fun free(): Boolean {
+		//OS.memory().freeMemory(defaultAddress, size)
+		return false
+	}
+	
 	override fun allocate(): Long {
 		var address = OS.memory().allocate(size)
 		if (defaultAddress == UNSET_DEFAULT_ADDRESS) {

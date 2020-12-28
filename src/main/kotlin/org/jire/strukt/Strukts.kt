@@ -11,6 +11,8 @@ interface Strukts<T : Strukt> {
 	
 	val fields: MutableList<StruktField<T>>
 	
+	fun free(): Boolean
+	
 	fun allocate(): Long
 	
 	fun free(address: Long): Boolean

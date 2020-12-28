@@ -33,7 +33,22 @@ First you need to use one of the extension types on your `Strukt`'s `::class` wh
 your `Strukt` to create a `Strukts`.
 
 ```kotlin
-val points = Point::class.pointed
+val points = Point::class.dynamic()
+```
+
+You can also create a fixed-size amount of `Strukt`s like so:
+
+```kotlin
+val points = Point::class.fixed(1_000_000)
+```
+
+A fixed `Strukts` can also be persisted to the disk as a memory mapped file!
+This means you can allocate with as much space as disk space, rather than RAM!
+
+For example, the mapped file in this example allows us to work with 256GB of points on a machine with limited RAM!
+
+```kotlin
+val points = Point::class.fixed(32_000_000_000, "points.dat")
 ```
 
 Then, you need to declare your fields using your `Strukts`s invoke operator.

@@ -3,7 +3,6 @@ package org.jire.strukt
 import kotlin.reflect.KClass
 
 abstract class AbstractStruktField<T : Strukt>(
-	final override val size: Long,
 	override val type: KClass<T>,
 	final override val strukts: Strukts<T>
 ) : StruktField<T> {

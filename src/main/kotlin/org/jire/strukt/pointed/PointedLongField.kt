@@ -9,10 +9,8 @@ import kotlin.reflect.KClass
 class PointedLongField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
-	val default: Long
-) : AbstractPointedStruktField<T>(8, type, strukts), LongField<T> {
-	
-	override fun writeDefault(address: Long) = OS.memory().writeLong(address, default)
+	override val default: Long
+) : AbstractPointedStruktField<T>(type, strukts), LongField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readLong(pointer(address))
 	

@@ -7,10 +7,9 @@ import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
 abstract class AbstractPointedStruktField<T : Strukt>(
-	size: Long,
 	type: KClass<T>,
 	strukts: Strukts<T>
-) : AbstractStruktField<T>(size, type, strukts), PointedStruktField<T> {
+) : AbstractStruktField<T>(type, strukts), PointedStruktField<T> {
 	
 	override val initializedAddresses = LongOpenHashSet()
 	

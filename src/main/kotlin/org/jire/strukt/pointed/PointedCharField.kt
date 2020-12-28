@@ -9,10 +9,8 @@ import kotlin.reflect.KClass
 class PointedCharField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
-	val default: Char
-) : AbstractPointedStruktField<T>(2, type, strukts), CharField<T> {
-	
-	override fun writeDefault(address: Long) = OS.memory().writeShort(address, default.toShort())
+	override val default: Char
+) : AbstractPointedStruktField<T>(type, strukts), CharField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readShort(pointer(address)).toChar()
 	

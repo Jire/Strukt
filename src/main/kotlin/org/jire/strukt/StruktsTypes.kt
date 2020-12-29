@@ -2,6 +2,7 @@
 
 package org.jire.strukt
 
+import org.jire.strukt.elastic.ElasticStrukts
 import org.jire.strukt.fixed.FixedStrukts
 import org.jire.strukt.pointed.PointedStrukts
 import java.io.File
@@ -22,3 +23,6 @@ inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long, persistedToPathn
 	)
 
 inline fun <reified T : Strukt> KClass<T>.pointed(): Strukts<T> = PointedStrukts(T::class)
+
+inline fun <reified T : Strukt> KClass<T>.elastic(initialCapacity: Long, growthFactor: Double = 2.5): Strukts<T> =
+	ElasticStrukts(T::class, initialCapacity, growthFactor)

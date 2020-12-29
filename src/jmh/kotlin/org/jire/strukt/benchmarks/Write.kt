@@ -1,5 +1,8 @@
 package org.jire.strukt.benchmarks
 
+import org.jire.strukt.IntField
+import org.jire.strukt.Strukt
+import org.jire.strukt.Strukts
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.TimeUnit
@@ -9,41 +12,13 @@ import java.util.concurrent.TimeUnit
 @Fork(value = 1)
 @Warmup(iterations = 0)
 @Measurement(iterations = 1, time = 300, timeUnit = TimeUnit.MILLISECONDS)
-open class Write {
+abstract class Write<T : Strukt>(val strukts: Strukts<T>, val field: IntField<T>) {
 	
 	val tlr = ThreadLocalRandom.current()
 	
-	val heapPoint = HeapPoint()
+	val address = strukts.allocate()
 	
 	@Benchmark
-	fun heap() {
-		heapPoint.x = tlr.nextInt()
-	}
-	
-	val fixedPoint = FixedPoint()
-	
-	@Benchmark
-	fun fixed() {
-		fixedPoint.x = tlr.nextInt()
-	}
-	
-	val dynamicPoint = PointedPoint()
-	
-	@Benchmark
-	fun dynamic() {
-		dynamicPoint.x = tlr.nextInt()
-	}
-	
-	@Setup
-	fun setup() {
-		heapPoint.x = tlr.nextInt()
-		fixedPoint.x = tlr.nextInt()
-		dynamicPoint.x = tlr.nextInt()
-	}
-	
-	@TearDown
-	fun tearDown() {
-		fixedPoints.free()
-	}
+	fun write() = field(address, tlr.nextInt())
 	
 }

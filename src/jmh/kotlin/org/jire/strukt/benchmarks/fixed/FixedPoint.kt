@@ -1,6 +1,9 @@
-package org.jire.strukt.benchmarks
+package org.jire.strukt.benchmarks.fixed
 
 import org.jire.strukt.Strukt
+import org.jire.strukt.benchmarks.CAPACITY
+import org.jire.strukt.benchmarks.Point
+import org.jire.strukt.benchmarks.VALUE
 import org.jire.strukt.fixed
 
 val fixedPoints = FixedPoint::class.fixed(CAPACITY, "fixedpoints.dat")

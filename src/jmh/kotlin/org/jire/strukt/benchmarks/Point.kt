@@ -1,6 +1,8 @@
 package org.jire.strukt.benchmarks
 
-interface Point {
+import org.jire.strukt.Strukt
+
+interface Point : Strukt {
 	var x: Int
 	var y: Int
 }

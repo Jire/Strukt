@@ -123,15 +123,24 @@ prevent creating boxed instances.
 * **VM options:** <none>
   Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 8 VM parameters on Windows 10:
 
-```Benchmark             Mode  Cnt          Score   Error  Units
-Read.dynamic         thrpt       376061364.670          ops/s
-Read.fixed           thrpt       530082301.425          ops/s
-Read.heap            thrpt       491521774.957          ops/s
-Write.dynamic        thrpt       687123661.473          ops/s
-Write.fixed          thrpt       714089815.377          ops/s
-Write.heap           thrpt       675565858.706          ops/s
-Allocations.dynamic     ss           21153.042          ms/op
-Allocations.fixed       ss            2550.762          ms/op
-Allocations.heap        ss             139.130          ms/op
-Free.dynamic            ss           18087.285          ms/op
+```
+Benchmark                                  Mode  Cnt          Score   Error  Units
+
+HeapRead.read                             thrpt       434769304.174          ops/s
+PointedRead.read                          thrpt       372296437.498          ops/s
+FixedRead.read                            thrpt       438208243.968          ops/s
+ElasticRead.read                          thrpt       418701531.606          ops/s
+
+HeapWrite.write                           thrpt       561591456.153          ops/s
+PointedWrite.write                        thrpt       622915634.215          ops/s
+FixedWrite.write                          thrpt       631370517.687          ops/s
+ElasticWrite.write                        thrpt       600571289.654          ops/s
+
+HeapAllocate.allocate                        ss              96.597          ms/op
+PointedAllocate.allocate                     ss           20556.955          ms/op
+FixedAllocate.allocate                       ss            2436.920          ms/op
+ElasticAllocate.allocate                     ss            1882.812          ms/op
+
+FixedFree.free                               ss            4836.308          ms/op
+ElasticFree.free                             ss            4876.006          ms/op
 ```

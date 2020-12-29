@@ -8,8 +8,10 @@ interface DoubleField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = invoke(address, default)
 	
-	operator fun invoke(address: Long): Double
+	operator fun get(address: Long): Double
+	operator fun set(address: Long, value: Double)
 	
-	operator fun invoke(address: Long, value: Double)
+	operator fun invoke(address: Long) = get(address)
+	operator fun invoke(address: Long, value: Double) = set(address, value)
 	
 }

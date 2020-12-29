@@ -11,8 +11,8 @@ class ElasticBooleanField<T : Strukt>(
 	override val default: Boolean
 ) : AbstractElasticField<T>(type, strukts), BooleanField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readByte(pointer(address)).toInt() != 0
+	override fun get(address: Long) = OS.memory().readByte(pointer(address)).toInt() != 0
 	
-	override fun invoke(address: Long, value: Boolean) = OS.memory().writeByte(pointer(address), if (value) 1 else 0)
+	override fun set(address: Long, value: Boolean) = OS.memory().writeByte(pointer(address), if (value) 1 else 0)
 	
 }

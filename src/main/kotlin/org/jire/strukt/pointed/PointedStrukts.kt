@@ -34,14 +34,14 @@ class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts
 		return true
 	}
 	
-	override fun invoke(default: Byte) = PointedByteField(type, this, default)
-	override fun invoke(default: Short) = PointedShortField(type, this, default)
-	override fun invoke(default: Int) = PointedIntField(type, this, default)
-	override fun invoke(default: Long) = PointedLongField(type, this, default)
-	override fun invoke(default: Float) = PointedFloatField(type, this, default)
-	override fun invoke(default: Double) = PointedDoubleField(type, this, default)
-	override fun invoke(default: Char) = PointedCharField(type, this, default)
-	override fun invoke(default: Boolean) = PointedBooleanField(type, this, default)
+	override fun byteField(default: Byte) = PointedByteField(type, this, default)
+	override fun shortField(default: Short) = PointedShortField(type, this, default)
+	override fun intField(default: Int) = PointedIntField(type, this, default)
+	override fun longField(default: Long) = PointedLongField(type, this, default)
+	override fun floatField(default: Float) = PointedFloatField(type, this, default)
+	override fun doubleField(default: Double) = PointedDoubleField(type, this, default)
+	override fun charField(default: Char) = PointedCharField(type, this, default)
+	override fun booleanField(default: Boolean) = PointedBooleanField(type, this, default)
 	
 	companion object {
 		private const val UNSET_DEFAULT_ADDRESS = -1L

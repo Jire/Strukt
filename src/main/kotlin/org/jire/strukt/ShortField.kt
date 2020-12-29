@@ -8,8 +8,10 @@ interface ShortField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = invoke(address, default)
 	
-	operator fun invoke(address: Long): Short
+	operator fun get(address: Long): Short
+	operator fun set(address: Long, value: Short)
 	
-	operator fun invoke(address: Long, value: Short)
+	operator fun invoke(address: Long) = get(address)
+	operator fun invoke(address: Long, value: Short) = set(address, value)
 	
 }

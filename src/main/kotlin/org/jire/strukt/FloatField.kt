@@ -8,8 +8,10 @@ interface FloatField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = invoke(address, default)
 	
-	operator fun invoke(address: Long): Float
+	operator fun get(address: Long): Float
+	operator fun set(address: Long, value: Float)
 	
-	operator fun invoke(address: Long, value: Float)
+	operator fun invoke(address: Long) = get(address)
+	operator fun invoke(address: Long, value: Float) = set(address, value)
 	
 }

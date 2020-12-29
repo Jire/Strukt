@@ -12,8 +12,8 @@ class PointedDoubleField<T : Strukt>(
 	override val default: Double
 ) : AbstractPointedField<T>(type, strukts), DoubleField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readDouble(pointer(address))
+	override fun get(address: Long) = OS.memory().readDouble(pointer(address))
 	
-	override fun invoke(address: Long, value: Double) = OS.memory().writeDouble(pointer(address), value)
+	override fun set(address: Long, value: Double) = OS.memory().writeDouble(pointer(address), value)
 	
 }

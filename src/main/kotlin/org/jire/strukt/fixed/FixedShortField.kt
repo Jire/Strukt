@@ -11,8 +11,8 @@ class FixedShortField<T : Strukt>(
 	override val default: Short
 ) : AbstractFixedField<T>(type, strukts), ShortField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readShort(pointer(address))
+	override fun get(address: Long) = OS.memory().readShort(pointer(address))
 	
-	override fun invoke(address: Long, value: Short) = OS.memory().writeShort(pointer(address), value)
+	override fun set(address: Long, value: Short) = OS.memory().writeShort(pointer(address), value)
 	
 }

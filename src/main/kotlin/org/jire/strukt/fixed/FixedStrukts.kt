@@ -69,14 +69,14 @@ class FixedStrukts<T : Strukt>(
 	
 	override fun free(address: Long) = freed.add(address)
 	
-	override fun invoke(default: Byte) = FixedByteField(type, this, default)
-	override fun invoke(default: Short) = FixedShortField(type, this, default)
-	override fun invoke(default: Int) = FixedIntField(type, this, default)
-	override fun invoke(default: Long) = FixedLongField(type, this, default)
-	override fun invoke(default: Float) = FixedFloatField(type, this, default)
-	override fun invoke(default: Double) = FixedDoubleField(type, this, default)
-	override fun invoke(default: Char) = FixedCharField(type, this, default)
-	override fun invoke(default: Boolean) = FixedBooleanField(type, this, default)
+	override fun byteField(default: Byte) = FixedByteField(type, this, default)
+	override fun shortField(default: Short) = FixedShortField(type, this, default)
+	override fun intField(default: Int) = FixedIntField(type, this, default)
+	override fun longField(default: Long) = FixedLongField(type, this, default)
+	override fun floatField(default: Float) = FixedFloatField(type, this, default)
+	override fun doubleField(default: Double) = FixedDoubleField(type, this, default)
+	override fun charField(default: Char) = FixedCharField(type, this, default)
+	override fun booleanField(default: Boolean) = FixedBooleanField(type, this, default)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

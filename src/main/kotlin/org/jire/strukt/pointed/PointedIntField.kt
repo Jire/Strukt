@@ -12,8 +12,8 @@ class PointedIntField<T : Strukt>(
 	override val default: Int
 ) : AbstractPointedField<T>(type, strukts), IntField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readInt(pointer(address))
+	override fun get(address: Long) = OS.memory().readInt(pointer(address))
 	
-	override fun invoke(address: Long, value: Int) = OS.memory().writeInt(pointer(address), value)
+	override fun set(address: Long, value: Int) = OS.memory().writeInt(pointer(address), value)
 	
 }

@@ -11,8 +11,8 @@ class ElasticLongField<T : Strukt>(
 	override val default: Long
 ) : AbstractElasticField<T>(type, strukts), LongField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readLong(pointer(address))
+	override fun get(address: Long) = OS.memory().readLong(pointer(address))
 	
-	override fun invoke(address: Long, value: Long) = OS.memory().writeLong(pointer(address), value)
+	override fun set(address: Long, value: Long) = OS.memory().writeLong(pointer(address), value)
 	
 }

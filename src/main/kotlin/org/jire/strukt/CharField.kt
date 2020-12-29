@@ -8,8 +8,10 @@ interface CharField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = invoke(address, default)
 	
-	operator fun invoke(address: Long): Char
+	operator fun get(address: Long): Char
+	operator fun set(address: Long, value: Char)
 	
-	operator fun invoke(address: Long, value: Char)
+	operator fun invoke(address: Long) = get(address)
+	operator fun invoke(address: Long, value: Char) = set(address, value)
 	
 }

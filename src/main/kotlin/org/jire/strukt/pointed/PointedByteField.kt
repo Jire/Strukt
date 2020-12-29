@@ -12,8 +12,8 @@ class PointedByteField<T : Strukt>(
 	override val default: Byte
 ) : AbstractPointedField<T>(type, strukts), ByteField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readByte(pointer(address))
+	override fun get(address: Long) = OS.memory().readByte(pointer(address))
 	
-	override fun invoke(address: Long, value: Byte) = OS.memory().writeByte(pointer(address), value)
+	override fun set(address: Long, value: Byte) = OS.memory().writeByte(pointer(address), value)
 	
 }

@@ -11,8 +11,8 @@ class ElasticFloatField<T : Strukt>(
 	override val default: Float
 ) : AbstractElasticField<T>(type, strukts), FloatField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readFloat(pointer(address))
+	override fun get(address: Long) = OS.memory().readFloat(pointer(address))
 	
-	override fun invoke(address: Long, value: Float) = OS.memory().writeFloat(pointer(address), value)
+	override fun set(address: Long, value: Float) = OS.memory().writeFloat(pointer(address), value)
 	
 }

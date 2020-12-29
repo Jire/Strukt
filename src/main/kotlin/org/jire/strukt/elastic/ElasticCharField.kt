@@ -11,8 +11,8 @@ class ElasticCharField<T : Strukt>(
 	override val default: Char
 ) : AbstractElasticField<T>(type, strukts), CharField<T> {
 	
-	override fun invoke(address: Long) = OS.memory().readShort(pointer(address)).toChar()
+	override fun get(address: Long) = OS.memory().readShort(pointer(address)).toChar()
 	
-	override fun invoke(address: Long, value: Char) = OS.memory().writeShort(pointer(address), value.toShort())
+	override fun set(address: Long, value: Char) = OS.memory().writeShort(pointer(address), value.toShort())
 	
 }

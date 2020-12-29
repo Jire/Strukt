@@ -1,14 +1,17 @@
 package org.jire.strukt.benchmarks
 
 import org.openjdk.jmh.annotations.*
+import java.util.concurrent.ThreadLocalRandom
 import java.util.concurrent.TimeUnit
 
 @BenchmarkMode(Mode.Throughput)
 @State(Scope.Benchmark)
 @Fork(value = 1)
 @Warmup(iterations = 0)
-@Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 1, time = 300, timeUnit = TimeUnit.MILLISECONDS)
 open class Read {
+	
+	val tlr = ThreadLocalRandom.current()
 	
 	val heapPoint = HeapPoint()
 	
@@ -27,6 +30,9 @@ open class Read {
 	
 	@Setup
 	fun setup() {
+		heapPoint.x = tlr.nextInt()
+		fixedPoint.x = tlr.nextInt()
+		dynamicPoint.x = tlr.nextInt()
 	}
 	
 	@TearDown

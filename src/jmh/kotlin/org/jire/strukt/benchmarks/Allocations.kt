@@ -37,7 +37,11 @@ open class Allocations {
 	
 	@Benchmark
 	fun dynamicStrukt() {
-		allocDynamicStrukt()
+		allocFixedStrukt()
+		
+		for (i in 2..CAPACITY) allocDynamicStrukt()
+		
+		fixedPoints.free()
 	}
 	
 }

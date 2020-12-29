@@ -5,8 +5,8 @@ import org.jire.strukt.fixed
 
 val fixedPoints = FixedPoint::class.fixed(CAPACITY, "fixedpoints.dat")
 
-val fixedPointX = fixedPoints(0)
-val fixedPointY = fixedPoints(0)
+val fixedPointX = fixedPoints(VALUE)
+val fixedPointY = fixedPoints(VALUE)
 
 inline class FixedPoint(override val address: Long = fixedPoints()) : Point, Strukt {
 	override var x: Int

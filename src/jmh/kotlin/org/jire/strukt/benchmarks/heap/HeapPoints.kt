@@ -28,9 +28,7 @@ object HeapPoints : AbstractStrukts<HeapPoint>() {
 		TODO("Not yet implemented")
 	}
 	
-	override fun intField(default: Int): IntField<HeapPoint> {
-		TODO("Not yet implemented")
-	}
+	override fun intField(default: Int) = HeapIntField(VALUE, HeapPoint())
 	
 	override fun longField(default: Long): LongField<HeapPoint> {
 		TODO("Not yet implemented")

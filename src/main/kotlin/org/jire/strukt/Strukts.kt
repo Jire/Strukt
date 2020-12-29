@@ -16,7 +16,7 @@ interface Strukts<T : Strukt> {
 	fun allocate(): Long
 	
 	fun free(address: Long): Boolean
-	fun <T : Strukt> free(strukt: T) = free(strukt.address)
+	fun free(strukt: T) = free(strukt.address)
 	
 	operator fun invoke() = allocate()
 	

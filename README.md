@@ -113,16 +113,25 @@ prevent creating boxed instances.
 
 **Benchmark sources:** https://github.com/Jire/Strukt/tree/master/src/jmh/kotlin/org/jire/strukt/benchmarks
 
-Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10:
+#### Test Bench
 
-```Benchmark                   Mode  Cnt          Score   Error  Units
-Read.dynamic               thrpt       407545908.372          ops/s
-Read.fixed                 thrpt       495456849.025          ops/s
-Read.heap                  thrpt       497798605.211          ops/s
-Write.dynamic              thrpt       680535277.035          ops/s
-Write.fixed                thrpt       713652155.227          ops/s
-Write.heap                 thrpt       674006509.732          ops/s
-Allocations.dynamicStrukt     ss           20846.982          ms/op
-Allocations.fixedStrukt       ss            2467.378          ms/op
-Allocations.heap              ss             152.636          ms/op
+* **OS:** Windows 10 Pro 64-bit (10.0, Build 19042)
+* **CPU:** Intel(R) Core(TM) i7-6700K CPU @ 4.60GHz (8 CPUs), ~4.6GHz
+* **RAM:** 2x 16GB DDR4-2100MHz
+* **JMH version:** 1.25
+* **VM version:** JDK 1.8.0_271, Java HotSpot(TM) 64-Bit Server VM, 25.271-b09
+* **VM options:** <none>
+  Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 8 VM parameters on Windows 10:
+
+```Benchmark             Mode  Cnt          Score   Error  Units
+Read.dynamic         thrpt       376061364.670          ops/s
+Read.fixed           thrpt       530082301.425          ops/s
+Read.heap            thrpt       491521774.957          ops/s
+Write.dynamic        thrpt       687123661.473          ops/s
+Write.fixed          thrpt       714089815.377          ops/s
+Write.heap           thrpt       675565858.706          ops/s
+Allocations.dynamic     ss           21153.042          ms/op
+Allocations.fixed       ss            2550.762          ms/op
+Allocations.heap        ss             139.130          ms/op
+Free.dynamic            ss           18087.285          ms/op
 ```

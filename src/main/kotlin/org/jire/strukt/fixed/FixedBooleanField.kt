@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedBooleanField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Boolean
-) : AbstractFixedStruktField<T>(type, strukts), BooleanField<T> {
+) : AbstractFixedField<T>(type, strukts), BooleanField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readByte(pointer(address)).toInt() != 0
 	

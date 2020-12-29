@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedIntField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Int
-) : AbstractFixedStruktField<T>(type, strukts), IntField<T> {
+) : AbstractFixedField<T>(type, strukts), IntField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readInt(pointer(address))
 	

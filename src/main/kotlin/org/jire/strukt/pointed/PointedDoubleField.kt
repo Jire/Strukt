@@ -10,7 +10,7 @@ class PointedDoubleField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Double
-) : AbstractPointedStruktField<T>(type, strukts), DoubleField<T> {
+) : AbstractPointedField<T>(type, strukts), DoubleField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readDouble(pointer(address))
 	

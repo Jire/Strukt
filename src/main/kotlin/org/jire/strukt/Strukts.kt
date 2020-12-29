@@ -9,7 +9,7 @@ interface Strukts<T : Strukt> {
 	var size: Long
 	var nextIndex: Long
 	
-	val fields: MutableList<StruktField<T>>
+	val fields: MutableList<Field<T>>
 	
 	fun free(): Boolean
 	

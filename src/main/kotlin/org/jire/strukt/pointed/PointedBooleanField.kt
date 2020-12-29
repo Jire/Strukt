@@ -10,7 +10,7 @@ class PointedBooleanField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Boolean
-) : AbstractPointedStruktField<T>(type, strukts), BooleanField<T> {
+) : AbstractPointedField<T>(type, strukts), BooleanField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readByte(pointer(address)).toInt() != 0
 	

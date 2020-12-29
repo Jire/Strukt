@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface IntField<T : Strukt> : StruktField<T> {
+interface IntField<T : Strukt> : Field<T> {
 	
 	override val size get() = 4L
 	

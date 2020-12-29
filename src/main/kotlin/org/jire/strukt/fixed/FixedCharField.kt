@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedCharField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Char
-) : AbstractFixedStruktField<T>(type, strukts), CharField<T> {
+) : AbstractFixedField<T>(type, strukts), CharField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readShort(pointer(address)).toChar()
 	

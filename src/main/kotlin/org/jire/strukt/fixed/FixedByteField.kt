@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedByteField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Byte
-) : AbstractFixedStruktField<T>(type, strukts), ByteField<T> {
+) : AbstractFixedField<T>(type, strukts), ByteField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readByte(pointer(address))
 	

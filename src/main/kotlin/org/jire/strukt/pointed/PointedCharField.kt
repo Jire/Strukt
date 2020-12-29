@@ -10,7 +10,7 @@ class PointedCharField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Char
-) : AbstractPointedStruktField<T>(type, strukts), CharField<T> {
+) : AbstractPointedField<T>(type, strukts), CharField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readShort(pointer(address)).toChar()
 	

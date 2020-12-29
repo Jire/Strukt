@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface BooleanField<T : Strukt> : StruktField<T> {
+interface BooleanField<T : Strukt> : Field<T> {
 	
 	override val size get() = 1L
 	

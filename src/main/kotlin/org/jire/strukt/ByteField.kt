@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface ByteField<T : Strukt> : StruktField<T> {
+interface ByteField<T : Strukt> : Field<T> {
 	
 	override val size get() = 1L
 	

@@ -1,11 +1,11 @@
 package org.jire.strukt.fixed
 
-import org.jire.strukt.AbstractStruktField
+import org.jire.strukt.AbstractField
 import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-abstract class AbstractFixedStruktField<T : Strukt>(
+abstract class AbstractFixedField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>
-) : AbstractStruktField<T>(type, strukts), FixedStruktField<T>
+) : AbstractField<T>(type, strukts), FixedField<T>

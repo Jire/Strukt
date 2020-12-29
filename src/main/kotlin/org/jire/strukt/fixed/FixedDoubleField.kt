@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedDoubleField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Double
-) : AbstractFixedStruktField<T>(type, strukts), DoubleField<T> {
+) : AbstractFixedField<T>(type, strukts), DoubleField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readDouble(pointer(address))
 	

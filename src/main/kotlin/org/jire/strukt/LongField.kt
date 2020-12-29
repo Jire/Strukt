@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface LongField<T : Strukt> : StruktField<T> {
+interface LongField<T : Strukt> : Field<T> {
 	
 	override val size get() = 8L
 	

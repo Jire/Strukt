@@ -10,7 +10,7 @@ class PointedIntField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Int
-) : AbstractPointedStruktField<T>(type, strukts), IntField<T> {
+) : AbstractPointedField<T>(type, strukts), IntField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readInt(pointer(address))
 	

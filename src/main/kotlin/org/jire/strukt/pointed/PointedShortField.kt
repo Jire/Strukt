@@ -10,7 +10,7 @@ class PointedShortField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Short
-) : AbstractPointedStruktField<T>(type, strukts), ShortField<T> {
+) : AbstractPointedField<T>(type, strukts), ShortField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readShort(pointer(address))
 	

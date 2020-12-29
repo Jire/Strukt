@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface ShortField<T : Strukt> : StruktField<T> {
+interface ShortField<T : Strukt> : Field<T> {
 	
 	override val size get() = 2L
 	

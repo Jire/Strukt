@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedLongField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Long
-) : AbstractFixedStruktField<T>(type, strukts), LongField<T> {
+) : AbstractFixedField<T>(type, strukts), LongField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readLong(pointer(address))
 	

@@ -2,7 +2,7 @@ package org.jire.strukt
 
 import kotlin.reflect.KClass
 
-interface StruktField<T : Strukt> {
+interface Field<T : Strukt> {
 	
 	val size: Long
 	val type: KClass<T>

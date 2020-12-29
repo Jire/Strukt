@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 class FixedShortField<T : Strukt>(
 	type: KClass<T>, strukts: Strukts<T>,
 	override val default: Short
-) : AbstractFixedStruktField<T>(type, strukts), ShortField<T> {
+) : AbstractFixedField<T>(type, strukts), ShortField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readShort(pointer(address))
 	

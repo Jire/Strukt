@@ -1,9 +1,9 @@
 package org.jire.strukt.pointed
 
+import org.jire.strukt.Field
 import org.jire.strukt.Strukt
-import org.jire.strukt.StruktField
 
-interface PointedStruktField<T : Strukt> : StruktField<T> {
+interface PointedField<T : Strukt> : Field<T> {
 	
 	var defaultPointer: Long
 	

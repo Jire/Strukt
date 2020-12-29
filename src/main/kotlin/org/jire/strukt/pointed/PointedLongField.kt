@@ -10,7 +10,7 @@ class PointedLongField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Long
-) : AbstractPointedStruktField<T>(type, strukts), LongField<T> {
+) : AbstractPointedField<T>(type, strukts), LongField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readLong(pointer(address))
 	

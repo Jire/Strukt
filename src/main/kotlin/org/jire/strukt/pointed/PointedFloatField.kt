@@ -10,7 +10,7 @@ class PointedFloatField<T : Strukt>(
 	type: KClass<T>,
 	strukts: Strukts<T>,
 	override val default: Float
-) : AbstractPointedStruktField<T>(type, strukts), FloatField<T> {
+) : AbstractPointedField<T>(type, strukts), FloatField<T> {
 	
 	override fun invoke(address: Long) = OS.memory().readFloat(pointer(address))
 	

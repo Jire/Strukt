@@ -19,7 +19,7 @@ class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts
 		if (defaultAddress == UNSET_DEFAULT_ADDRESS) {
 			defaultAddress = address
 			for (field in fields) {
-				field as AbstractPointedStruktField<T>
+				field as AbstractPointedField<T>
 				field.pointer(address)
 			}
 			

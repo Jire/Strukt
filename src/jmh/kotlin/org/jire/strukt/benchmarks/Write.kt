@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 @BenchmarkMode(Mode.Throughput)
 @State(Scope.Benchmark)
-@Fork(value = 1)
+@Fork(value = 1, jvmArgsAppend = ["-Xmx64m", "-verbose:gc", "-ea"])
 @Warmup(iterations = 0)
 @Measurement(iterations = 1, time = 300, timeUnit = TimeUnit.MILLISECONDS)
 abstract class Write<T : Strukt>(val strukts: Strukts<T>, val field: IntField<T>) {

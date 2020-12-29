@@ -3,9 +3,9 @@ package org.jire.strukt.benchmarks.pointed
 import org.jire.strukt.Strukt
 import org.jire.strukt.benchmarks.Point
 import org.jire.strukt.benchmarks.VALUE
-import org.jire.strukt.dynamic
+import org.jire.strukt.pointed
 
-val pointedPoints = PointedPoint::class.dynamic()
+val pointedPoints = PointedPoint::class.pointed()
 
 val pointedPointX = pointedPoints(VALUE)
 val pointedPointY = pointedPoints(VALUE)

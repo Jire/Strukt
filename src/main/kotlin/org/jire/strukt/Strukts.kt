@@ -32,6 +32,7 @@ interface Strukts<T : Strukt> {
 	fun doubleField(default: Double): DoubleField<T>
 	fun charField(default: Char): CharField<T>
 	fun booleanField(default: Boolean): BooleanField<T>
+	fun <E : Enum<E>> enumField(values: Array<E>, default: E): EnumField<T, E>
 	
 	operator fun invoke(default: Byte) = byteField(default)
 	operator fun invoke(default: Short) = shortField(default)
@@ -41,6 +42,7 @@ interface Strukts<T : Strukt> {
 	operator fun invoke(default: Double) = doubleField(default)
 	operator fun invoke(default: Char) = charField(default)
 	operator fun invoke(default: Boolean) = booleanField(default)
+	operator fun <E : Enum<E>> invoke(values: Array<E>, default: E) = enumField(values, default)
 	
 	companion object {
 		

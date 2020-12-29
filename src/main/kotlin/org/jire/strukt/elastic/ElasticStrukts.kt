@@ -61,6 +61,7 @@ class ElasticStrukts<T : Strukt>(
 	override fun doubleField(default: Double) = ElasticDoubleField(type, this, default)
 	override fun charField(default: Char) = ElasticCharField(type, this, default)
 	override fun booleanField(default: Boolean) = ElasticBooleanField(type, this, default)
+	override fun <E : Enum<E>> enumField(values: Array<E>, default: E) = ElasticEnumField(type, this, values, default)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

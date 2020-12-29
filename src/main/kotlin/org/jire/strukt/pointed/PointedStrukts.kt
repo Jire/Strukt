@@ -42,6 +42,7 @@ class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts
 	override fun doubleField(default: Double) = PointedDoubleField(type, this, default)
 	override fun charField(default: Char) = PointedCharField(type, this, default)
 	override fun booleanField(default: Boolean) = PointedBooleanField(type, this, default)
+	override fun <E : Enum<E>> enumField(values: Array<E>, default: E) = PointedEnumField(type, this, values, default)
 	
 	companion object {
 		private const val UNSET_DEFAULT_ADDRESS = -1L

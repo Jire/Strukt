@@ -77,6 +77,7 @@ class FixedStrukts<T : Strukt>(
 	override fun doubleField(default: Double) = FixedDoubleField(type, this, default)
 	override fun charField(default: Char) = FixedCharField(type, this, default)
 	override fun booleanField(default: Boolean) = FixedBooleanField(type, this, default)
+	override fun <E : Enum<E>> enumField(values: Array<E>, default: E) = FixedEnumField(type, this, values, default)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

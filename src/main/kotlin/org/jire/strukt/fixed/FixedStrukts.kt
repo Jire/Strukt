@@ -2,7 +2,8 @@ package org.jire.strukt.fixed
 
 import net.openhft.chronicle.core.OS
 import net.openhft.chronicle.core.StruktOS
-import org.jire.strukt.*
+import org.jire.strukt.AbstractStrukts
+import org.jire.strukt.Strukt
 import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
@@ -64,35 +65,14 @@ class FixedStrukts<T : Strukt>(
 		return true
 	}
 	
-	override fun invoke(default: Byte): ByteField<T> {
-		TODO("Not yet implemented")
-	}
-	
-	override fun invoke(default: Short): ShortField<T> {
-		TODO("Not yet implemented")
-	}
-	
+	override fun invoke(default: Byte) = FixedByteField(type, this, default)
+	override fun invoke(default: Short) = FixedShortField(type, this, default)
 	override fun invoke(default: Int) = FixedIntField(type, this, default)
-	
-	override fun invoke(default: Long): LongField<T> {
-		TODO("Not yet implemented")
-	}
-	
-	override fun invoke(default: Float): FloatField<T> {
-		TODO("Not yet implemented")
-	}
-	
-	override fun invoke(default: Double): DoubleField<T> {
-		TODO("Not yet implemented")
-	}
-	
-	override fun invoke(default: Char): CharField<T> {
-		TODO("Not yet implemented")
-	}
-	
-	override fun invoke(default: Boolean): BooleanField<T> {
-		TODO("Not yet implemented")
-	}
+	override fun invoke(default: Long) = FixedLongField(type, this, default)
+	override fun invoke(default: Float) = FixedFloatField(type, this, default)
+	override fun invoke(default: Double) = FixedDoubleField(type, this, default)
+	override fun invoke(default: Char) = FixedCharField(type, this, default)
+	override fun invoke(default: Boolean) = FixedBooleanField(type, this, default)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

@@ -6,7 +6,7 @@ interface LongField<T : Strukt> : Field<T> {
 	
 	val default: Long
 	
-	override fun writeDefault(address: Long) = invoke(address, default)
+	override fun writeDefault(address: Long) = set(address, default)
 	
 	operator fun get(address: Long): Long
 	operator fun set(address: Long, value: Long)

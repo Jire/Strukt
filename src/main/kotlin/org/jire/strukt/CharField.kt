@@ -6,7 +6,7 @@ interface CharField<T : Strukt> : Field<T> {
 	
 	val default: Char
 	
-	override fun writeDefault(address: Long) = invoke(address, default)
+	override fun writeDefault(address: Long) = set(address, default)
 	
 	operator fun get(address: Long): Char
 	operator fun set(address: Long, value: Char)

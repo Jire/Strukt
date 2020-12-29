@@ -6,7 +6,7 @@ interface BooleanField<T : Strukt> : Field<T> {
 	
 	val default: Boolean
 	
-	override fun writeDefault(address: Long) = invoke(address, default)
+	override fun writeDefault(address: Long) = set(address, default)
 	
 	operator fun get(address: Long): Boolean
 	operator fun set(address: Long, value: Boolean)

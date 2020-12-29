@@ -6,7 +6,7 @@ interface DoubleField<T : Strukt> : Field<T> {
 	
 	val default: Double
 	
-	override fun writeDefault(address: Long) = invoke(address, default)
+	override fun writeDefault(address: Long) = set(address, default)
 	
 	operator fun get(address: Long): Double
 	operator fun set(address: Long, value: Double)

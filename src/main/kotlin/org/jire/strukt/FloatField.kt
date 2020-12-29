@@ -6,7 +6,7 @@ interface FloatField<T : Strukt> : Field<T> {
 	
 	val default: Float
 	
-	override fun writeDefault(address: Long) = invoke(address, default)
+	override fun writeDefault(address: Long) = set(address, default)
 	
 	operator fun get(address: Long): Float
 	operator fun set(address: Long, value: Float)

@@ -6,7 +6,7 @@ interface ByteField<T : Strukt> : Field<T> {
 	
 	val default: Byte
 	
-	override fun writeDefault(address: Long) = invoke(address, default)
+	override fun writeDefault(address: Long) = set(address, default)
 	
 	operator fun get(address: Long): Byte
 	operator fun set(address: Long, value: Byte)

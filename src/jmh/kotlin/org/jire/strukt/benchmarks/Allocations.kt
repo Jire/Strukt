@@ -15,31 +15,31 @@ open class Allocations {
 	
 	@Benchmark
 	fun heap() {
-		allocFixedStrukt() // need to allocate one
+		allocFixed() // need to allocate one
 		
 		for (i in 2..CAPACITY) allocHeap()
 		
 		fixedPoints.free() // ...so that we can free
 	}
 	
-	private fun allocFixedStrukt() = FixedPoint().address
+	private fun allocFixed() = FixedPoint().address
 	
 	@Benchmark
-	fun fixedStrukt() {
-		allocFixedStrukt()
+	fun fixed() {
+		allocFixed()
 		
-		for (i in 2..CAPACITY) allocFixedStrukt()
+		for (i in 2..CAPACITY) allocFixed()
 		
 		fixedPoints.free()
 	}
 	
-	private fun allocDynamicStrukt() = PointedPoint().address
+	private fun allocDynamic() = PointedPoint().address
 	
 	@Benchmark
-	fun dynamicStrukt() {
-		allocFixedStrukt()
+	fun dynamic() {
+		allocFixed()
 		
-		for (i in 2..CAPACITY) allocDynamicStrukt()
+		for (i in 2..CAPACITY) allocDynamic()
 		
 		fixedPoints.free()
 	}

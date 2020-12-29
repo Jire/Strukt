@@ -43,7 +43,6 @@ class ElasticStrukts<T : Strukt>(
 		}
 		if (offset >= baseSize) {
 			expandBase()
-			println("expanded base!")
 			return allocate()
 		}
 		val address = baseAddress + offset

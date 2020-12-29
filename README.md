@@ -5,53 +5,48 @@ C-style structs on the JVM!
 **ZERO** garbage, **ZERO** reflection, **ZERO** code generation.  
 **EASY** to use, and with **INCREDIBLE** [performance](#performance).
 
+[![Maven Central](https://img.shields.io/maven-central/v/org.jire.strukt/strukt.svg)](https://search.maven.org/search?q=g:org.jire.strukt)
 [![Build Status](https://travis-ci.com/Jire/Strukt.svg?branch=master)](https://travis-ci.com/Jire/Strukt)
 [![license](https://img.shields.io/github/license/Jire/Strukt.svg)](https://github.com/Jire/Strukt/blob/master/LICENSE.txt)
 
-### Gradle
-
-```groovy
-compile group: 'org.jire.strukt', name: 'strukt', version: '3.0.0'
-```
-
-### Maven
-
-```xml
-
-<dependency>
-	<groupId>org.jire.strukt</groupId>
-	<artifactId>strukt</artifactId>
-	<version>3.0.0</version>
-</dependency>
-```
-
 ---
 
-## Declaring a Strukt
+## Declaring `Strukts` to manage your `Strukt`
 
 First you need to use one of the extension types on your `Strukt`'s `::class` which manages (allocates, frees, etc.)
 your `Strukt` to create a `Strukts`.
 
-```kotlin
-val points = Point::class.dynamic()
-```
-
-You can also create a fixed-size amount of `Strukt`s like so:
+**Fixed:** uses a single memory allocation and addresses are given with an offset. This is the fastest option available.
 
 ```kotlin
-val points = Point::class.fixed(1_000_000)
+val points = Point::class.fixed(capacity)
 ```
 
-A fixed `Strukts` can also be persisted to the disk as a memory mapped file!
-This means you can allocate with as much space as disk space, rather than RAM!
-
-For example, the mapped file in this example allows us to work with 256GB of points on a machine with limited RAM!
+**Persisted fixed:** same as above, except uses a memory-mapped file rather than system memory and persists to disk.
+This means you can allocate with as much space as disk space, rather than RAM. There is practically no performance
+penalty for using this over `.fixed(capacity)`!
 
 ```kotlin
-val points = Point::class.fixed(32_000_000_000, "points.dat")
+val points = Point::class.fixed(capacity, persistedTo: File/ String)
 ```
 
-Then, you need to declare your fields using your `Strukts`s invoke operator.
+**Elastic:** similar to `.fixed(capacity)` except will dynamically resize, and has a performance penalty of a few
+operations for that capability.
+
+```kotlin
+val points = Point::class.elastic(initialCapacity = 1024, growthFactor = 2.0)
+```
+
+**Pointed:** uses a laid-out pointer system, this option supports unlimited allocations without any "resizing"
+necessary. Note: Since a memory allocation and a memory copy is necessary, this has slow allocations.
+
+```kotlin
+val points = Point::class.pointed()
+```
+
+## Declaring fields of your `Strukt`
+
+You need to declare your fields using your `Strukts`s invoke operator.
 
 The value you pass in determines the field's type, and the default value for each allocation -- in this case it's `0`
 for both.
@@ -61,7 +56,7 @@ val pointX = points(0)
 val pointY = points(0)
 ```
 
-Now we need to define our inline `Strukt` class.
+## Declaring your inline `Strukt`
 
 ```kotlin
 inline class Point(override val address: Long = points()) : Strukt {

@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 @State(Scope.Benchmark)
 @Fork(value = 1)
 @Warmup(iterations = 0)
-@Measurement(iterations = 1, time = 200, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 open class Write {
 	
 	val heapPoint = HeapPoint()
@@ -28,6 +28,11 @@ open class Write {
 	
 	@Benchmark
 	fun dynamic() {
+		dynamicPoint.x = 123
+	}
+	
+	@Setup
+	fun setup() {
 		dynamicPoint.x = 123
 	}
 	

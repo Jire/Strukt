@@ -116,13 +116,13 @@ prevent creating boxed instances.
 Tested on an Intel i7 6700K @ 4.6GHz with default Oracle JDK 15 VM parameters on Windows 10:
 
 ```Benchmark                   Mode  Cnt           Score   Error  Units
-Read.dynamic               thrpt       2240480052.572          ops/s
-Read.fixed                 thrpt       2210184723.815          ops/s
-Read.heap                  thrpt       2973032782.251          ops/s
-Write.dynamic              thrpt       1788241968.846          ops/s
-Write.fixed                thrpt       1976772320.155          ops/s
-Write.heap                 thrpt       2264473541.725          ops/s
-Allocations.dynamicStrukt     ss               42.130          ms/op
-Allocations.fixedStrukt       ss             2537.961          ms/op
-Allocations.heap              ss              161.395          ms/op
+Read.dynamic               thrpt        410966080.426          ops/s
+Read.fixed                 thrpt        535086797.145          ops/s
+Read.heap                  thrpt        502895128.111          ops/s
+Write.dynamic              thrpt       1817756040.292          ops/s
+Write.fixed                thrpt       2025296715.491          ops/s
+Write.heap                 thrpt       2277958126.036          ops/s
+Allocations.dynamicStrukt     ss               41.202          ms/op
+Allocations.fixedStrukt       ss             2488.136          ms/op
+Allocations.heap              ss              138.258          ms/op
 ```

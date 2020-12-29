@@ -7,33 +7,26 @@ import java.util.concurrent.TimeUnit
 @State(Scope.Benchmark)
 @Fork(value = 1)
 @Warmup(iterations = 0)
-@Measurement(iterations = 1, time = 200, timeUnit = TimeUnit.MILLISECONDS)
+@Measurement(iterations = 1, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
 open class Read {
 	
 	val heapPoint = HeapPoint()
 	
 	@Benchmark
-	fun heap() {
-		heapPoint.x
-	}
+	fun heap() = heapPoint.x
 	
 	val fixedPoint = FixedPoint()
 	
 	@Benchmark
-	fun fixed() {
-		fixedPoint.x
-	}
+	fun fixed() = fixedPoint.x
 	
 	val dynamicPoint = PointedPoint()
 	
 	@Benchmark
-	fun dynamic() {
-		dynamicPoint.x
-	}
+	fun dynamic() = dynamicPoint.x
 	
 	@Setup
 	fun setup() {
-		fixedPoint.x = 123 // needs to initialize it otherwise the memory isn't there
 	}
 	
 	@TearDown

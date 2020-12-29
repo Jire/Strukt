@@ -53,6 +53,9 @@ apply plugin: 'kotlin'
 group project_artifact
 version project_version
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
 allprojects {
 	repositories {
 		jcenter()
@@ -153,8 +156,17 @@ jmh {
 }
 
 compileKotlin {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+	
 	kotlinOptions {
 		freeCompilerArgs = ["-Xinline-classes"]
+		jvmTarget = JavaVersion.VERSION_1_8.toString()
+	}
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+	kotlinOptions {
 		jvmTarget = "1.8"
 	}
 }

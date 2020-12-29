@@ -11,9 +11,9 @@ class HeapIntField(
 	
 	override val size = 4L
 	
-	override fun invoke(address: Long) = heapPoint.x
+	override fun get(address: Long) = heapPoint.x
 	
-	override fun invoke(address: Long, value: Int) {
+	override fun set(address: Long, value: Int) {
 		heapPoint.x = value
 	}
 	

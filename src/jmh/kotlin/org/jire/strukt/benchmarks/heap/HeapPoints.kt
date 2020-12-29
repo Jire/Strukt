@@ -20,33 +20,39 @@ object HeapPoints : AbstractStrukts<HeapPoint>() {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Byte): ByteField<HeapPoint> {
+	override fun byteField(default: Byte): ByteField<HeapPoint> {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Short): ShortField<HeapPoint> {
+	override fun shortField(default: Short): ShortField<HeapPoint> {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Int) = HeapIntField(default, HeapPoint())
-	
-	override fun invoke(default: Long): LongField<HeapPoint> {
+	override fun intField(default: Int): IntField<HeapPoint> {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Float): FloatField<HeapPoint> {
+	override fun longField(default: Long): LongField<HeapPoint> {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Double): DoubleField<HeapPoint> {
+	override fun floatField(default: Float): FloatField<HeapPoint> {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Char): CharField<HeapPoint> {
+	override fun doubleField(default: Double): DoubleField<HeapPoint> {
 		TODO("Not yet implemented")
 	}
 	
-	override fun invoke(default: Boolean): BooleanField<HeapPoint> {
+	override fun charField(default: Char): CharField<HeapPoint> {
+		TODO("Not yet implemented")
+	}
+	
+	override fun booleanField(default: Boolean): BooleanField<HeapPoint> {
+		TODO("Not yet implemented")
+	}
+	
+	override fun <E : Enum<E>> enumField(values: Array<E>, default: E): EnumField<HeapPoint, E> {
 		TODO("Not yet implemented")
 	}
 	

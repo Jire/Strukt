@@ -8,6 +8,7 @@ import org.jire.strukt.pointed.PointedStrukts
 import java.io.File
 import kotlin.reflect.KClass
 
+@Deprecated("Use the type you want instead of this. Will be removed in future.", ReplaceWith("pointed()"))
 inline fun <reified T : Strukt> KClass<T>.dynamic(): Strukts<T> = pointed() // default
 
 inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long): Strukts<T> =

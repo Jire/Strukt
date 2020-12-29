@@ -11,10 +11,7 @@ abstract class AbstractField<T : Strukt>(
 	override val offset: Long = strukts.size
 	
 	init {
-		strukts.size += size
-		strukts.nextIndex++
-		//strukts.addressesSize += 8
-		strukts.fields.add(this)
+		strukts.addField(this)
 	}
 	
 }

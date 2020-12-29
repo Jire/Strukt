@@ -9,4 +9,10 @@ abstract class AbstractStrukts<T : Strukt> : Strukts<T> {
 	
 	override val fields = ObjectArrayList<Field<T>>()
 	
+	override fun addField(field: Field<T>) {
+		size += field.size
+		nextIndex++
+		fields.add(field)
+	}
+	
 }

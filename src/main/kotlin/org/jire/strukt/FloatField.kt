@@ -8,6 +8,9 @@ interface FloatField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = set(address, default)
 	
+	override fun getBoxed(address: Long) = get(address)
+	override fun setBoxed(address: Long, value: Any?) = set(address, value as Float)
+	
 	operator fun get(address: Long): Float
 	operator fun set(address: Long, value: Float)
 	

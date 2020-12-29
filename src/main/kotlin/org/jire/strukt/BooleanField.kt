@@ -8,6 +8,9 @@ interface BooleanField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = set(address, default)
 	
+	override fun getBoxed(address: Long) = get(address)
+	override fun setBoxed(address: Long, value: Any?) = set(address, value as Boolean)
+	
 	operator fun get(address: Long): Boolean
 	operator fun set(address: Long, value: Boolean)
 	

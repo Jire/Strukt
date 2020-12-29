@@ -46,6 +46,9 @@ interface Strukts<T : Strukt> {
 	operator fun invoke(default: Boolean) = booleanField(default)
 	operator fun <E : Enum<E>> invoke(values: Array<E>, default: E) = enumField(values, default)
 	
+	fun toString(address: Long): String
+	fun toString(strukt: T) = toString(strukt.address)
+	
 	companion object {
 		
 		const val DEFAULT_ELASTIC_CAPACITY = 1024L

@@ -9,6 +9,10 @@ interface EnumField<T : Strukt, E : Enum<E>> : Field<T> {
 	
 	override fun writeDefault(address: Long) = set(address, default)
 	
+	override fun getBoxed(address: Long) = get(address)
+	@Suppress("UNCHECKED_CAST")
+	override fun setBoxed(address: Long, value: Any?) = set(address, value as E)
+	
 	operator fun get(address: Long): E
 	operator fun set(address: Long, value: E)
 	

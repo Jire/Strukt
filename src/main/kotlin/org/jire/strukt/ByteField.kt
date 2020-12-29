@@ -8,6 +8,9 @@ interface ByteField<T : Strukt> : Field<T> {
 	
 	override fun writeDefault(address: Long) = set(address, default)
 	
+	override fun getBoxed(address: Long) = get(address)
+	override fun setBoxed(address: Long, value: Any?) = set(address, value as Byte)
+	
 	operator fun get(address: Long): Byte
 	operator fun set(address: Long, value: Byte)
 	

@@ -14,4 +14,8 @@ abstract class AbstractField<T : Strukt>(
 		strukts.addField(this)
 	}
 	
+	override val name by lazy(LazyThreadSafetyMode.NONE) {
+		javaClass.simpleName
+	}
+	
 }

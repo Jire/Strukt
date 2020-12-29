@@ -15,4 +15,6 @@ abstract class AbstractStrukts<T : Strukt> : Strukts<T> {
 		fields.add(field)
 	}
 	
+	override fun toString(address: Long) = fields.joinToString(", ") { "${it.name}(${it.getBoxed(address)})" }
+	
 }

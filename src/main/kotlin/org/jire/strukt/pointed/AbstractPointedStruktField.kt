@@ -1,6 +1,5 @@
 package org.jire.strukt.pointed
 
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet
 import org.jire.strukt.AbstractStruktField
 import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
@@ -11,6 +10,6 @@ abstract class AbstractPointedStruktField<T : Strukt>(
 	strukts: Strukts<T>
 ) : AbstractStruktField<T>(type, strukts), PointedStruktField<T> {
 	
-	override val initializedAddresses = LongOpenHashSet()
+	override var defaultPointer = PointedStruktField.UNSET_DEFAULT_POINTER
 	
 }

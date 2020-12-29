@@ -104,6 +104,34 @@ points.free(example.address)
 The reason this longer syntax is necessary is because we want to avoid "generic" type use of our inline class, to
 prevent creating boxed instances.
 
+## Using in Java
+
+It's not too hard to define a `Strukt` in Java!
+
+```java
+public interface Point extends Strukt {
+	
+	Strukts<Point> points = Strukts.elastic(Point.class);
+	
+	IntField<Point> x = points.intField(0);
+	IntField<Point> y = points.intField(0);
+	
+	static long allocate() {
+		return points.allocate();
+	}
+
+}
+```
+
+You can then use it like so:
+
+```java
+long example = Point.allocate();
+
+Point.y.set(example, 123);
+System.out.println("x: " + Point.x.get(example) + ", y: " + Point.y.get(example)); // 0, 123
+```
+
 ## Performance
 
 **Benchmark sources:** https://github.com/Jire/Strukt/tree/master/src/jmh/kotlin/org/jire/strukt/benchmarks

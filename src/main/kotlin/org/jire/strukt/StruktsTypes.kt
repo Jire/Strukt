@@ -25,5 +25,5 @@ inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long, persistedToPathn
 
 inline fun <reified T : Strukt> KClass<T>.pointed(): Strukts<T> = PointedStrukts(T::class)
 
-inline fun <reified T : Strukt> KClass<T>.elastic(initialCapacity: Long, growthFactor: Double = 2.5): Strukts<T> =
+inline fun <reified T : Strukt> KClass<T>.elastic(initialCapacity: Long, growthFactor: Double = 2.0): Strukts<T> =
 	ElasticStrukts(T::class, initialCapacity, growthFactor)

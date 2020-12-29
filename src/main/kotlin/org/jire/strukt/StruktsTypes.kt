@@ -7,7 +7,7 @@ import org.jire.strukt.pointed.PointedStrukts
 import java.io.File
 import kotlin.reflect.KClass
 
-inline fun <reified T : Strukt> KClass<T>.dynamic(): Strukts<T> = PointedStrukts(T::class)
+inline fun <reified T : Strukt> KClass<T>.dynamic(): Strukts<T> = pointed() // default
 
 inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long): Strukts<T> =
 	FixedStrukts(T::class, capacity, null)
@@ -20,3 +20,5 @@ inline fun <reified T : Strukt> KClass<T>.fixed(capacity: Long, persistedToPathn
 		T::class, capacity,
 		if (persistedToPathname == null) null else File(persistedToPathname)
 	)
+
+inline fun <reified T : Strukt> KClass<T>.pointed(): Strukts<T> = PointedStrukts(T::class)

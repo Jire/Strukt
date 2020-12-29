@@ -1,4 +1,4 @@
-@file:JvmName("StruktsTypes")
+@file:JvmName("StruktsReified")
 
 package org.jire.strukt
 

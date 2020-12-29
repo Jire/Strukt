@@ -1,5 +1,7 @@
 package org.jire.strukt.fixed
 
+import it.unimi.dsi.fastutil.longs.LongArrayList
+import it.unimi.dsi.fastutil.longs.LongList
 import net.openhft.chronicle.core.OS
 import net.openhft.chronicle.core.StruktOS
 import org.jire.strukt.AbstractStrukts
@@ -19,6 +21,8 @@ class FixedStrukts<T : Strukt>(
 	var baseSize = 0L
 	
 	var offset = 0L
+	
+	val freed: LongList = LongArrayList()
 	
 	val raf = if (persistedTo == null) null else RandomAccessFile(persistedTo, "rw")
 	
@@ -50,6 +54,9 @@ class FixedStrukts<T : Strukt>(
 	}
 	
 	override fun allocate(): Long {
+		if (freed.size > 0) {
+			return freed.removeLong(0)
+		}
 		if (baseAddress == UNSET_BASE_ADDRESS) {
 			allocateBase()
 			return allocate()
@@ -60,10 +67,7 @@ class FixedStrukts<T : Strukt>(
 		return address
 	}
 	
-	override fun free(address: Long): Boolean {
-		OS.memory().freeMemory(address, size)
-		return true
-	}
+	override fun free(address: Long) = freed.add(address)
 	
 	override fun invoke(default: Byte) = FixedByteField(type, this, default)
 	override fun invoke(default: Short) = FixedShortField(type, this, default)

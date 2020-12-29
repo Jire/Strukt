@@ -27,7 +27,7 @@ This means you can allocate with as much space as disk space, rather than RAM. T
 penalty for using this over `.fixed(capacity)`!
 
 ```kotlin
-val points = Point::class.fixed(capacity, persistedTo: File/ String)
+val points = Point::class.fixed(capacity, persistedTo: File|String)
 ```
 
 **Elastic:** similar to `.fixed(capacity)` except will dynamically resize, and has a performance penalty of a few

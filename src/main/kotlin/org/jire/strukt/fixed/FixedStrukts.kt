@@ -11,10 +11,10 @@ import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import kotlin.reflect.KClass
 
-class FixedStrukts<T : Strukt>(
+open class FixedStrukts<T : Strukt>(
 	override val type: KClass<T>,
 	val capacity: Long,
-	val persistedTo: File?
+	val persistedTo: File? = null
 ) : AbstractStrukts<T>() {
 	
 	var baseAddress = UNSET_BASE_ADDRESS

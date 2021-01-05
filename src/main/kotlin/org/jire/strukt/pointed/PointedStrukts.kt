@@ -5,7 +5,7 @@ import org.jire.strukt.AbstractStrukts
 import org.jire.strukt.Strukt
 import kotlin.reflect.KClass
 
-class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts<T>() {
+open class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts<T>() {
 	
 	var defaultAddress = UNSET_DEFAULT_ADDRESS
 	

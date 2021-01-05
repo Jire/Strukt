@@ -5,12 +5,13 @@ import it.unimi.dsi.fastutil.longs.LongList
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.AbstractStrukts
 import org.jire.strukt.Strukt
+import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticStrukts<T : Strukt>(
+open class ElasticStrukts<T : Strukt>(
 	override val type: KClass<T>,
-	val initialCapacity: Long,
-	val growthFactor: Double
+	val initialCapacity: Long = Strukts.DEFAULT_ELASTIC_CAPACITY,
+	val growthFactor: Double = Strukts.DEFAULT_ELASTIC_GROWTH_FACTOR
 ) : AbstractStrukts<T>() {
 	
 	var baseAddress = UNSET_BASE_ADDRESS

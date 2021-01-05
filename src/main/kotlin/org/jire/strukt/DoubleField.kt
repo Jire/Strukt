@@ -16,8 +16,6 @@
 
 package org.jire.strukt
 
-import net.openhft.chronicle.core.OS
-
 interface DoubleField : Field {
 	
 	override val size get() = 8L
@@ -29,23 +27,8 @@ interface DoubleField : Field {
 	override fun getBoxed(address: Long) = get(address)
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as Double)
 	
-	operator fun get(address: Long): Double {
-		val pointer = pointer(address)
-		return when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().readVolatileDouble(pointer)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readDouble(pointer) }
-			else -> OS.memory().readDouble(pointer)
-		}
-	}
-	
-	operator fun set(address: Long, value: Double) {
-		val pointer = pointer(address)
-		when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileDouble(pointer, value)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeDouble(pointer, value) }
-			else -> OS.memory().writeDouble(pointer, value)
-		}
-	}
+	operator fun get(address: Long) = threadSafeType.run { readDouble(pointer(address)) }
+	operator fun set(address: Long, value: Double) = threadSafeType.run { writeDouble(pointer(address), value) }
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: Double) = set(address, value)

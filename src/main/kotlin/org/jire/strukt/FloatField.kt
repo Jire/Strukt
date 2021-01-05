@@ -16,8 +16,6 @@
 
 package org.jire.strukt
 
-import net.openhft.chronicle.core.OS
-
 interface FloatField : Field {
 	
 	override val size get() = 4L
@@ -29,23 +27,8 @@ interface FloatField : Field {
 	override fun getBoxed(address: Long) = get(address)
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as Float)
 	
-	operator fun get(address: Long): Float {
-		val pointer = pointer(address)
-		return when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().readVolatileFloat(pointer)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readFloat(pointer) }
-			else -> OS.memory().readFloat(pointer)
-		}
-	}
-	
-	operator fun set(address: Long, value: Float) {
-		val pointer = pointer(address)
-		when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileFloat(pointer, value)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeFloat(pointer, value) }
-			else -> OS.memory().writeFloat(pointer, value)
-		}
-	}
+	operator fun get(address: Long) = threadSafeType.run { readFloat(pointer(address)) }
+	operator fun set(address: Long, value: Float) = threadSafeType.run { writeFloat(pointer(address), value) }
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: Float) = set(address, value)

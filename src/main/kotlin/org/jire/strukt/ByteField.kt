@@ -16,8 +16,6 @@
 
 package org.jire.strukt
 
-import net.openhft.chronicle.core.OS
-
 interface ByteField : Field {
 	
 	override val size get() = 1L
@@ -29,23 +27,8 @@ interface ByteField : Field {
 	override fun getBoxed(address: Long) = get(address)
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as Byte)
 	
-	operator fun get(address: Long): Byte {
-		val pointer = pointer(address)
-		return when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().readVolatileByte(pointer)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readByte(pointer) }
-			else -> OS.memory().readByte(pointer)
-		}
-	}
-	
-	operator fun set(address: Long, value: Byte) {
-		val pointer = pointer(address)
-		when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileByte(pointer, value)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeByte(pointer, value) }
-			else -> OS.memory().writeByte(pointer, value)
-		}
-	}
+	operator fun get(address: Long) = threadSafeType.run { readByte(pointer(address)) }
+	operator fun set(address: Long, value: Byte) = threadSafeType.run { writeByte(pointer(address), value) }
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: Byte) = set(address, value)

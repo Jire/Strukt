@@ -16,8 +16,6 @@
 
 package org.jire.strukt
 
-import net.openhft.chronicle.core.OS
-
 interface ShortField : Field {
 	
 	override val size get() = 2L
@@ -29,23 +27,8 @@ interface ShortField : Field {
 	override fun getBoxed(address: Long) = get(address)
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as Short)
 	
-	operator fun get(address: Long): Short {
-		val pointer = pointer(address)
-		return when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().readVolatileShort(pointer)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readShort(pointer) }
-			else -> OS.memory().readShort(pointer)
-		}
-	}
-	
-	operator fun set(address: Long, value: Short) {
-		val pointer = pointer(address)
-		when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileShort(pointer, value)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeShort(pointer, value) }
-			else -> OS.memory().writeShort(pointer, value)
-		}
-	}
+	operator fun get(address: Long) = threadSafeType.run { readShort(pointer(address)) }
+	operator fun set(address: Long, value: Short) = threadSafeType.run { writeShort(pointer(address), value) }
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: Short) = set(address, value)

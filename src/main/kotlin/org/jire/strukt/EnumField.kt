@@ -16,8 +16,6 @@
 
 package org.jire.strukt
 
-import net.openhft.chronicle.core.OS
-
 interface EnumField<E : Enum<E>> : Field {
 	
 	override val size get() = 4L
@@ -31,24 +29,8 @@ interface EnumField<E : Enum<E>> : Field {
 	@Suppress("UNCHECKED_CAST")
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as E)
 	
-	operator fun get(address: Long): E {
-		val pointer = pointer(address)
-		return values[when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().readVolatileInt(pointer)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readInt(pointer) }
-			else -> OS.memory().readInt(pointer)
-		}]
-	}
-	
-	operator fun set(address: Long, value: E) {
-		val pointer = pointer(address)
-		val intValue = value.ordinal
-		when (threadSafeType) {
-			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileInt(pointer, intValue)
-			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeInt(pointer, intValue) }
-			else -> OS.memory().writeInt(pointer, intValue)
-		}
-	}
+	operator fun get(address: Long) = threadSafeType.run { readEnum(pointer(address), values) }
+	operator fun set(address: Long, value: E) = threadSafeType.run { writeEnum(pointer(address), value) }
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: E) = set(address, value)

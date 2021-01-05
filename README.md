@@ -18,7 +18,7 @@ First you need to create a `Strukts` which manages your `Strukt` (allocates, fre
 **Fixed:** uses a single memory allocation and addresses are given with an offset. This is the fastest option available.
 
 ```kotlin
-object Points : FixedStrukts<Point>(capacity)
+object Points : FixedStrukts(Point::class, capacity)
 ```
 
 **Persisted fixed:** same as above, except uses a memory-mapped file rather than system memory and persists to disk.
@@ -26,21 +26,21 @@ This means you can allocate with as much space as disk space, rather than RAM. T
 penalty for using this over `.fixed(capacity)`!
 
 ```kotlin
-object Points : FixedStrukts<Point>(capacity, persistedTo: File|String)
+object Points : FixedStrukts(Point::class, capacity, persistedTo: File|String)
 ```
 
 **Elastic:** similar to `.fixed(capacity)` except will dynamically resize, and has a performance penalty of a few
 operations for that capability.
 
 ```kotlin
-object Points : ElasticStrukts<Point>(initialCapacity = 1024, growthFactor = 2.0)
+object Points : ElasticStrukts(Point::class, initialCapacity = 1024, growthFactor = 2.0)
 ```
 
 **Pointed:** uses a laid-out pointer system, this option supports unlimited allocations without any "resizing"
 necessary. Note: Since a memory allocation and a memory copy is necessary, this has slow allocations.
 
 ```kotlin
-object Points : PointedStrukts<Point>()
+object Points : PointedStrukts(Point::class)
 ```
 
 ## Declaring fields of your `Strukt`
@@ -51,7 +51,7 @@ The value you delegate to determines the field's type, and the default value for
 an `Int` of the default value `0` for both.
 
 ```kotlin
-object Points : ElasticStrukts<Point>() {
+object Points : ElasticStrukts(Point::class) {
 	val x by 0
 	val y by 0
 }
@@ -62,7 +62,7 @@ All primitive types are supported, and even enums:
 ```kotlin
 enum class Type { DEFAULT, SPECIAL }
 
-object Points : ElasticStrukts<Point>() {
+object Points : ElasticStrukts(Point::class) {
         val x by 0
         val y by 0
         val type by Type.DEFAULT  
@@ -124,10 +124,10 @@ It's not too hard to define and use a `Strukt` in Java!
 ```java
 public interface Point extends Strukt {
 	
-	Strukts<Point> points = Strukts.elastic(Point.class);
+	Strukts points = Strukts.elastic(Point.class);
 	
-	IntField<Point> x = points.intField(0);
-	IntField<Point> y = points.intField(0);
+	IntField x = points.intField(0);
+	IntField y = points.intField(0);
 	
 	static long allocate() {
 		return points.allocate();
@@ -141,7 +141,7 @@ You can then use it like so:
 ```java
 long example = Point.allocate();
 
-Point.y.set(example,123);
+Point.y.set(example, 123);
 System.out.println("x: " + Point.x.get(example) + ", y: " + Point.y.get(example)); // 0, 123
 ```
 

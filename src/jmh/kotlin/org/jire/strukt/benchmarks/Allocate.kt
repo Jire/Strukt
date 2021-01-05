@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 @Fork(value = 1, jvmArgsAppend = ["-Xmx64m", "-verbose:gc", "-ea"])
 @Warmup(iterations = 0)
 @Measurement(iterations = 1)
-abstract class Allocate(val strukts: Strukts<*>) {
+abstract class Allocate(val strukts: Strukts) {
 	
 	@Benchmark
 	fun allocate() {

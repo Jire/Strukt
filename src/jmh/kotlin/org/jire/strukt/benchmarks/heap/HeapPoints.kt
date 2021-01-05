@@ -16,7 +16,6 @@
 
 package org.jire.strukt.benchmarks.heap
 
-import org.jire.strukt.*
 import org.jire.strukt.benchmarks.VALUE
 import org.jire.strukt.internal.AbstractStrukts
 
@@ -34,40 +33,6 @@ object HeapPoints : AbstractStrukts(HeapPoint::class) {
 	}
 	
 	override fun free(address: Long): Boolean {
-		TODO("Not yet implemented")
-	}
-	
-	override fun byteField(default: Byte): ByteField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun shortField(default: Short): ShortField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun intField(default: Int) = HeapIntField(VALUE, HeapPoint())
-	
-	override fun longField(default: Long): LongField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun floatField(default: Float): FloatField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun doubleField(default: Double): DoubleField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun charField(default: Char): CharField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun booleanField(default: Boolean): BooleanField {
-		TODO("Not yet implemented")
-	}
-	
-	override fun <E : Enum<E>> enumField(default: E, values: Array<E>): EnumField<E> {
 		TODO("Not yet implemented")
 	}
 	

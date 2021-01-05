@@ -18,4 +18,4 @@ package org.jire.strukt.benchmarks.elastic
 
 import org.jire.strukt.benchmarks.Read
 
-open class ElasticRead : Read<ElasticPoint>(elasticPoints, elasticPointX)
+open class ElasticRead : Read<ElasticPoint>(ElasticPoints, ElasticPoints.x)

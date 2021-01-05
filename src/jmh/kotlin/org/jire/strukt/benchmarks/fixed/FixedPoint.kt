@@ -16,22 +16,23 @@
 
 package org.jire.strukt.benchmarks.fixed
 
+import org.jire.strukt.FixedStrukts
 import org.jire.strukt.Strukt
 import org.jire.strukt.benchmarks.CAPACITY
 import org.jire.strukt.benchmarks.Point
 import org.jire.strukt.benchmarks.VALUE
-import org.jire.strukt.fixed
+import java.io.File
 
-val fixedPoints = FixedPoint::class.fixed(CAPACITY, "fixedpoints.dat")
+object FixedPoints : FixedStrukts(FixedPoint::class, CAPACITY, File("fixedpoints.dat")) {
+	val x by VALUE
+	val y by VALUE
+}
 
-val fixedPointX = fixedPoints(VALUE)
-val fixedPointY = fixedPoints(VALUE)
-
-inline class FixedPoint(override val address: Long = fixedPoints()) : Point, Strukt {
+inline class FixedPoint(override val address: Long = FixedPoints()) : Point, Strukt {
 	override var x: Int
-		get() = fixedPointX(address)
-		set(value) = fixedPointX(address, value)
+		get() = FixedPoints.x(address)
+		set(x) = FixedPoints.x(address, x)
 	override var y: Int
-		get() = fixedPointY(address)
-		set(value) = fixedPointY(address, value)
+		get() = FixedPoints.y(address)
+		set(y) = FixedPoints.y(address, y)
 }

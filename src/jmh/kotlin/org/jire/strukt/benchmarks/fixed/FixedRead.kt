@@ -19,11 +19,11 @@ package org.jire.strukt.benchmarks.fixed
 import org.jire.strukt.benchmarks.Read
 import org.openjdk.jmh.annotations.TearDown
 
-open class FixedRead : Read<FixedPoint>(fixedPoints, fixedPointX) {
+open class FixedRead : Read<FixedPoint>(FixedPoints, FixedPoints.x) {
 	
 	@TearDown
 	fun tearDown() {
-		fixedPoints.free()
+		FixedPoints.free()
 	}
 	
 }

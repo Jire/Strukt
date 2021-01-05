@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 @Fork(value = 1, jvmArgsAppend = ["-Xmx16g", "-Xms16g"])
 @Warmup(iterations = 0)
 @Measurement(iterations = 1)
-abstract class Free(val strukts: Strukts<*>) {
+abstract class Free(val strukts: Strukts) {
 	
 	private val addresses: LongList = LongArrayList(CAPACITY.toInt())
 	

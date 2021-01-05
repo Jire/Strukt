@@ -16,22 +16,22 @@
 
 package org.jire.strukt.benchmarks.elastic
 
+import org.jire.strukt.ElasticStrukts
 import org.jire.strukt.Strukt
 import org.jire.strukt.benchmarks.CAPACITY
 import org.jire.strukt.benchmarks.Point
 import org.jire.strukt.benchmarks.VALUE
-import org.jire.strukt.elastic
 
-val elasticPoints = ElasticPoint::class.elastic(CAPACITY)
+object ElasticPoints : ElasticStrukts(ElasticPoint::class, CAPACITY) {
+	val x by VALUE
+	val y by VALUE
+}
 
-val elasticPointX = elasticPoints(VALUE)
-val elasticPointY = elasticPoints(VALUE)
-
-inline class ElasticPoint(override val address: Long = elasticPoints()) : Point, Strukt {
+inline class ElasticPoint(override val address: Long = ElasticPoints()) : Point, Strukt {
 	override var x: Int
-		get() = elasticPointX(address)
-		set(value) = elasticPointX(address, value)
+		get() = ElasticPoints.x(address)
+		set(x) = ElasticPoints.x(address, x)
 	override var y: Int
-		get() = elasticPointY(address)
-		set(value) = elasticPointY(address, value)
+		get() = ElasticPoints.y(address)
+		set(y) = ElasticPoints.y(address, y)
 }

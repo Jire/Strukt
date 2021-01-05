@@ -16,21 +16,21 @@
 
 package org.jire.strukt.benchmarks.pointed
 
+import org.jire.strukt.PointedStrukts
 import org.jire.strukt.Strukt
 import org.jire.strukt.benchmarks.Point
 import org.jire.strukt.benchmarks.VALUE
-import org.jire.strukt.pointed
 
-val pointedPoints = PointedPoint::class.pointed()
+object PointedPoints : PointedStrukts(PointedPoint::class) {
+	val x by VALUE
+	val y by VALUE
+}
 
-val pointedPointX = pointedPoints(VALUE)
-val pointedPointY = pointedPoints(VALUE)
-
-inline class PointedPoint(override val address: Long = pointedPoints()) : Point, Strukt {
+inline class PointedPoint(override val address: Long = PointedPoints()) : Point, Strukt {
 	override var x: Int
-		get() = pointedPointX(address)
-		set(value) = pointedPointX(address, value)
+		get() = PointedPoints.x(address)
+		set(x) = PointedPoints.x(address, x)
 	override var y: Int
-		get() = pointedPointY(address)
-		set(value) = pointedPointY(address, value)
+		get() = PointedPoints.y(address)
+		set(y) = PointedPoints.y(address, y)
 }

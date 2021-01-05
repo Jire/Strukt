@@ -14,20 +14,26 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.elastic
+package org.jire.strukt.internal
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.FloatField
+import it.unimi.dsi.fastutil.objects.ObjectArrayList
+import org.jire.strukt.Field
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticFloatField(
-	type: KClass<*>, strukts: Strukts,
-	override val default: Float
-) : AbstractElasticField(type, strukts), FloatField {
+abstract class AbstractStrukts(override val type: KClass<*>) : Strukts {
 	
-	override fun get(address: Long) = OS.memory().readFloat(pointer(address))
+	override var size = 0L
+	override var nextIndex = 0L
 	
-	override fun set(address: Long, value: Float) = OS.memory().writeFloat(pointer(address), value)
+	override val fields = ObjectArrayList<Field>()
+	
+	override fun addField(field: Field) {
+		size += field.size
+		nextIndex++
+		fields.add(field)
+	}
+	
+	override fun toString(address: Long) = fields.joinToString(", ") { "${it.name}(${it.getBoxed(address)})" }
 	
 }

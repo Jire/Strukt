@@ -14,21 +14,14 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.elastic
+package org.jire.strukt.internal
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.EnumField
+import org.jire.strukt.IntField
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticEnumField<E : Enum<E>>(
-	type: KClass<*>, strukts: Strukts,
-	override val values: Array<E>,
-	override val default: E
-) : AbstractElasticField(type, strukts), EnumField<E> {
-	
-	override fun get(address: Long) = values[OS.memory().readInt(pointer(address))]
-	
-	override fun set(address: Long, value: E) = OS.memory().writeInt(pointer(address), value.ordinal)
-	
-}
+class InternalIntField(
+	type: KClass<*>,
+	strukts: Strukts,
+	override val default: Int
+) : AbstractField(type, strukts), IntField

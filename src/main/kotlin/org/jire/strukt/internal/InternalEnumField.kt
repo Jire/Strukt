@@ -14,21 +14,15 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.pointed
+package org.jire.strukt.internal
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.LongField
+import org.jire.strukt.EnumField
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class PointedLongField(
+class InternalEnumField<E : Enum<E>>(
 	type: KClass<*>,
 	strukts: Strukts,
-	override val default: Long
-) : AbstractPointedField(type, strukts), LongField {
-	
-	override fun get(address: Long) = OS.memory().readLong(pointer(address))
-	
-	override fun set(address: Long, value: Long) = OS.memory().writeLong(pointer(address), value)
-	
-}
+	override val default: E,
+	override val values: Array<E>
+) : AbstractField(type, strukts), EnumField<E>

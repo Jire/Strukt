@@ -27,6 +27,8 @@ interface Field {
 	val index: Long
 	val offset: Long
 	
+	val threadSafeType: ThreadSafeType
+	
 	fun pointer(address: Long) = address + offset
 	
 	fun writeDefault(address: Long)

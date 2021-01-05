@@ -16,6 +16,8 @@
 
 package org.jire.strukt
 
+import net.openhft.chronicle.core.OS
+
 interface CharField : Field {
 	
 	override val size get() = 2L
@@ -27,8 +29,24 @@ interface CharField : Field {
 	override fun getBoxed(address: Long) = get(address)
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as Char)
 	
-	operator fun get(address: Long): Char
-	operator fun set(address: Long, value: Char)
+	operator fun get(address: Long): Char {
+		val pointer = pointer(address)
+		return when (threadSafeType) {
+			ThreadSafeType.VOLATILE -> OS.memory().readVolatileShort(pointer)
+			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readShort(pointer) }
+			else -> OS.memory().readShort(pointer)
+		}.toChar()
+	}
+	
+	operator fun set(address: Long, value: Char) {
+		val pointer = pointer(address)
+		val shortValue = value.toShort()
+		when (threadSafeType) {
+			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileShort(pointer, shortValue)
+			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeShort(pointer, shortValue) }
+			else -> OS.memory().writeShort(pointer, shortValue)
+		}
+	}
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: Char) = set(address, value)

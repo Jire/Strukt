@@ -18,11 +18,12 @@ package org.jire.strukt.benchmarks.heap
 
 import org.jire.strukt.*
 import org.jire.strukt.benchmarks.VALUE
+import org.jire.strukt.internal.AbstractStrukts
 
-val heapPointX = HeapPoints(VALUE)
-val heapPointY = HeapPoints(VALUE)
-
-object HeapPoints : AbstractStrukts<HeapPoint>() {
+object HeapPoints : AbstractStrukts(HeapPoint::class) {
+	
+	val x by VALUE
+	val y by VALUE
 	
 	override fun allocate() = HeapPoint().address
 	
@@ -36,37 +37,37 @@ object HeapPoints : AbstractStrukts<HeapPoint>() {
 		TODO("Not yet implemented")
 	}
 	
-	override fun byteField(default: Byte): ByteField<HeapPoint> {
+	override fun byteField(default: Byte): ByteField {
 		TODO("Not yet implemented")
 	}
 	
-	override fun shortField(default: Short): ShortField<HeapPoint> {
+	override fun shortField(default: Short): ShortField {
 		TODO("Not yet implemented")
 	}
 	
 	override fun intField(default: Int) = HeapIntField(VALUE, HeapPoint())
 	
-	override fun longField(default: Long): LongField<HeapPoint> {
+	override fun longField(default: Long): LongField {
 		TODO("Not yet implemented")
 	}
 	
-	override fun floatField(default: Float): FloatField<HeapPoint> {
+	override fun floatField(default: Float): FloatField {
 		TODO("Not yet implemented")
 	}
 	
-	override fun doubleField(default: Double): DoubleField<HeapPoint> {
+	override fun doubleField(default: Double): DoubleField {
 		TODO("Not yet implemented")
 	}
 	
-	override fun charField(default: Char): CharField<HeapPoint> {
+	override fun charField(default: Char): CharField {
 		TODO("Not yet implemented")
 	}
 	
-	override fun booleanField(default: Boolean): BooleanField<HeapPoint> {
+	override fun booleanField(default: Boolean): BooleanField {
 		TODO("Not yet implemented")
 	}
 	
-	override fun <E : Enum<E>> enumField(values: Array<E>, default: E): EnumField<HeapPoint, E> {
+	override fun <E : Enum<E>> enumField(default: E, values: Array<E>): EnumField<E> {
 		TODO("Not yet implemented")
 	}
 	

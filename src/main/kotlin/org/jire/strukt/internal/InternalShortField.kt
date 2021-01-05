@@ -14,20 +14,14 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.elastic
+package org.jire.strukt.internal
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.LongField
+import org.jire.strukt.ShortField
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticLongField(
-	type: KClass<*>, strukts: Strukts,
-	override val default: Long
-) : AbstractElasticField(type, strukts), LongField {
-	
-	override fun get(address: Long) = OS.memory().readLong(pointer(address))
-	
-	override fun set(address: Long, value: Long) = OS.memory().writeLong(pointer(address), value)
-	
-}
+class InternalShortField(
+	type: KClass<*>,
+	strukts: Strukts,
+	override val default: Short
+) : AbstractField(type, strukts), ShortField

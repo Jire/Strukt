@@ -14,20 +14,14 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.fixed
+package org.jire.strukt.internal
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.LongField
+import org.jire.strukt.ByteField
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class FixedLongField(
-	type: KClass<*>, strukts: Strukts,
-	override val default: Long
-) : AbstractFixedField(type, strukts), LongField {
-	
-	override fun get(address: Long) = OS.memory().readLong(pointer(address))
-	
-	override fun set(address: Long, value: Long) = OS.memory().writeLong(pointer(address), value)
-	
-}
+class InternalByteField(
+	type: KClass<*>,
+	strukts: Strukts,
+	override val default: Byte
+) : AbstractField(type, strukts), ByteField

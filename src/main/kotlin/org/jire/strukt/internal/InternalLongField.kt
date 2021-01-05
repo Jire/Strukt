@@ -14,13 +14,14 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.fixed
+package org.jire.strukt.internal
 
-import org.jire.strukt.AbstractField
+import org.jire.strukt.LongField
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-abstract class AbstractFixedField(
+class InternalLongField(
 	type: KClass<*>,
-	strukts: Strukts
-) : AbstractField(type, strukts), FixedField
+	strukts: Strukts,
+	override val default: Long
+) : AbstractField(type, strukts), LongField

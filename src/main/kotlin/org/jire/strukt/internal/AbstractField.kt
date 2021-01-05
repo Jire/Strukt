@@ -14,20 +14,32 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.elastic
+package org.jire.strukt.internal
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.ShortField
+import org.jire.strukt.Field
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafe
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
-class ElasticShortField(
-	type: KClass<*>, strukts: Strukts,
-	override val default: Short
-) : AbstractElasticField(type, strukts), ShortField {
+abstract class AbstractField(
+	override val type: KClass<*>,
+	final override val strukts: Strukts
+) : Field {
 	
-	override fun get(address: Long) = OS.memory().readShort(pointer(address))
+	override val index: Long = strukts.nextIndex
+	override val offset: Long = strukts.size
 	
-	override fun set(address: Long, value: Short) = OS.memory().writeShort(pointer(address), value)
+	init {
+		strukts.addField(this)
+	}
+	
+	override val name by lazy(LazyThreadSafetyMode.NONE) {
+		javaClass.simpleName
+	}
+	
+	override val threadSafeType = if (javaClass.isAnnotationPresent(ThreadSafe::class.java)) {
+		javaClass.getAnnotation(ThreadSafe::class.java).threadSafeType
+	} else ThreadSafeType.NONE
 	
 }

@@ -16,14 +16,14 @@
 
 package org.jire.strukt.benchmarks.heap
 
-import org.jire.strukt.AbstractField
 import org.jire.strukt.IntField
+import org.jire.strukt.internal.AbstractField
 
 class HeapIntField(
 	override val default: Int,
 	val heapPoint: HeapPoint,
-) : AbstractField<HeapPoint>(HeapPoint::class, HeapPoints),
-	IntField<HeapPoint> {
+) : AbstractField(HeapPoint::class, HeapPoints),
+	IntField {
 	
 	override val size = 4L
 	

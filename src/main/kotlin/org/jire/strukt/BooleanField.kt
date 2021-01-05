@@ -16,6 +16,8 @@
 
 package org.jire.strukt
 
+import net.openhft.chronicle.core.OS
+
 interface BooleanField : Field {
 	
 	override val size get() = 1L
@@ -27,8 +29,24 @@ interface BooleanField : Field {
 	override fun getBoxed(address: Long) = get(address)
 	override fun setBoxed(address: Long, value: Any?) = set(address, value as Boolean)
 	
-	operator fun get(address: Long): Boolean
-	operator fun set(address: Long, value: Boolean)
+	operator fun get(address: Long): Boolean {
+		val pointer = pointer(address)
+		return (when (threadSafeType) {
+			ThreadSafeType.VOLATILE -> OS.memory().readVolatileByte(pointer)
+			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().readByte(pointer) }
+			else -> OS.memory().readByte(pointer)
+		}.toInt()) != 0
+	}
+	
+	operator fun set(address: Long, value: Boolean) {
+		val pointer = pointer(address)
+		val byteValue: Byte = if (value) 1 else 0
+		when (threadSafeType) {
+			ThreadSafeType.VOLATILE -> OS.memory().writeVolatileByte(pointer, byteValue)
+			ThreadSafeType.SYNCHRONIZED -> synchronized(this) { OS.memory().writeByte(pointer, byteValue) }
+			else -> OS.memory().writeByte(pointer, byteValue)
+		}
+	}
 	
 	operator fun invoke(address: Long) = get(address)
 	operator fun invoke(address: Long, value: Boolean) = set(address, value)

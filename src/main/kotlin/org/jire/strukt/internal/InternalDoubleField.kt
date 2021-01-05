@@ -14,24 +14,14 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt
+package org.jire.strukt.internal
 
+import org.jire.strukt.DoubleField
+import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-abstract class AbstractField(
-	override val type: KClass<*>,
-	final override val strukts: Strukts
-) : Field {
-	
-	override val index: Long = strukts.nextIndex
-	override val offset: Long = strukts.size
-	
-	init {
-		strukts.addField(this)
-	}
-	
-	override val name by lazy(LazyThreadSafetyMode.NONE) {
-		javaClass.simpleName
-	}
-	
-}
+class InternalDoubleField(
+	type: KClass<*>,
+	strukts: Strukts,
+	override val default: Double
+) : AbstractField(type, strukts), DoubleField

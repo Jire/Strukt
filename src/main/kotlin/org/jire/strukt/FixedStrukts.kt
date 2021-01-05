@@ -14,13 +14,13 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.fixed
+package org.jire.strukt
 
 import it.unimi.dsi.fastutil.longs.LongArrayList
 import it.unimi.dsi.fastutil.longs.LongList
 import net.openhft.chronicle.core.OS
 import net.openhft.chronicle.core.StruktOS
-import org.jire.strukt.AbstractStrukts
+import org.jire.strukt.internal.*
 import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
@@ -84,15 +84,15 @@ open class FixedStrukts(
 	
 	override fun free(address: Long) = freed.add(address)
 	
-	override fun byteField(default: Byte) = FixedByteField(type, this, default)
-	override fun shortField(default: Short) = FixedShortField(type, this, default)
-	override fun intField(default: Int) = FixedIntField(type, this, default)
-	override fun longField(default: Long) = FixedLongField(type, this, default)
-	override fun floatField(default: Float) = FixedFloatField(type, this, default)
-	override fun doubleField(default: Double) = FixedDoubleField(type, this, default)
-	override fun charField(default: Char) = FixedCharField(type, this, default)
-	override fun booleanField(default: Boolean) = FixedBooleanField(type, this, default)
-	override fun <E : Enum<E>> enumField(default: E, values: Array<E>) = FixedEnumField(type, this, values, default)
+	override fun byteField(default: Byte) = InternalByteField(type, this, default)
+	override fun shortField(default: Short) = InternalShortField(type, this, default)
+	override fun intField(default: Int) = InternalIntField(type, this, default)
+	override fun longField(default: Long) = InternalLongField(type, this, default)
+	override fun floatField(default: Float) = InternalFloatField(type, this, default)
+	override fun doubleField(default: Double) = InternalDoubleField(type, this, default)
+	override fun charField(default: Char) = InternalCharField(type, this, default)
+	override fun booleanField(default: Boolean) = InternalBooleanField(type, this, default)
+	override fun <E : Enum<E>> enumField(default: E, values: Array<E>) = InternalEnumField(type, this, default, values)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

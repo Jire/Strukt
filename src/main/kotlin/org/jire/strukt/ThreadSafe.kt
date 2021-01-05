@@ -14,20 +14,6 @@
  *    limitations under the License.
  */
 
-package org.jire.strukt.fixed
+package org.jire.strukt
 
-import net.openhft.chronicle.core.OS
-import org.jire.strukt.CharField
-import org.jire.strukt.Strukts
-import kotlin.reflect.KClass
-
-class FixedCharField(
-	type: KClass<*>, strukts: Strukts,
-	override val default: Char
-) : AbstractFixedField(type, strukts), CharField {
-	
-	override fun get(address: Long) = OS.memory().readShort(pointer(address)).toChar()
-	
-	override fun set(address: Long, value: Char) = OS.memory().writeShort(pointer(address), value.toShort())
-	
-}
+annotation class ThreadSafe(val threadSafeType: ThreadSafeType = ThreadSafeType.NONE)

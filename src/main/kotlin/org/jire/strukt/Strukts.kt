@@ -16,9 +16,6 @@
 
 package org.jire.strukt
 
-import org.jire.strukt.elastic.ElasticStrukts
-import org.jire.strukt.fixed.FixedStrukts
-import org.jire.strukt.pointed.PointedStrukts
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty

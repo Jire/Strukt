@@ -53,13 +53,13 @@ open class FixedStrukts<T : Strukt>(
 		offset += size
 	}
 	
-	override fun allocateDirect(): Long {
+	override fun allocate(): Long {
 		if (freed.size > 0) {
 			return freed.removeLong(0)
 		}
 		if (baseAddress == UNSET_BASE_ADDRESS) {
 			allocateBase()
-			return allocateDirect()
+			return allocate()
 		}
 		val address = baseAddress + offset
 		OS.memory().copyMemory(baseAddress, address, size)
@@ -77,7 +77,7 @@ open class FixedStrukts<T : Strukt>(
 	override fun doubleField(default: Double) = FixedDoubleField(type, this, default)
 	override fun charField(default: Char) = FixedCharField(type, this, default)
 	override fun booleanField(default: Boolean) = FixedBooleanField(type, this, default)
-	override fun <E : Enum<E>> enumField(values: Array<E>, default: E) = FixedEnumField(type, this, values, default)
+	override fun <E : Enum<E>> enumField(default: E, values: Array<E>) = FixedEnumField(type, this, values, default)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

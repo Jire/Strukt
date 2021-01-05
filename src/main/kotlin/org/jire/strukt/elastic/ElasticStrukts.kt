@@ -34,17 +34,17 @@ open class ElasticStrukts<T : Strukt>(
 	
 	private fun expandBase() = allocateBase((baseSize * growthFactor).toLong())
 	
-	override fun allocateDirect(): Long {
+	override fun allocate(): Long {
 		if (freed.size > 0) {
 			return freed.removeLong(0)
 		}
 		if (baseAddress == UNSET_BASE_ADDRESS) {
 			allocateBase()
-			return allocateDirect()
+			return allocate()
 		}
 		if (offset >= baseSize) {
 			expandBase()
-			return allocateDirect()
+			return allocate()
 		}
 		val address = baseAddress + offset
 		OS.memory().copyMemory(baseAddress, address, size)
@@ -62,7 +62,7 @@ open class ElasticStrukts<T : Strukt>(
 	override fun doubleField(default: Double) = ElasticDoubleField(type, this, default)
 	override fun charField(default: Char) = ElasticCharField(type, this, default)
 	override fun booleanField(default: Boolean) = ElasticBooleanField(type, this, default)
-	override fun <E : Enum<E>> enumField(values: Array<E>, default: E) = ElasticEnumField(type, this, values, default)
+	override fun <E : Enum<E>> enumField(default: E, values: Array<E>) = ElasticEnumField(type, this, values, default)
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

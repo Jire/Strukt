@@ -14,7 +14,7 @@ open class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractSt
 		return false
 	}
 	
-	override fun allocateDirect(): Long {
+	override fun allocate(): Long {
 		var address = OS.memory().allocate(size)
 		if (defaultAddress == UNSET_DEFAULT_ADDRESS) {
 			defaultAddress = address
@@ -42,7 +42,7 @@ open class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractSt
 	override fun doubleField(default: Double) = PointedDoubleField(type, this, default)
 	override fun charField(default: Char) = PointedCharField(type, this, default)
 	override fun booleanField(default: Boolean) = PointedBooleanField(type, this, default)
-	override fun <E : Enum<E>> enumField(values: Array<E>, default: E) = PointedEnumField(type, this, values, default)
+	override fun <E : Enum<E>> enumField(default: E, values: Array<E>) = PointedEnumField(type, this, values, default)
 	
 	companion object {
 		private const val UNSET_DEFAULT_ADDRESS = -1L

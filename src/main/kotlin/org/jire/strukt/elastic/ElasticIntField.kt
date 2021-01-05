@@ -2,14 +2,13 @@ package org.jire.strukt.elastic
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.IntField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticIntField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class ElasticIntField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Int
-) : AbstractElasticField<T>(type, strukts), IntField<T> {
+) : AbstractElasticField(type, strukts), IntField {
 	
 	override fun get(address: Long) = OS.memory().readInt(pointer(address))
 	

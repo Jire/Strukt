@@ -2,14 +2,13 @@ package org.jire.strukt.fixed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.FloatField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class FixedFloatField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class FixedFloatField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Float
-) : AbstractFixedField<T>(type, strukts), FloatField<T> {
+) : AbstractFixedField(type, strukts), FloatField {
 	
 	override fun get(address: Long) = OS.memory().readFloat(pointer(address))
 	

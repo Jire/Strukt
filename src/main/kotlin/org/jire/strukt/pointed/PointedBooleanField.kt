@@ -2,15 +2,14 @@ package org.jire.strukt.pointed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.BooleanField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class PointedBooleanField<T : Strukt>(
-	type: KClass<T>,
-	strukts: Strukts<T>,
+class PointedBooleanField(
+	type: KClass<*>,
+	strukts: Strukts,
 	override val default: Boolean
-) : AbstractPointedField<T>(type, strukts), BooleanField<T> {
+) : AbstractPointedField(type, strukts), BooleanField {
 	
 	override fun get(address: Long) = OS.memory().readByte(pointer(address)).toInt() != 0
 	

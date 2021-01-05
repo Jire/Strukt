@@ -2,14 +2,13 @@ package org.jire.strukt.elastic
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.LongField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticLongField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class ElasticLongField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Long
-) : AbstractElasticField<T>(type, strukts), LongField<T> {
+) : AbstractElasticField(type, strukts), LongField {
 	
 	override fun get(address: Long) = OS.memory().readLong(pointer(address))
 	

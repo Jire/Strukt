@@ -2,10 +2,9 @@ package org.jire.strukt.pointed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.AbstractStrukts
-import org.jire.strukt.Strukt
 import kotlin.reflect.KClass
 
-open class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractStrukts<T>() {
+open class PointedStrukts(type: KClass<*>) : AbstractStrukts(type) {
 	
 	var defaultAddress = UNSET_DEFAULT_ADDRESS
 	
@@ -19,7 +18,7 @@ open class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractSt
 		if (defaultAddress == UNSET_DEFAULT_ADDRESS) {
 			defaultAddress = address
 			for (field in fields) {
-				field as AbstractPointedField<T>
+				field as AbstractPointedField
 				field.pointer(address)
 			}
 			

@@ -2,14 +2,13 @@ package org.jire.strukt.fixed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.ByteField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class FixedByteField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class FixedByteField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Byte
-) : AbstractFixedField<T>(type, strukts), ByteField<T> {
+) : AbstractFixedField(type, strukts), ByteField {
 	
 	override fun get(address: Long) = OS.memory().readByte(pointer(address))
 	

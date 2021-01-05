@@ -7,35 +7,35 @@ import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
-interface Strukts<T : Strukt> {
+interface Strukts {
 	
-	val type: KClass<T>
+	val type: KClass<*>
 	
 	var size: Long
 	var nextIndex: Long
 	
-	val fields: List<Field<T>>
+	val fields: List<Field>
 	
-	fun addField(field: Field<T>)
+	fun addField(field: Field)
 	
 	fun free(): Boolean
 	
 	fun allocate(): Long
 	
 	fun free(address: Long): Boolean
-	fun free(strukt: T) = free(strukt.address)
+	fun free(strukt: Strukt) = free(strukt.address)
 	
 	operator fun invoke() = allocate()
 	
-	fun byteField(default: Byte): ByteField<T>
-	fun shortField(default: Short): ShortField<T>
-	fun intField(default: Int): IntField<T>
-	fun longField(default: Long): LongField<T>
-	fun floatField(default: Float): FloatField<T>
-	fun doubleField(default: Double): DoubleField<T>
-	fun charField(default: Char): CharField<T>
-	fun booleanField(default: Boolean): BooleanField<T>
-	fun <E : Enum<E>> enumField(default: E, values: Array<E> = default.javaClass.enumConstants): EnumField<T, E>
+	fun byteField(default: Byte): ByteField
+	fun shortField(default: Short): ShortField
+	fun intField(default: Int): IntField
+	fun longField(default: Long): LongField
+	fun floatField(default: Float): FloatField
+	fun doubleField(default: Double): DoubleField
+	fun charField(default: Char): CharField
+	fun booleanField(default: Boolean): BooleanField
+	fun <E : Enum<E>> enumField(default: E, values: Array<E> = default.javaClass.enumConstants): EnumField<E>
 	
 	operator fun invoke(default: Byte) = byteField(default)
 	operator fun invoke(default: Short) = shortField(default)
@@ -48,72 +48,72 @@ interface Strukts<T : Strukt> {
 	operator fun <E : Enum<E>> invoke(default: E, values: Array<E> = default.javaClass.enumConstants) =
 		enumField(default, values)
 	
-	operator fun Byte.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(byteField(this))
-	operator fun Short.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(shortField(this))
-	operator fun Int.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(intField(this))
-	operator fun Long.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(longField(this))
-	operator fun Float.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(floatField(this))
-	operator fun Double.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(doubleField(this))
-	operator fun Char.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(charField(this))
-	operator fun Boolean.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) = FieldDelegate(booleanField(this))
-	operator fun <E : Enum<E>> E.provideDelegate(thisRef: Strukts<T>, prop: KProperty<*>) =
+	operator fun Byte.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(byteField(this))
+	operator fun Short.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(shortField(this))
+	operator fun Int.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(intField(this))
+	operator fun Long.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(longField(this))
+	operator fun Float.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(floatField(this))
+	operator fun Double.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(doubleField(this))
+	operator fun Char.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(charField(this))
+	operator fun Boolean.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(booleanField(this))
+	operator fun <E : Enum<E>> E.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
 		FieldDelegate(enumField(this))
 	
 	fun toString(address: Long): String
-	fun toString(strukt: T) = toString(strukt.address)
+	fun toString(strukt: Strukt) = toString(strukt.address)
 	
 	companion object {
 		
-		class FieldDelegate<T : Strukt, FT : Field<T>>(val delegatedTo: FT) {
-			operator fun getValue(strukts: Strukts<T>, property: KProperty<*>) = delegatedTo
+		class FieldDelegate<F : Field>(val delegatedTo: F) {
+			operator fun getValue(strukts: Strukts, property: KProperty<*>) = delegatedTo
 		}
 		
 		const val DEFAULT_ELASTIC_CAPACITY = 1024L
 		const val DEFAULT_ELASTIC_GROWTH_FACTOR = 2.0
 		
 		@JvmStatic
-		fun <T : Strukt> fixed(type: KClass<T>, capacity: Long): Strukts<T> = FixedStrukts(type, capacity, null)
+		fun fixed(type: KClass<*>, capacity: Long): Strukts = FixedStrukts(type, capacity, null)
 		
 		@JvmStatic
-		fun <T : Strukt> fixed(type: Class<T>, capacity: Long): Strukts<T> = fixed(type.kotlin, capacity)
+		fun fixed(type: Class<*>, capacity: Long): Strukts = fixed(type.kotlin, capacity)
 		
 		@JvmStatic
-		fun <T : Strukt> fixed(type: KClass<T>, capacity: Long, persistedTo: File): Strukts<T> =
+		fun fixed(type: KClass<*>, capacity: Long, persistedTo: File): Strukts =
 			FixedStrukts(type, capacity, persistedTo)
 		
 		@JvmStatic
-		fun <T : Strukt> fixed(type: Class<T>, capacity: Long, persistedTo: File): Strukts<T> =
+		fun fixed(type: Class<*>, capacity: Long, persistedTo: File): Strukts =
 			fixed(type.kotlin, capacity, persistedTo)
 		
 		@JvmStatic
-		fun <T : Strukt> fixed(type: KClass<T>, capacity: Long, persistedToPathname: String): Strukts<T> =
+		fun fixed(type: KClass<*>, capacity: Long, persistedToPathname: String): Strukts =
 			FixedStrukts(type, capacity, File(persistedToPathname))
 		
 		@JvmStatic
-		fun <T : Strukt> fixed(type: Class<T>, capacity: Long, persistedToPathname: String): Strukts<T> =
+		fun fixed(type: Class<*>, capacity: Long, persistedToPathname: String): Strukts =
 			fixed(type.kotlin, capacity, persistedToPathname)
 		
 		@JvmStatic
-		fun <T : Strukt> pointed(type: KClass<T>): Strukts<T> = PointedStrukts(type)
+		fun pointed(type: KClass<*>): Strukts = PointedStrukts(type)
 		
 		@JvmStatic
-		fun <T : Strukt> pointed(type: Class<T>): Strukts<T> = pointed(type.kotlin)
-		
-		@JvmStatic
-		@JvmOverloads
-		fun <T : Strukt> elastic(
-			type: KClass<T>,
-			initialCapacity: Long = DEFAULT_ELASTIC_CAPACITY,
-			growthFactor: Double = DEFAULT_ELASTIC_GROWTH_FACTOR
-		): Strukts<T> = ElasticStrukts(type, initialCapacity, growthFactor)
+		fun pointed(type: Class<*>): Strukts = pointed(type.kotlin)
 		
 		@JvmStatic
 		@JvmOverloads
-		fun <T : Strukt> elastic(
-			type: Class<T>,
+		fun elastic(
+			type: KClass<*>,
 			initialCapacity: Long = DEFAULT_ELASTIC_CAPACITY,
 			growthFactor: Double = DEFAULT_ELASTIC_GROWTH_FACTOR
-		): Strukts<T> = elastic(type.kotlin, initialCapacity, growthFactor)
+		): Strukts = ElasticStrukts(type, initialCapacity, growthFactor)
+		
+		@JvmStatic
+		@JvmOverloads
+		fun elastic(
+			type: Class<*>,
+			initialCapacity: Long = DEFAULT_ELASTIC_CAPACITY,
+			growthFactor: Double = DEFAULT_ELASTIC_GROWTH_FACTOR
+		): Strukts = elastic(type.kotlin, initialCapacity, growthFactor)
 		
 	}
 	

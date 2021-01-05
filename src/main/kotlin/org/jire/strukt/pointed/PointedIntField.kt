@@ -2,15 +2,14 @@ package org.jire.strukt.pointed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.IntField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class PointedIntField<T : Strukt>(
-	type: KClass<T>,
-	strukts: Strukts<T>,
+class PointedIntField(
+	type: KClass<*>,
+	strukts: Strukts,
 	override val default: Int
-) : AbstractPointedField<T>(type, strukts), IntField<T> {
+) : AbstractPointedField(type, strukts), IntField {
 	
 	override fun get(address: Long) = OS.memory().readInt(pointer(address))
 	

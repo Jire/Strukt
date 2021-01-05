@@ -2,14 +2,13 @@ package org.jire.strukt.fixed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.IntField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class FixedIntField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class FixedIntField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Int
-) : AbstractFixedField<T>(type, strukts), IntField<T> {
+) : AbstractFixedField(type, strukts), IntField {
 	
 	override fun get(address: Long) = OS.memory().readInt(pointer(address))
 	

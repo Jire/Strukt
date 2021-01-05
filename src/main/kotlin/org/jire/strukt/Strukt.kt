@@ -4,6 +4,6 @@ interface Strukt {
 	
 	val address: Long
 	
-	fun free(strukts: Strukts<*>) = strukts.free(address)
+	fun free(strukts: Strukts) = strukts.free(address)
 	
 }

@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface DoubleField<T : Strukt> : Field<T> {
+interface DoubleField : Field {
 	
 	override val size get() = 8L
 	

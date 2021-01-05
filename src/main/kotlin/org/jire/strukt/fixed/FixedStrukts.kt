@@ -5,17 +5,16 @@ import it.unimi.dsi.fastutil.longs.LongList
 import net.openhft.chronicle.core.OS
 import net.openhft.chronicle.core.StruktOS
 import org.jire.strukt.AbstractStrukts
-import org.jire.strukt.Strukt
 import java.io.File
 import java.io.RandomAccessFile
 import java.nio.channels.FileChannel
 import kotlin.reflect.KClass
 
-open class FixedStrukts<T : Strukt>(
-	override val type: KClass<T>,
+open class FixedStrukts(
+	type: KClass<*>,
 	val capacity: Long,
 	val persistedTo: File? = null
-) : AbstractStrukts<T>() {
+) : AbstractStrukts(type) {
 	
 	var baseAddress = UNSET_BASE_ADDRESS
 	var baseSize = 0L

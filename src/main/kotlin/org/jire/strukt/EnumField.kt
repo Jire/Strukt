@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface EnumField<T : Strukt, E : Enum<E>> : Field<T> {
+interface EnumField<E : Enum<E>> : Field {
 	
 	override val size get() = 4L
 	

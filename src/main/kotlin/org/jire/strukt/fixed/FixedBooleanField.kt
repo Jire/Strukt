@@ -2,14 +2,13 @@ package org.jire.strukt.fixed
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.BooleanField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class FixedBooleanField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class FixedBooleanField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Boolean
-) : AbstractFixedField<T>(type, strukts), BooleanField<T> {
+) : AbstractFixedField(type, strukts), BooleanField {
 	
 	override fun get(address: Long) = OS.memory().readByte(pointer(address)).toInt() != 0
 	

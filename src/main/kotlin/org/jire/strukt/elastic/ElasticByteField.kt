@@ -2,14 +2,13 @@ package org.jire.strukt.elastic
 
 import net.openhft.chronicle.core.OS
 import org.jire.strukt.ByteField
-import org.jire.strukt.Strukt
 import org.jire.strukt.Strukts
 import kotlin.reflect.KClass
 
-class ElasticByteField<T : Strukt>(
-	type: KClass<T>, strukts: Strukts<T>,
+class ElasticByteField(
+	type: KClass<*>, strukts: Strukts,
 	override val default: Byte
-) : AbstractElasticField<T>(type, strukts), ByteField<T> {
+) : AbstractElasticField(type, strukts), ByteField {
 	
 	override fun get(address: Long) = OS.memory().readByte(pointer(address))
 	

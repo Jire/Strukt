@@ -1,6 +1,6 @@
 package org.jire.strukt
 
-interface FloatField<T : Strukt> : Field<T> {
+interface FloatField : Field {
 	
 	override val size get() = 4L
 	

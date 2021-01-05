@@ -5,6 +5,7 @@ import org.jire.strukt.fixed.FixedStrukts
 import org.jire.strukt.pointed.PointedStrukts
 import java.io.File
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
 interface Strukts<T : Strukt> {
 	
@@ -45,6 +46,18 @@ interface Strukts<T : Strukt> {
 	operator fun invoke(default: Char) = charField(default)
 	operator fun invoke(default: Boolean) = booleanField(default)
 	operator fun <E : Enum<E>> invoke(values: Array<E>, default: E) = enumField(values, default)
+	
+	operator fun Byte.getValue(strukts: Strukts<T>, property: KProperty<*>) = byteField(this)
+	operator fun Short.getValue(strukts: Strukts<T>, property: KProperty<*>) = shortField(this)
+	operator fun Int.getValue(strukts: Strukts<T>, property: KProperty<*>) = intField(this)
+	operator fun Long.getValue(strukts: Strukts<T>, property: KProperty<*>) = longField(this)
+	operator fun Float.getValue(strukts: Strukts<T>, property: KProperty<*>) = floatField(this)
+	operator fun Double.getValue(strukts: Strukts<T>, property: KProperty<*>) = doubleField(this)
+	operator fun Char.getValue(strukts: Strukts<T>, property: KProperty<*>) = charField(this)
+	operator fun Boolean.getValue(strukts: Strukts<T>, property: KProperty<*>) = booleanField(this)
+	@Suppress("UNCHECKED_CAST")
+	operator fun <E : Enum<E>> E.getValue(strukts: Strukts<T>, property: KProperty<*>) =
+		enumField(this::class.java.enumConstants as Array<E>, this)
 	
 	fun toString(address: Long): String
 	fun toString(strukt: T) = toString(strukt.address)

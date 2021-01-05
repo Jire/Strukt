@@ -57,6 +57,18 @@ object Points : ElasticStrukts<Point>() {
 }
 ```
 
+All primitive types are supported, and even enums:
+
+```kotlin
+enum class Type { DEFAULT, SPECIAL }
+
+object Points : ElasticStrukts<Point>() {
+        val x by 0
+        val y by 0
+        val type by Type.DEFAULT  
+}
+```
+
 ## Declaring your inline `Strukt`
 
 ```kotlin

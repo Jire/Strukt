@@ -111,7 +111,7 @@ println("x: ${example.x}, y: ${example.y}") // 0, 123
 To free any `Strukt`, you can use:
 
 ```kotlin
-points.free(example.address)
+Points.free(example.address)
 ```
 
 The reason this longer syntax is necessary is because we want to avoid "generic" type use of our inline class, to

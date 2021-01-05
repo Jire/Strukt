@@ -7,8 +7,8 @@ interface PointedField<T : Strukt> : Field<T> {
 	
 	var defaultPointer: Long
 	
-	fun pointer(address: Long): Long {
-		val pointer = address + offset
+	override fun pointer(address: Long): Long {
+		val pointer = super.pointer(address)
 		if (defaultPointer == UNSET_DEFAULT_POINTER) {
 			defaultPointer = pointer
 			writeDefault(defaultPointer)

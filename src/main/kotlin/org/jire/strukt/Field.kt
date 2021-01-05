@@ -11,6 +11,8 @@ interface Field<T : Strukt> {
 	val index: Long
 	val offset: Long
 	
+	fun pointer(address: Long) = address + offset
+	
 	fun writeDefault(address: Long)
 	
 	fun getBoxed(address: Long): Any?

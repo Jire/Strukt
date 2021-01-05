@@ -18,13 +18,13 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.Field
 import org.jire.strukt.Strukts
-import org.jire.strukt.ThreadSafe
 import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 abstract class AbstractField(
 	override val type: KClass<*>,
-	final override val strukts: Strukts
+	final override val strukts: Strukts,
+	override val threadSafeType: ThreadSafeType
 ) : Field {
 	
 	override val index: Long = strukts.nextIndex
@@ -37,9 +37,11 @@ abstract class AbstractField(
 	override val name by lazy(LazyThreadSafetyMode.NONE) {
 		javaClass.simpleName
 	}
-	
-	override val threadSafeType = if (javaClass.isAnnotationPresent(ThreadSafe::class.java)) {
-		javaClass.getAnnotation(ThreadSafe::class.java).threadSafeType
-	} else ThreadSafeType.NONE
+
+/*	override val threadSafeType =
+		property.annotations
+			.firstOrNull { it::class == ThreadSafe::class }
+			?.let { it as ThreadSafe }?.threadSafeType
+			?: ThreadSafeType.NONE*/
 	
 }

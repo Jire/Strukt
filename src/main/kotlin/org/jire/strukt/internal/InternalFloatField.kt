@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.FloatField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalFloatField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Float
-) : AbstractField(type, strukts), FloatField
+) : AbstractField(type, strukts, threadSafeType), FloatField

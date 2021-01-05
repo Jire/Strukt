@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.LongField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalLongField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Long
-) : AbstractField(type, strukts), LongField
+) : AbstractField(type, strukts, threadSafeType), LongField

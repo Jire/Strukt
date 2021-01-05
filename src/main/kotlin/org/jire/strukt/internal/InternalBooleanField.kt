@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.BooleanField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalBooleanField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Boolean
-) : AbstractField(type, strukts), BooleanField
+) : AbstractField(type, strukts, threadSafeType), BooleanField

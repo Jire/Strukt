@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.DoubleField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalDoubleField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Double
-) : AbstractField(type, strukts), DoubleField
+) : AbstractField(type, strukts, threadSafeType), DoubleField

@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.ByteField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalByteField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Byte
-) : AbstractField(type, strukts), ByteField
+) : AbstractField(type, strukts, threadSafeType), ByteField

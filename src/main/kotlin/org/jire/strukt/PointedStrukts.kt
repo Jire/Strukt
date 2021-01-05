@@ -17,7 +17,7 @@
 package org.jire.strukt
 
 import net.openhft.chronicle.core.OS
-import org.jire.strukt.internal.*
+import org.jire.strukt.internal.AbstractStrukts
 import kotlin.reflect.KClass
 
 open class PointedStrukts(type: KClass<*>) : AbstractStrukts(type) {
@@ -47,16 +47,6 @@ open class PointedStrukts(type: KClass<*>) : AbstractStrukts(type) {
 		OS.memory().freeMemory(address, size)
 		return true
 	}
-	
-	override fun byteField(default: Byte) = InternalByteField(type, this, default)
-	override fun shortField(default: Short) = InternalShortField(type, this, default)
-	override fun intField(default: Int) = InternalIntField(type, this, default)
-	override fun longField(default: Long) = InternalLongField(type, this, default)
-	override fun floatField(default: Float) = InternalFloatField(type, this, default)
-	override fun doubleField(default: Double) = InternalDoubleField(type, this, default)
-	override fun charField(default: Char) = InternalCharField(type, this, default)
-	override fun booleanField(default: Boolean) = InternalBooleanField(type, this, default)
-	override fun <E : Enum<E>> enumField(default: E, values: Array<E>) = InternalEnumField(type, this, default, values)
 	
 	companion object {
 		private const val UNSET_DEFAULT_ADDRESS = -1L

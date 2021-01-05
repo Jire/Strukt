@@ -16,9 +16,11 @@
 
 package org.jire.strukt
 
+import org.jire.strukt.internal.*
 import java.io.File
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
+import kotlin.reflect.full.isSubclassOf
 
 interface Strukts {
 	
@@ -40,15 +42,36 @@ interface Strukts {
 	
 	operator fun invoke() = allocate()
 	
-	fun byteField(default: Byte): ByteField
-	fun shortField(default: Short): ShortField
-	fun intField(default: Int): IntField
-	fun longField(default: Long): LongField
-	fun floatField(default: Float): FloatField
-	fun doubleField(default: Double): DoubleField
-	fun charField(default: Char): CharField
-	fun booleanField(default: Boolean): BooleanField
-	fun <E : Enum<E>> enumField(default: E, values: Array<E> = default.javaClass.enumConstants): EnumField<E>
+	fun byteField(default: Byte, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): ByteField =
+		InternalByteField(type, this, threadSafeType, default)
+	
+	fun shortField(default: Short, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): ShortField =
+		InternalShortField(type, this, threadSafeType, default)
+	
+	fun intField(default: Int, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): IntField =
+		InternalIntField(type, this, threadSafeType, default)
+	
+	fun longField(default: Long, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): LongField =
+		InternalLongField(type, this, threadSafeType, default)
+	
+	fun floatField(default: Float, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): FloatField =
+		InternalFloatField(type, this, threadSafeType, default)
+	
+	fun doubleField(default: Double, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): DoubleField =
+		InternalDoubleField(type, this, threadSafeType, default)
+	
+	fun charField(default: Char, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): CharField =
+		InternalCharField(type, this, threadSafeType, default)
+	
+	fun booleanField(default: Boolean, threadSafeType: ThreadSafeType = ThreadSafeType.NONE): BooleanField =
+		InternalBooleanField(type, this, threadSafeType, default)
+	
+	fun <E : Enum<E>> enumField(
+		default: E,
+		threadSafeType: ThreadSafeType = ThreadSafeType.NONE,
+		values: Array<E> = default.javaClass.enumConstants
+	): EnumField<E> =
+		InternalEnumField(type, this, threadSafeType, default, values)
 	
 	operator fun invoke(default: Byte) = byteField(default)
 	operator fun invoke(default: Short) = shortField(default)
@@ -59,23 +82,45 @@ interface Strukts {
 	operator fun invoke(default: Char) = charField(default)
 	operator fun invoke(default: Boolean) = booleanField(default)
 	operator fun <E : Enum<E>> invoke(default: E, values: Array<E> = default.javaClass.enumConstants) =
-		enumField(default, values)
+		enumField(default, values = values)
 	
-	operator fun Byte.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(byteField(this))
-	operator fun Short.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(shortField(this))
-	operator fun Int.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(intField(this))
-	operator fun Long.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(longField(this))
-	operator fun Float.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(floatField(this))
-	operator fun Double.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(doubleField(this))
-	operator fun Char.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(charField(this))
-	operator fun Boolean.provideDelegate(thisRef: Strukts, prop: KProperty<*>) = FieldDelegate(booleanField(this))
+	operator fun Byte.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(byteField(this, prop.threadSafeType))
+	
+	operator fun Short.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(shortField(this, prop.threadSafeType))
+	
+	operator fun Int.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(intField(this, prop.threadSafeType))
+	
+	operator fun Long.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(longField(this, prop.threadSafeType))
+	
+	operator fun Float.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(floatField(this, prop.threadSafeType))
+	
+	operator fun Double.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(doubleField(this, prop.threadSafeType))
+	
+	operator fun Char.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(charField(this, prop.threadSafeType))
+	
+	operator fun Boolean.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
+		FieldDelegate(booleanField(this, prop.threadSafeType))
+	
 	operator fun <E : Enum<E>> E.provideDelegate(thisRef: Strukts, prop: KProperty<*>) =
-		FieldDelegate(enumField(this))
+		FieldDelegate(enumField(this, prop.threadSafeType))
 	
 	fun toString(address: Long): String
 	fun toString(strukt: Strukt) = toString(strukt.address)
 	
 	companion object {
+		
+		private val KProperty<*>.threadSafeType
+			get() = annotations
+				.firstOrNull { it::class.isSubclassOf(ThreadSafe::class) }
+				?.let { it as ThreadSafe }?.threadSafeType
+				?: ThreadSafeType.NONE
 		
 		class FieldDelegate<F : Field>(val delegatedTo: F) {
 			operator fun getValue(strukts: Strukts, property: KProperty<*>) = delegatedTo

@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.IntField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalIntField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Int
-) : AbstractField(type, strukts), IntField
+) : AbstractField(type, strukts, threadSafeType), IntField

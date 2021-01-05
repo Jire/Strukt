@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.ShortField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalShortField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Short
-) : AbstractField(type, strukts), ShortField
+) : AbstractField(type, strukts, threadSafeType), ShortField

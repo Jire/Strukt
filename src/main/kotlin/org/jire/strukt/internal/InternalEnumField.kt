@@ -18,11 +18,13 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.EnumField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalEnumField<E : Enum<E>>(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: E,
 	override val values: Array<E>
-) : AbstractField(type, strukts), EnumField<E>
+) : AbstractField(type, strukts, threadSafeType), EnumField<E>

@@ -18,10 +18,12 @@ package org.jire.strukt.internal
 
 import org.jire.strukt.CharField
 import org.jire.strukt.Strukts
+import org.jire.strukt.ThreadSafeType
 import kotlin.reflect.KClass
 
 class InternalCharField(
 	type: KClass<*>,
 	strukts: Strukts,
+	threadSafeType: ThreadSafeType,
 	override val default: Char
-) : AbstractField(type, strukts), CharField
+) : AbstractField(type, strukts, threadSafeType), CharField

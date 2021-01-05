@@ -53,13 +53,13 @@ open class FixedStrukts<T : Strukt>(
 		offset += size
 	}
 	
-	override fun allocate(): Long {
+	override fun allocateDirect(): Long {
 		if (freed.size > 0) {
 			return freed.removeLong(0)
 		}
 		if (baseAddress == UNSET_BASE_ADDRESS) {
 			allocateBase()
-			return allocate()
+			return allocateDirect()
 		}
 		val address = baseAddress + offset
 		OS.memory().copyMemory(baseAddress, address, size)

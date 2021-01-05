@@ -14,7 +14,7 @@ open class PointedStrukts<T : Strukt>(override val type: KClass<T>) : AbstractSt
 		return false
 	}
 	
-	override fun allocate(): Long {
+	override fun allocateDirect(): Long {
 		var address = OS.memory().allocate(size)
 		if (defaultAddress == UNSET_DEFAULT_ADDRESS) {
 			defaultAddress = address

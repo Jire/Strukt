@@ -117,6 +117,19 @@ points.free(example.address)
 The reason this longer syntax is necessary is because we want to avoid "generic" type use of our inline class, to
 prevent creating boxed instances.
 
+## Thread Safety
+
+It's easy to make your fields thread-safe! Just annotate them with `@ThreadSafe` and use a `ThreadSafeType` (`NONE`, `VOLATILE`, or `SYNCHRONIZED`).
+
+```kotlin
+import org.jire.strukt.ThreadSafeType.*
+
+object Points : ElasticStrukts(Point::class) {
+  @ThreadSafe(VOLATILE) val x by 0
+  @ThreadSafe(SYNCHRONIZED) val y by 0
+}
+```
+
 ## Using in Java
 
 It's not too hard to define and use a `Strukt` in Java!
@@ -127,7 +140,7 @@ public interface Point extends Strukt {
 	Strukts points = Strukts.elastic(Point.class);
 	
 	IntField x = points.intField(0);
-	IntField y = points.intField(0);
+	IntField y = points.intField(0, ThreadSafeType.VOLATILE);
 	
 	static long allocate() {
 		return points.allocate();

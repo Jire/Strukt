@@ -16,8 +16,8 @@
 
 package org.jire.strukt
 
-import it.unimi.dsi.fastutil.longs.LongArrayList
-import it.unimi.dsi.fastutil.longs.LongList
+import it.unimi.dsi.fastutil.longs.LongHeapPriorityQueue
+import it.unimi.dsi.fastutil.longs.LongPriorityQueue
 import net.openhft.chronicle.core.OS
 import net.openhft.chronicle.core.StruktOS
 import org.jire.strukt.internal.AbstractStrukts
@@ -37,7 +37,7 @@ open class FixedStrukts(
 	
 	var offset = 0L
 	
-	val freed: LongList = LongArrayList()
+	val freed: LongPriorityQueue = LongHeapPriorityQueue()
 	
 	val raf = if (persistedTo == null) null else RandomAccessFile(persistedTo, "rw")
 	
@@ -69,8 +69,8 @@ open class FixedStrukts(
 	}
 	
 	override fun allocate(): Long {
-		if (freed.size > 0) {
-			return freed.removeLong(0)
+		if (!freed.isEmpty) {
+			return freed.dequeueLong()
 		}
 		if (baseAddress == UNSET_BASE_ADDRESS) {
 			allocateBase()
@@ -82,7 +82,10 @@ open class FixedStrukts(
 		return address
 	}
 	
-	override fun free(address: Long) = freed.add(address)
+	override fun free(address: Long): Boolean {
+		freed.enqueue(address)
+		return true
+	}
 	
 	companion object {
 		private const val UNSET_BASE_ADDRESS = -1L

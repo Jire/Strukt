@@ -51,30 +51,30 @@ enum class ThreadSafeType {
 		override fun Field.writeDouble(address: Long, value: Double) = mem().writeVolatileDouble(address, value)
 	},
 	SYNCHRONIZE {
-		override fun Field.readByte(address: Long) = synchronized(this) { mem().readVolatileByte(address) }
-		override fun Field.readShort(address: Long) = synchronized(this) { mem().readVolatileShort(address) }
-		override fun Field.readInt(address: Long) = synchronized(this) { mem().readVolatileInt(address) }
-		override fun Field.readLong(address: Long) = synchronized(this) { mem().readVolatileLong(address) }
-		override fun Field.readFloat(address: Long) = synchronized(this) { mem().readVolatileFloat(address) }
-		override fun Field.readDouble(address: Long) = synchronized(this) { mem().readVolatileDouble(address) }
+		override fun Field.readByte(address: Long) = synchronized(this) { mem().readByte(address) }
+		override fun Field.readShort(address: Long) = synchronized(this) { mem().readShort(address) }
+		override fun Field.readInt(address: Long) = synchronized(this) { mem().readInt(address) }
+		override fun Field.readLong(address: Long) = synchronized(this) { mem().readLong(address) }
+		override fun Field.readFloat(address: Long) = synchronized(this) { mem().readFloat(address) }
+		override fun Field.readDouble(address: Long) = synchronized(this) { mem().readDouble(address) }
 		
 		override fun Field.writeByte(address: Long, value: Byte) =
-			synchronized(this) { mem().writeVolatileByte(address, value) }
+			synchronized(this) { mem().writeByte(address, value) }
 		
 		override fun Field.writeShort(address: Long, value: Short) =
-			synchronized(this) { mem().writeVolatileShort(address, value) }
+			synchronized(this) { mem().writeShort(address, value) }
 		
 		override fun Field.writeInt(address: Long, value: Int) =
-			synchronized(this) { mem().writeVolatileInt(address, value) }
+			synchronized(this) { mem().writeInt(address, value) }
 		
 		override fun Field.writeLong(address: Long, value: Long) =
-			synchronized(this) { mem().writeVolatileLong(address, value) }
+			synchronized(this) { mem().writeLong(address, value) }
 		
 		override fun Field.writeFloat(address: Long, value: Float) =
-			synchronized(this) { mem().writeVolatileFloat(address, value) }
+			synchronized(this) { mem().writeFloat(address, value) }
 		
 		override fun Field.writeDouble(address: Long, value: Double) =
-			synchronized(this) { mem().writeVolatileDouble(address, value) }
+			synchronized(this) { mem().writeDouble(address, value) }
 	};
 	
 	abstract fun Field.readByte(address: Long): Byte
